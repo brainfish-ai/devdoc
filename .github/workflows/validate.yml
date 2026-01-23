@@ -11,9 +11,6 @@ jobs:
   validate-templates:
     name: Validate Templates
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        template: [basic, graphql, openapi]
     steps:
       - uses: actions/checkout@v4
       
@@ -22,15 +19,19 @@ jobs:
         with:
           node-version: '20'
           
-      - name: Validate template structure
+      - name: Validate starter template structure
         run: |
-          cd templates/${{ matrix.template }}
+          cd templates/starter
           # Check required files exist
-          test -f docs.json || (echo "Missing docs.json" && exit 1)
-          test -f theme.json || (echo "Missing theme.json" && exit 1)
           test -f index.mdx || (echo "Missing index.mdx" && exit 1)
+          test -f quickstart.mdx || (echo "Missing quickstart.mdx" && exit 1)
           test -f package.json || (echo "Missing package.json" && exit 1)
-          echo "✅ Template ${{ matrix.template }} structure is valid"
+          test -f theme.json || (echo "Missing theme.json" && exit 1)
+          test -f README.md || (echo "Missing README.md" && exit 1)
+          test -d api-reference || (echo "Missing api-reference directory" && exit 1)
+          test -d guides || (echo "Missing guides directory" && exit 1)
+          test -d public || (echo "Missing public directory" && exit 1)
+          echo "✅ Starter template structure is valid"
 
   validate-themes:
     name: Validate Themes
