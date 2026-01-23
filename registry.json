@@ -4,22 +4,10 @@
   "repository": "github:brainfish-ai/devdoc",
   "templates": [
     {
-      "name": "basic",
-      "description": "Simple documentation site for guides and knowledge bases",
-      "path": "templates/basic",
-      "tags": ["starter", "simple", "docs"]
-    },
-    {
-      "name": "graphql",
-      "description": "GraphQL API documentation with interactive playground",
-      "path": "templates/graphql",
-      "tags": ["api", "graphql", "playground"]
-    },
-    {
-      "name": "openapi",
-      "description": "REST API documentation with OpenAPI spec support",
-      "path": "templates/openapi",
-      "tags": ["api", "rest", "openapi", "swagger"]
+      "name": "starter",
+      "description": "Universal documentation template - supports basic docs, OpenAPI, and GraphQL",
+      "path": "templates/starter",
+      "tags": ["starter", "docs", "api", "openapi", "graphql"]
     }
   ],
   "themes": [
