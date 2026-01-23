@@ -1,6 +1,17 @@
-# DevDoc
+<p align="center">
+  <pre align="center">
+██████╗ ███████╗██╗   ██╗██████╗  ██████╗  ██████╗
+██╔══██╗██╔════╝██║   ██║██╔══██╗██╔═══██╗██╔════╝
+██║  ██║█████╗  ██║   ██║██║  ██║██║   ██║██║     
+██║  ██║██╔══╝  ╚██╗ ██╔╝██║  ██║██║   ██║██║     
+██████╔╝███████╗ ╚████╔╝ ██████╔╝╚██████╔╝╚██████╗
+╚═════╝ ╚══════╝  ╚═══╝  ╚═════╝  ╚═════╝  ╚═════╝
+  </pre>
+</p>
 
-Beautiful API documentation, instantly.
+<p align="center">
+  <strong>Beautiful API documentation, instantly.</strong>
+</p>
 
 <p align="center">
   <a href="https://devdoc.sh">Website</a> •
@@ -8,45 +19,47 @@ Beautiful API documentation, instantly.
   <a href="https://github.com/brainfish-ai/devdoc/issues">Issues</a>
 </p>
 
-## What's Inside
+---
 
-| Directory | Description |
-|-----------|-------------|
-| 📚 [`/docs`](./docs) | Official DevDoc documentation (deployed to [devdoc.sh](https://devdoc.sh)) |
-| 🎨 [`/templates`](./templates) | Starter templates for new documentation projects |
-| 🖌️ [`/themes`](./themes) | Theme presets for customization |
-| 💡 [`/examples`](./examples) | Advanced usage examples |
+## ✨ Features
 
-## Quick Start
+- 📝 **Write in MDX** — Markdown with React components
+- 🎨 **Beautiful by Default** — Modern UI with dark mode
+- 🔍 **AI-Powered Search** — Semantic search & chat assistant
+- ⚡ **Fast Setup** — Deploy in under 5 minutes
+- 🔌 **OpenAPI Support** — Auto-generate API reference
+- 📊 **GraphQL Playground** — Interactive query explorer
+
+## 🚀 Quick Start
 
 Create a new documentation project in seconds:
 
 ```bash
-# Create with default template
-npx create-devdoc-doc my-docs
-
-# Or choose a specific template
-npx create-devdoc-doc my-docs --template openapi
-npx create-devdoc-doc my-docs --template graphql
+npx @brainfish-ai/devdoc create my-docs
 ```
 
-Then start the development server:
+Choose your template type:
+- **Basic** — Simple documentation site with guides
+- **OpenAPI** — REST API docs with interactive playground
+- **GraphQL** — GraphQL API with schema explorer
+
+Then start developing:
 
 ```bash
 cd my-docs
 npm install
-npx devdoc dev
+npm run dev
 ```
 
-## Templates
+## 📁 What's Inside
 
-| Template | Description | Best For |
-|----------|-------------|----------|
-| [`basic`](./templates/basic) | Simple documentation site | General docs, guides, knowledge bases |
-| [`graphql`](./templates/graphql) | GraphQL API documentation | GraphQL APIs with interactive playground |
-| [`openapi`](./templates/openapi) | REST API documentation | REST APIs with OpenAPI/Swagger specs |
+| Directory | Description |
+|-----------|-------------|
+| 📚 [`/docs`](./docs) | Official DevDoc documentation ([devdoc.sh](https://devdoc.sh)) |
+| 🎨 [`/templates`](./templates) | Starter template for new projects |
+| 🖌️ [`/themes`](./themes) | Theme presets for customization |
 
-## Themes
+## 🎨 Themes
 
 | Theme | Description |
 |-------|-------------|
@@ -65,27 +78,25 @@ Add to your `theme.json`:
 }
 ```
 
-## Documentation
+## 📚 Documentation
 
-Visit [devdoc.sh](https://devdoc.sh) for full documentation, including:
+Visit [devdoc.sh](https://devdoc.sh) for full documentation:
 
 - [Getting Started](https://devdoc.sh/quickstart)
 - [CLI Reference](https://devdoc.sh/cli/overview)
 - [Configuration](https://devdoc.sh/essentials/configuration)
 - [Components](https://devdoc.sh/essentials/components)
 
-## Contributing
+## 🤝 Contributing
 
 We welcome contributions! See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
-
-### Ways to Contribute
 
 - 🐛 [Report bugs](https://github.com/brainfish-ai/devdoc/issues/new?template=bug_report.md)
 - 💡 [Request features](https://github.com/brainfish-ai/devdoc/issues/new?template=feature_request.md)
 - 📝 Improve documentation
-- 🎨 Create new templates or themes
+- 🎨 Create new themes
 - 💻 Submit pull requests
 
-## License
+## 📄 License
 
 MIT © [Brainfish AI](https://brainfi.sh)
