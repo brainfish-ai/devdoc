@@ -1,0 +1,148 @@
+---
+title: "Code Blocks"
+description: "Display code with syntax highlighting"
+---
+
+## Basic Code Block
+
+Use triple backticks with a language identifier:
+
+```python
+def greet(name):
+    return f"Hello, {name}!"
+
+print(greet("World"))
+```
+
+## Code Groups
+
+Use the `CodeGroup` component to display multiple code examples in a tabbed interface.
+
+### Default Style
+
+Dark theme with green underline indicator:
+
+<CodeGroup>
+
+```javascript
+console.log("Hello World");
+```
+
+```python
+print("Hello World")
+```
+
+```go
+fmt.Println("Hello World")
+```
+
+</CodeGroup>
+
+### Tabs Style
+
+Light theme with border tabs:
+
+<CodeGroup variant="tabs">
+
+```javascript
+const greeting = "Hello";
+console.log(greeting);
+```
+
+```typescript
+const greeting: string = "Hello";
+console.log(greeting);
+```
+
+```python
+greeting = "Hello"
+print(greeting)
+```
+
+</CodeGroup>
+
+### Pills Style
+
+Pill-shaped buttons - great for package managers:
+
+<CodeGroup variant="pills">
+
+```bash
+# npm
+npm install my-package
+```
+
+```bash
+# yarn
+yarn add my-package
+```
+
+```bash
+# pnpm
+pnpm add my-package
+```
+
+</CodeGroup>
+
+Code groups are useful for showing the same logic in different languages or comparing alternative implementations.
+
+## Supported Languages
+
+Code highlighting supports many languages:
+
+<Tabs>
+  <Tab title="JavaScript">
+    ```javascript
+    const fetchData = async () => {
+      const response = await fetch('/api/data');
+      return response.json();
+    };
+    ```
+  </Tab>
+  <Tab title="Python">
+    ```python
+    import requests
+
+    def fetch_data():
+        response = requests.get('/api/data')
+        return response.json()
+    ```
+  </Tab>
+  <Tab title="Go">
+    ```go
+    package main
+
+    import "fmt"
+
+    func main() {
+        fmt.Println("Hello, World!")
+    }
+    ```
+  </Tab>
+</Tabs>
+
+## Inline Code
+
+Use single backticks for `inline code` like variable names.
+
+## Shell Commands
+
+```bash
+# Install dependencies
+npm install
+
+# Run development server
+npm run dev
+```
+
+## JSON Configuration
+
+```json
+{
+  "name": "my-project",
+  "version": "1.0.0",
+  "dependencies": {
+    "react": "^18.0.0"
+  }
+}
+```

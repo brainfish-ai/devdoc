@@ -1,0 +1,51 @@
+---
+title: Introduction
+description: Getting started with the DevDoc API
+---
+
+The DevDoc API allows you to programmatically manage your documentation projects, deployments, and API keys.
+
+## Base URL
+
+All API requests should be made to:
+
+```
+https://api.devdoc.sh/v1
+```
+
+## Authentication
+
+All API requests require authentication using an API key. Include your key in the `Authorization` header:
+
+```bash
+curl https://api.devdoc.sh/v1/projects \
+  -H "Authorization: Bearer your_api_key"
+```
+
+<Note>
+  Generate API keys from your [DevDoc Dashboard](https://app.brainfi.sh) or using the CLI with `devdoc keys create`.
+</Note>
+
+## Response Format
+
+All responses are returned as JSON:
+
+```json
+{
+  "data": {
+    // Response data
+  },
+  "meta": {
+    "request_id": "req_abc123"
+  }
+}
+```
+
+## Rate Limits
+
+The API is rate limited to **100 requests per minute** per API key. If you exceed this limit, you'll receive a `429 Too Many Requests` response.
+
+## Next Steps
+
+- Learn about [Authentication](/api-reference/authentication) methods
+- Explore the API endpoints in the sidebar

@@ -1,0 +1,84 @@
+---
+title: Authentication
+description: How to authenticate with the DevDoc API
+---
+
+All requests to the DevDoc API require authentication using an API key.
+
+## Getting an API Key
+
+### Using the CLI
+
+The easiest way to create an API key is using the DevDoc CLI:
+
+```bash
+devdoc keys create --name "My API Key"
+```
+
+### Using the Dashboard
+
+1. Log in to your [DevDoc Dashboard](https://app.brainfi.sh)
+2. Navigate to **Settings** → **API Keys**
+3. Click **Create New Key**
+4. Copy and store your key securely
+
+<Warning>
+  API keys are only shown once. Store them securely and never commit them to version control.
+</Warning>
+
+## Using Your API Key
+
+Include your API key in the `Authorization` header of every request:
+
+```bash
+curl https://api.devdoc.sh/v1/projects \
+  -H "Authorization: Bearer your_api_key"
+```
+
+## Environment Variables
+
+We recommend storing your API key in an environment variable:
+
+```bash
+export DEVDOC_API_KEY="your_api_key"
+```
+
+Then use it in your requests:
+
+```bash
+curl https://api.devdoc.sh/v1/projects \
+  -H "Authorization: Bearer $DEVDOC_API_KEY"
+```
+
+## Error Responses
+
+If authentication fails, you'll receive a `401 Unauthorized` response:
+
+```json
+{
+  "error": {
+    "code": "unauthorized",
+    "message": "Invalid or missing API key"
+  }
+}
+```
+
+## Key Management
+
+### Listing Keys
+
+```bash
+devdoc keys list
+```
+
+### Revoking Keys
+
+If a key is compromised, revoke it immediately:
+
+```bash
+devdoc keys revoke <key_id>
+```
+
+<Tip>
+  Create separate API keys for different environments (development, staging, production) to limit the impact of a compromised key.
+</Tip>

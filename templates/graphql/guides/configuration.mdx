@@ -1,0 +1,147 @@
+---
+title: Configuration
+description: Learn how to configure your documentation site
+---
+
+Your documentation is configured through the `docs.json` file in the root of your project.
+
+## Basic Configuration
+
+```json title="docs.json"
+{
+  "name": "My Documentation",
+  "favicon": "/favicon.svg",
+  "logo": {
+    "light": "/logo.svg",
+    "dark": "/logo-dark.svg"
+  },
+  "colors": {
+    "primary": "#10b981"
+  }
+}
+```
+
+### Properties
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `name` | string | The name of your documentation site |
+| `favicon` | string | Path to favicon file |
+| `logo` | object/string | Logo configuration |
+| `colors` | object | Color customization |
+
+## Navigation
+
+Configure your sidebar navigation with tabs and groups:
+
+```json title="docs.json"
+{
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Documentation",
+        "type": "docs",
+        "groups": [
+          {
+            "group": "Getting Started",
+            "icon": "rocket-launch",
+            "pages": ["index", "quickstart"]
+          },
+          {
+            "group": "Guides",
+            "pages": ["guides/overview", "guides/configuration"]
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+### Tab Types
+
+| Type | Description |
+|------|-------------|
+| `docs` | Standard documentation pages |
+| `openapi` | API reference from OpenAPI spec |
+| `changelog` | Changelog/release notes |
+
+## Nested Navigation
+
+You can create nested groups for complex documentation:
+
+```json
+{
+  "group": "Advanced",
+  "pages": [
+    "advanced/intro",
+    {
+      "group": "Subgroup",
+      "pages": ["advanced/sub/page1", "advanced/sub/page2"]
+    }
+  ]
+}
+```
+
+## Global Anchors
+
+Add external links to your navigation:
+
+```json
+{
+  "navigation": {
+    "global": {
+      "anchors": [
+        {
+          "anchor": "GitHub",
+          "href": "https://github.com/your-org/your-repo",
+          "icon": "github-logo"
+        },
+        {
+          "anchor": "Discord",
+          "href": "https://discord.gg/your-server",
+          "icon": "discord-logo"
+        }
+      ]
+    }
+  }
+}
+```
+
+## Notice Banner
+
+Display a site-wide notice:
+
+```json
+{
+  "notice": {
+    "content": "🚀 Check out [what's new](/changelog)!",
+    "dismissible": true,
+    "background": "#1e293b"
+  }
+}
+```
+
+## Redirects
+
+Set up URL redirects:
+
+```json
+{
+  "redirects": [
+    {
+      "source": "/old-page",
+      "destination": "/new-page"
+    }
+  ]
+}
+```
+
+## Environment Variables
+
+For sensitive configuration, use environment variables:
+
+| Variable | Description |
+|----------|-------------|
+| `STARTER_PATH` | Override content directory path |
+| `PORT` | Server port (default: 3000) |

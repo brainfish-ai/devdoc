@@ -1,0 +1,71 @@
+---
+title: "Steps"
+description: "Guide users through sequential processes with numbered steps"
+---
+
+Guide users through sequential processes with clear, numbered steps.
+
+## Basic Steps
+
+```jsx
+<Steps>
+  <Step title="Install Dependencies">
+    Run npm install to install all required packages.
+  </Step>
+  <Step title="Configure Settings">
+    Update the configuration file with your settings.
+  </Step>
+  <Step title="Start Development">
+    Run npm run dev to start the development server.
+  </Step>
+</Steps>
+```
+
+<Steps>
+  <Step title="Install Dependencies">
+    Run npm install to install all required packages.
+  </Step>
+  <Step title="Configure Settings">
+    Update the configuration file with your settings.
+  </Step>
+  <Step title="Start Development">
+    Run npm run dev to start the development server.
+  </Step>
+</Steps>
+
+## Steps with Rich Content
+
+Steps can contain any MDX content including code blocks, callouts, and other components.
+
+<Steps>
+  <Step title="Create Configuration File">
+    Create a new file called `config.json` in your project root with your settings.
+  </Step>
+  <Step title="Install the CLI">
+    Install the CLI globally using npm or yarn:
+    
+    ```bash
+    npm install -g @example/cli
+    ```
+  </Step>
+  <Step title="Initialize Project">
+    Run the init command to scaffold your project.
+    
+    <Tip>Use the --template flag to start from a template.</Tip>
+  </Step>
+</Steps>
+
+## Props
+
+### Steps Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `children` | ReactNode | required | Step components |
+
+### Step Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `title` | string | required | Step title |
+| `children` | ReactNode | required | Step content |

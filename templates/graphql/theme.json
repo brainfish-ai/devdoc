@@ -1,0 +1,30 @@
+{
+  "$schema": "https://devdoc.sh/theme.json",
+  "logo": {
+    "light": "/logo.svg",
+    "dark": "/logo.svg",
+    "alt": "Documentation",
+    "width": 120,
+    "height": 24
+  },
+  "header": {
+    "showAskAI": true,
+    "showSearch": true,
+    "showThemeToggle": true
+  },
+  "navbar": {
+    "links": [
+      {
+        "label": "GitHub",
+        "href": "https://github.com",
+        "external": true
+      }
+    ]
+  },
+  "colors": {
+    "primary": "#e535ab",
+    "primaryLight": "#ec5fbd",
+    "primaryDark": "#c92a91"
+  },
+  "defaultTheme": "system"
+}

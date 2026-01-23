@@ -1,0 +1,177 @@
+---
+title: "Images"
+description: "Add and optimize images in your documentation"
+---
+
+## Image Component
+
+The `Image` component provides advanced image handling with automatic optimization via wsrv.nl proxy.
+
+### Basic Usage
+
+```jsx
+<Image src="https://example.com/photo.jpg" alt="Description" />
+```
+
+### With Sizing
+
+Control image dimensions:
+
+```jsx
+<Image 
+  src="https://example.com/photo.jpg" 
+  alt="Description"
+  width={600}
+  height={400}
+/>
+```
+
+### Max Dimensions
+
+Limit maximum size while maintaining aspect ratio:
+
+```jsx
+<Image 
+  src="https://example.com/large-photo.jpg" 
+  alt="Description"
+  maxWidth={800}
+/>
+```
+
+### With Caption
+
+```jsx
+<Image 
+  src="https://example.com/photo.jpg" 
+  alt="Description"
+  caption="This is an image caption"
+/>
+```
+
+### Styling Options
+
+```jsx
+<Image 
+  src="https://example.com/photo.jpg" 
+  alt="Description"
+  rounded    // Rounded corners (default: true)
+  shadow     // Drop shadow
+  border     // Border
+  align="center"  // left, center, right
+/>
+```
+
+### Image Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `src` | string | required | Image URL |
+| `alt` | string | required | Alt text for accessibility |
+| `width` | number | - | Fixed width in pixels |
+| `height` | number | - | Fixed height in pixels |
+| `maxWidth` | number | - | Maximum width (maintains aspect ratio) |
+| `maxHeight` | number | - | Maximum height (maintains aspect ratio) |
+| `caption` | string | - | Caption text below image |
+| `rounded` | boolean | true | Rounded corners |
+| `shadow` | boolean | false | Drop shadow |
+| `border` | boolean | false | Border |
+| `align` | string | "center" | Alignment: left, center, right |
+| `optimize` | boolean | true | Enable wsrv.nl optimization |
+| `quality` | number | 80 | Image quality (1-100) |
+
+## Screenshot Component
+
+Convenience wrapper for screenshots with default styling (rounded, shadow, border):
+
+<Screenshot 
+  src="/assets/images/screenshot.png" 
+  alt="Self-service and support team diagram"
+  caption="Brainfish self-service workflow"
+/>
+
+```jsx
+<Screenshot 
+  src="/assets/images/screenshot.png" 
+  alt="App screenshot"
+  caption="Dashboard view"
+/>
+```
+
+## Logo Component
+
+For logos without optimization artifacts:
+
+```jsx
+<Logo 
+  src="https://example.com/logo.svg" 
+  alt="Company logo"
+  width={150}
+/>
+```
+
+## Icon Component
+
+For small inline icons:
+
+```jsx
+<Icon src="/icons/check.svg" alt="Check" size={24} />
+```
+
+## Frame Component
+
+Wrap any content in a styled frame:
+
+<Frame caption="Self-service documentation workflow">
+  <img src="/assets/images/screenshot.png" alt="Workflow diagram" />
+</Frame>
+
+```jsx
+<Frame caption="Example with caption">
+  <img src="/assets/images/screenshot.png" alt="Hero" />
+</Frame>
+```
+
+## Standard Markdown
+
+You can also use standard Markdown syntax:
+
+```md
+![Alt text](/assets/images/example.png)
+```
+
+## Best Practices
+
+<Note>
+- Use descriptive alt text for accessibility
+- Use `Image` component for external images (auto-optimized)
+- Use `Screenshot` for app screenshots
+- Store local images in the `/assets/images/` folder
+- Reference local images as `/assets/images/filename.png`
+</Note>
+
+## Supported Formats
+
+| Format | Best For |
+|--------|----------|
+| PNG | Screenshots, diagrams |
+| JPG | Photos |
+| SVG | Logos, icons |
+| GIF | Simple animations |
+| WebP | Modern browsers (smaller files) |
+
+## Image Optimization
+
+External images are automatically optimized via wsrv.nl proxy:
+- Resized to specified dimensions
+- Compressed with configurable quality
+- Cached at edge locations
+
+To disable optimization for a specific image:
+
+```jsx
+<Image 
+  src="https://example.com/photo.jpg" 
+  alt="Description"
+  optimize={false}
+/>
+```

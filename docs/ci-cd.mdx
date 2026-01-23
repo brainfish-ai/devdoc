@@ -1,0 +1,235 @@
+---
+title: CI/CD Integration
+description: Automate documentation deployments with your CI/CD pipeline
+---
+
+Automate your documentation deployments whenever you push changes to your repository.
+
+## Overview
+
+Setting up CI/CD involves three steps:
+
+<Steps>
+  <Step title="Deploy locally first">
+    Run `devdoc deploy` locally to create your project and get an API key.
+  </Step>
+  <Step title="Add API key as secret">
+    Store the API key in your CI/CD platform's secrets.
+  </Step>
+  <Step title="Configure workflow">
+    Add a workflow file to deploy on push.
+  </Step>
+</Steps>
+
+## GitHub Actions
+
+Create `.github/workflows/deploy-docs.yml`:
+
+```yaml
+name: Deploy Docs
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '**.mdx'
+      - '**.md'
+      - 'docs.json'
+      - 'theme.json'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install DevDoc CLI
+        run: npm install -g @brainfish-ai/devdoc
+
+      - name: Deploy Documentation
+        env:
+          DEVDOC_API_KEY: ${{ secrets.DEVDOC_API_KEY }}
+        run: devdoc deploy
+```
+
+### Adding the Secret
+
+1. Go to **Settings** → **Secrets and variables** → **Actions**
+2. Click **New repository secret**
+3. Name: `DEVDOC_API_KEY`
+4. Value: Your API key from `.devdoc.json`
+
+## GitLab CI
+
+Create `.gitlab-ci.yml`:
+
+```yaml
+deploy-docs:
+  image: node:20
+  stage: deploy
+  only:
+    changes:
+      - "**.mdx"
+      - "**.md"
+      - "docs.json"
+  script:
+    - npm install -g @brainfish-ai/devdoc
+    - devdoc deploy
+  variables:
+    DEVDOC_API_KEY: $DEVDOC_API_KEY
+```
+
+### Adding the Variable
+
+1. Go to **Settings** → **CI/CD** → **Variables**
+2. Add variable: `DEVDOC_API_KEY`
+3. Enable **Mask variable** for security
+
+## CircleCI
+
+Create `.circleci/config.yml`:
+
+```yaml
+version: 2.1
+
+jobs:
+  deploy-docs:
+    docker:
+      - image: cimg/node:20.0
+    steps:
+      - checkout
+      - run:
+          name: Install DevDoc CLI
+          command: npm install -g @brainfish-ai/devdoc
+      - run:
+          name: Deploy Documentation
+          command: devdoc deploy
+
+workflows:
+  deploy:
+    jobs:
+      - deploy-docs:
+          filters:
+            branches:
+              only: main
+```
+
+## Vercel
+
+If your main app is on Vercel, you can deploy docs as part of your build:
+
+```json
+// package.json
+{
+  "scripts": {
+    "build": "next build && devdoc deploy"
+  }
+}
+```
+
+Add `DEVDOC_API_KEY` in **Project Settings** → **Environment Variables**.
+
+## Best Practices
+
+### Only Deploy on Relevant Changes
+
+Limit deployments to documentation changes:
+
+```yaml
+on:
+  push:
+    paths:
+      - 'docs/**'
+      - 'docs.json'
+      - '**.mdx'
+```
+
+### Validate Before Deploy
+
+Add a validation step:
+
+```yaml
+- name: Validate Docs
+  run: devdoc check
+
+- name: Deploy Documentation
+  run: devdoc deploy
+```
+
+### Deploy on PR for Preview
+
+<Note>
+  Preview deployments for PRs are coming soon!
+</Note>
+
+### Cache Dependencies
+
+Speed up builds by caching npm:
+
+```yaml
+- name: Cache npm
+  uses: actions/cache@v4
+  with:
+    path: ~/.npm
+    key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+```
+
+## Monorepo Setup
+
+If your docs are in a subdirectory:
+
+```yaml
+- name: Deploy Documentation
+  working-directory: ./docs
+  env:
+    DEVDOC_API_KEY: ${{ secrets.DEVDOC_API_KEY }}
+  run: devdoc deploy
+```
+
+## Multiple Documentation Sites
+
+For multiple doc sites in one repo:
+
+```yaml
+jobs:
+  deploy-api-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: npm install -g @brainfish-ai/devdoc
+      - name: Deploy API Docs
+        working-directory: ./api-docs
+        env:
+          DEVDOC_API_KEY: ${{ secrets.DEVDOC_API_KEY_API }}
+        run: devdoc deploy
+
+  deploy-user-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: npm install -g @brainfish-ai/devdoc
+      - name: Deploy User Docs
+        working-directory: ./user-docs
+        env:
+          DEVDOC_API_KEY: ${{ secrets.DEVDOC_API_KEY_USER }}
+        run: devdoc deploy
+```
+
+## Troubleshooting
+
+### "Invalid API key" in CI
+
+- Verify the secret is set correctly
+- Check for trailing whitespace in the secret value
+- Ensure the secret name matches your workflow
+
+### Build Succeeds but Content Not Updated
+
+- Check you're deploying from the correct branch
+- Verify the workflow path filters include your changes
+- Check deployment logs for errors

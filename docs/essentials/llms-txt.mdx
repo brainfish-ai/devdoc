@@ -1,0 +1,135 @@
+---
+title: "llms.txt"
+description: "Optimize your docs for LLMs to read and index"
+---
+
+The `llms.txt` file is an industry standard that helps LLMs index content more efficiently, similar to how a sitemap helps search engines. AI tools can use this file to understand your documentation structure and find content relevant to user queries.
+
+## Automatic Generation
+
+Your documentation automatically hosts two files:
+
+- **`/llms.txt`** - An index of all pages with descriptions
+- **`/llms-full.txt`** - Complete documentation content in a single file
+
+These files are always up to date and require zero maintenance.
+
+<CardGroup cols={2}>
+  <Card title="View llms.txt" icon="file-text" href="/llms.txt">
+    Index of all documentation pages
+  </Card>
+  <Card title="View llms-full.txt" icon="files" href="/llms-full.txt">
+    Complete documentation content
+  </Card>
+</CardGroup>
+
+## llms.txt Structure
+
+The `llms.txt` file is a plain Markdown file containing:
+
+- **Site title** as an H1 heading
+- **Sections** for each documentation group
+- **Links** with descriptions from page frontmatter
+
+### Example
+
+```markdown
+# My Documentation
+
+> This file provides an index of documentation pages for LLMs.
+
+## Guides
+
+### Getting Started
+
+- [Welcome](https://example.com/docs/): Welcome to your documentation
+- [Quickstart](https://example.com/docs/quickstart): Get started in 5 minutes
+- [Development](https://example.com/docs/development): Local development setup
+
+### Essentials
+
+- [Markdown](https://example.com/docs/essentials/markdown): Writing content
+- [Code Blocks](https://example.com/docs/essentials/code): Syntax highlighting
+```
+
+## llms-full.txt
+
+The `llms-full.txt` file combines your entire documentation into a single file. This is useful for:
+
+- AI assistants that need full context
+- LLM fine-tuning or RAG systems
+- Documentation analysis tools
+
+### Example
+
+```markdown
+# My Documentation
+
+> This file contains the complete documentation content.
+
+---
+
+## Welcome
+
+> Welcome to your documentation
+
+URL: https://example.com/docs/
+
+Build beautiful documentation with ease...
+
+---
+
+## Quickstart
+
+> Get started in 5 minutes
+
+URL: https://example.com/docs/quickstart
+
+Follow these steps to get up and running...
+```
+
+## Page Descriptions
+
+Each page's description comes from the `description` field in its frontmatter:
+
+```yaml
+---
+title: "Getting Started"
+description: "Learn how to set up and configure your project"
+---
+```
+
+Pages without a description will appear without one in the llms.txt file.
+
+<Tip>
+Always add descriptive `description` fields to your frontmatter for better LLM indexing.
+</Tip>
+
+## Custom llms.txt
+
+You can optionally create a custom `llms.txt` file in your project root to override the auto-generated version:
+
+```
+devdoc-docs/
+├── llms.txt        # Custom llms.txt (optional)
+├── llms-full.txt   # Custom llms-full.txt (optional)
+├── docs.json
+└── ...
+```
+
+## Benefits
+
+<CardGroup cols={2}>
+  <Card title="Better AI Search" icon="magnifying-glass">
+    LLMs can quickly understand your docs structure
+  </Card>
+  <Card title="Improved Accuracy" icon="target">
+    AI tools find relevant content faster
+  </Card>
+  <Card title="Zero Maintenance" icon="gear">
+    Automatically stays in sync with your docs
+  </Card>
+  <Card title="Industry Standard" icon="certificate">
+    Compatible with major AI tools and platforms
+  </Card>
+</CardGroup>

@@ -1,0 +1,96 @@
+---
+title: Error Handling
+description: Understanding API error responses
+---
+
+The API uses conventional HTTP status codes to indicate success or failure of requests.
+
+## HTTP Status Codes
+
+| Code | Description |
+|------|-------------|
+| `200` | Success |
+| `201` | Created |
+| `400` | Bad Request - Invalid parameters |
+| `401` | Unauthorized - Invalid or missing API key |
+| `403` | Forbidden - Insufficient permissions |
+| `404` | Not Found - Resource doesn't exist |
+| `422` | Unprocessable Entity - Validation error |
+| `429` | Too Many Requests - Rate limit exceeded |
+| `500` | Internal Server Error |
+
+## Error Response Format
+
+Error responses include details to help you debug:
+
+```json
+{
+  "error": {
+    "code": "validation_error",
+    "message": "The request body contains invalid fields",
+    "details": [
+      {
+        "field": "email",
+        "message": "Must be a valid email address"
+      }
+    ]
+  },
+  "meta": {
+    "request_id": "req_abc123"
+  }
+}
+```
+
+## Common Error Codes
+
+### `authentication_error`
+
+Your API key is invalid or missing.
+
+```json
+{
+  "error": {
+    "code": "authentication_error",
+    "message": "Invalid API key provided"
+  }
+}
+```
+
+**Solution:** Check that you're including a valid API key in the `Authorization` header.
+
+### `validation_error`
+
+The request body failed validation.
+
+```json
+{
+  "error": {
+    "code": "validation_error",
+    "message": "Invalid request parameters",
+    "details": [
+      { "field": "email", "message": "is required" }
+    ]
+  }
+}
+```
+
+**Solution:** Check the `details` array and fix the indicated fields.
+
+### `rate_limit_exceeded`
+
+You've exceeded your rate limit.
+
+```json
+{
+  "error": {
+    "code": "rate_limit_exceeded",
+    "message": "Too many requests"
+  }
+}
+```
+
+**Solution:** Wait and retry with exponential backoff. Check the `Retry-After` header.
+
+<Note>
+  Always include the `request_id` when contacting support about an error.
+</Note>

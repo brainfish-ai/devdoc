@@ -1,0 +1,189 @@
+---
+title: devdoc keys
+description: Manage API keys for your DevDoc project
+---
+
+Manage API keys for authenticating deployments to your DevDoc project.
+
+## Overview
+
+API keys are used to authenticate `devdoc deploy` commands. They are:
+
+- Generated automatically on first deploy
+- Stored in `.devdoc.json` (add to `.gitignore`!)
+- Required for CI/CD deployments
+- Can be regenerated if compromised
+
+## Commands
+
+### List Keys
+
+View your current API key:
+
+```bash
+devdoc keys list
+```
+
+Output:
+
+```
+Project: my-docs-abc123
+API Key: sk_live_...789 (created Jan 15, 2026)
+```
+
+### Regenerate Key
+
+Generate a new API key (invalidates the old one):
+
+```bash
+devdoc keys regenerate
+```
+
+Output:
+
+```
+⚠️ This will invalidate your current API key.
+   Any CI/CD pipelines using the old key will fail.
+
+? Continue? (y/N) y
+
+✓ New API key generated!
+
+  New key: sk_live_newkey123...
+
+  Updated .devdoc.json with new key.
+
+⚠️ Update your CI/CD secrets with this new key.
+```
+
+<Warning>
+  Regenerating a key immediately invalidates the old one. Update your CI/CD secrets before the next automated deployment.
+</Warning>
+
+## Storage
+
+### Local Development
+
+API keys are stored in `.devdoc.json`:
+
+```json
+{
+  "projectSlug": "my-docs-abc123",
+  "apiKey": "sk_live_xyz789..."
+}
+```
+
+<Note>
+  Always add `.devdoc.json` to your `.gitignore` to prevent accidentally committing your API key.
+</Note>
+
+### CI/CD
+
+For automated deployments, store the API key as a secret:
+
+**GitHub Actions:**
+
+```yaml
+env:
+  DEVDOC_API_KEY: ${{ secrets.DEVDOC_API_KEY }}
+```
+
+**GitLab CI:**
+
+```yaml
+variables:
+  DEVDOC_API_KEY: $DEVDOC_API_KEY
+```
+
+**Vercel:**
+
+Add `DEVDOC_API_KEY` in Project Settings → Environment Variables.
+
+## Security Best Practices
+
+<Steps>
+  <Step title="Never commit API keys">
+    Add `.devdoc.json` to `.gitignore`:
+    
+    ```bash
+    echo ".devdoc.json" >> .gitignore
+    ```
+  </Step>
+  
+  <Step title="Use environment secrets">
+    Store keys in your CI/CD platform's secret management, never in code.
+  </Step>
+  
+  <Step title="Rotate keys periodically">
+    Regenerate keys every few months or after team member changes:
+    
+    ```bash
+    devdoc keys regenerate
+    ```
+  </Step>
+  
+  <Step title="Use separate keys per environment">
+    In the future, DevDoc will support multiple keys with different permissions.
+  </Step>
+</Steps>
+
+## Key Format
+
+DevDoc API keys follow this format:
+
+```
+sk_live_<random_string>
+```
+
+- `sk_` - Secret key prefix
+- `live_` - Environment (live = production)
+- `<random_string>` - 32 character random identifier
+
+## Troubleshooting
+
+### "Invalid API key"
+
+1. Check if the key was regenerated
+2. Ensure `.devdoc.json` exists and has the correct key
+3. Verify the `DEVDOC_API_KEY` environment variable
+
+```bash
+# Check current project
+devdoc whoami
+
+# Verify key exists
+cat .devdoc.json
+```
+
+### "Key not found"
+
+You may not have deployed yet:
+
+```bash
+devdoc deploy  # Creates project and generates key
+```
+
+### Lost API Key
+
+If you've lost your API key and don't have `.devdoc.json`:
+
+1. Delete the project and create a new one:
+
+```bash
+# Contact support to delete the old project
+# Then deploy fresh:
+devdoc deploy
+```
+
+<Tip>
+  Future versions will support key recovery via email verification.
+</Tip>
+
+## Future Features
+
+Coming soon:
+
+- **Read-only keys** - For CI validation without deploy access
+- **Team keys** - Shared keys for team deployments
+- **Key expiration** - Auto-expiring keys for contractors
+- **Audit logs** - Track which key was used for each deploy

@@ -1,0 +1,221 @@
+---
+title: "Code Blocks"
+description: "Display code with syntax highlighting and copy functionality"
+---
+
+## Basic Code Block
+
+Use triple backticks with the language name for syntax highlighting:
+
+```javascript
+function hello() {
+  console.log('Hello, World!');
+}
+```
+
+```python
+def hello():
+    print('Hello, World!')
+```
+
+```bash
+npm install @example/sdk
+```
+
+## With File Name / Title
+
+Display a filename or title above your code block by adding **title="filename.js"** after the language:
+
+```javascript title="config.js"
+export const config = {
+  apiKey: process.env.API_KEY,
+  baseUrl: 'https://api.example.com',
+};
+```
+
+```python title="app.py"
+from flask import Flask
+
+app = Flask(__name__)
+
+@app.route('/')
+def hello():
+    return 'Hello, World!'
+```
+
+## With Line Numbers
+
+Add **showLineNumbers** after the language to display line numbers:
+
+```python title="app.py" showLineNumbers
+from flask import Flask
+
+app = Flask(__name__)
+
+@app.route('/')
+def hello():
+    return 'Hello, World!'
+
+if __name__ == '__main__':
+    app.run(debug=True)
+```
+
+## With Line Highlighting
+
+Highlight specific lines using curly braces like **{4-6}** or **{1,3,5}**:
+
+```python title="tracing.py" showLineNumbers {4-6}
+from dotenv import load_dotenv
+from myapp import create_app
+
+# Initialize tracing
+from traceloop.sdk import Traceloop
+Traceloop.init()
+
+app = create_app()
+app.run()
+```
+
+### Highlight Multiple Ranges
+
+```typescript title="api.ts" showLineNumbers {1-2,5,8-10}
+import express from 'express';
+import { authMiddleware } from './auth';
+
+const app = express();
+
+// Apply middleware
+app.use(express.json());
+app.use(authMiddleware);
+app.use('/api', apiRoutes);
+
+app.listen(3000);
+```
+
+## Syntax Reference
+
+Add options after the language name in your code fence:
+
+```text
+```language title="filename.js" showLineNumbers {1-3}
+```
+
+### Available Options
+
+<table>
+  <thead>
+    <tr>
+      <th>Option</th>
+      <th>Example</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Title</td>
+      <td>title="app.js"</td>
+      <td>Display a filename above the code</td>
+    </tr>
+    <tr>
+      <td>Line numbers</td>
+      <td>showLineNumbers</td>
+      <td>Show line numbers on the left</td>
+    </tr>
+    <tr>
+      <td>Highlight lines</td>
+      <td>{"{1,3-5,8}"}</td>
+      <td>Highlight specific lines or ranges</td>
+    </tr>
+    <tr>
+      <td>Start at line</td>
+      <td>showLineNumbers{"{10}"}</td>
+      <td>Start numbering at line 10</td>
+    </tr>
+  </tbody>
+</table>
+
+### Full Example
+
+```typescript title="server.ts" showLineNumbers {3-5}
+import express from 'express';
+import cors from 'cors';
+
+const app = express();
+app.use(cors());
+
+app.listen(3000);
+```
+
+## Code Group
+
+Group related code blocks in tabs using the `CodeGroup` component:
+
+<CodeGroup>
+
+```javascript
+console.log('JavaScript')
+```
+
+```python
+print('Python')
+```
+
+```ruby
+puts 'Ruby'
+```
+
+</CodeGroup>
+
+## Package Manager Examples
+
+<CodeGroup>
+
+```bash
+# npm
+npm install @example/sdk
+```
+
+```bash
+# yarn
+yarn add @example/sdk
+```
+
+```bash
+# pnpm
+pnpm add @example/sdk
+```
+
+</CodeGroup>
+
+## Supported Languages
+
+Code blocks support syntax highlighting for many languages:
+
+- JavaScript / TypeScript
+- Python
+- Ruby
+- Go
+- Rust
+- Java
+- C / C++
+- HTML / CSS
+- JSON / YAML
+- Bash / Shell
+- SQL
+- And many more...
+
+## Inline Code
+
+Use single backticks for inline code: `const x = 42`
+
+Reference functions like `useState()` or files like `package.json` inline.
+
+## Best Practices
+
+<Tip>
+Keep code examples short and focused. If you need to show a longer example, consider using an accordion or linking to a full file.
+</Tip>
+
+<Note>
+Always specify the language after the opening backticks for proper syntax highlighting.
+</Note>

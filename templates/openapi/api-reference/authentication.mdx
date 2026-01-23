@@ -1,0 +1,58 @@
+---
+title: Authentication
+description: How to authenticate API requests
+---
+
+The API uses API keys for authentication. Include your key in the `Authorization` header of every request.
+
+## Getting an API Key
+
+1. Sign in to the [Developer Portal](https://dashboard.example.com)
+2. Navigate to **API Keys**
+3. Click **Generate New Key**
+4. Choose the appropriate scopes
+5. Copy and store your key securely
+
+<Warning>
+  API keys grant access to your account. Keep them secret and never expose them in client-side code.
+</Warning>
+
+## Using API Keys
+
+Include your API key in the `Authorization` header:
+
+```bash
+curl https://api.example.com/v1/users \
+  -H "Authorization: Bearer sk_live_abc123..."
+```
+
+## Key Types
+
+| Type | Prefix | Description |
+|------|--------|-------------|
+| Live | `sk_live_` | Production environment |
+| Test | `sk_test_` | Sandbox environment |
+
+## Scopes
+
+API keys can have different permission levels:
+
+- **read** - Read-only access to resources
+- **write** - Create and update resources
+- **delete** - Delete resources
+- **admin** - Full administrative access
+
+<Tip>
+  Use test keys (`sk_test_`) during development. They work identically but don't affect production data.
+</Tip>
+
+## Revoking Keys
+
+If a key is compromised:
+
+1. Go to **API Keys** in your dashboard
+2. Find the compromised key
+3. Click **Revoke**
+4. Generate a new key
+
+Revoked keys are immediately invalidated.

@@ -1,0 +1,232 @@
+---
+title: "Changelog Setup"
+description: "Document product updates, releases, and version history with a beautiful changelog"
+---
+
+Keep your users informed about new features, improvements, and bug fixes with a dedicated changelog.
+
+## Features
+
+<CardGroup cols={2}>
+  <Card title="Version History" icon="clock-counter-clockwise">
+    Organized releases with dates and descriptions
+  </Card>
+  <Card title="MDX Support" icon="file-text">
+    Rich content with components and code blocks
+  </Card>
+  <Card title="Version Navigation" icon="list-bullets">
+    Easy browsing between releases
+  </Card>
+  <Card title="LLM Integration" icon="robot">
+    Auto-included in llms.txt for AI indexing
+  </Card>
+</CardGroup>
+
+## Quick Setup
+
+### 1. Create Changelog Directory
+
+Create a `changelog` folder in your docs:
+
+```text
+your-docs/
+├── changelog/
+│   ├── v2.0.0.mdx
+│   ├── v1.1.0.mdx
+│   └── v1.0.0.mdx
+├── docs.json
+└── ...
+```
+
+### 2. Configure docs.json
+
+Add a Changelog tab to your navigation:
+
+```json
+{
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Changelog",
+        "type": "changelog",
+        "path": "/changelog"
+      }
+    ]
+  }
+}
+```
+
+<Tip>
+You can customize the tab name - use "Releases", "What's New", or "Updates" instead of "Changelog".
+</Tip>
+
+## Release File Format
+
+Each release is a separate MDX file named with the version number:
+
+```text
+changelog/
+├── v2.1.0.mdx
+├── v2.0.0.mdx
+├── v1.2.0.mdx
+├── v1.1.0.mdx
+└── v1.0.0.mdx
+```
+
+### Frontmatter
+
+Each release file requires frontmatter with version info:
+
+```yaml
+---
+title: "Version 2.0.0"
+description: "Major release with new features and improvements"
+date: "2024-01-15"
+version: "2.0.0"
+---
+```
+
+| Field | Required | Description |
+|-------|----------|-------------|
+| `title` | Yes | Display title for the release |
+| `description` | No | Brief summary of the release |
+| `date` | Yes | Release date (YYYY-MM-DD) |
+| `version` | Yes | Semantic version number |
+
+## Writing Release Notes
+
+### Basic Structure
+
+A typical release file includes these sections:
+
+```markdown
+## Highlights
+Brief overview of the most important changes.
+
+## New Features
+### Feature Name
+Description of the new feature with details.
+
+## Improvements
+- Improved search performance by 50%
+- Better error messages
+- Updated documentation
+
+## Bug Fixes
+- Fixed pagination issues in list views
+- Resolved authentication timeout errors
+
+## Breaking Changes
+List any breaking changes that require user action.
+```
+
+### Using Components
+
+You can use all MDX components in your changelog files:
+
+- **Cards** - Highlight new features with card groups
+- **Callouts** - Use Warning for breaking changes, Note for tips
+- **Steps** - Guide users through migration steps
+- **Code blocks** - Show configuration changes
+- **Tables** - Compare old vs new behavior
+
+## Organizing Releases
+
+### Semantic Versioning
+
+Follow [semantic versioning](https://semver.org/) for your releases:
+
+- **Major** (2.0.0) - Breaking changes
+- **Minor** (1.1.0) - New features, backwards compatible
+- **Patch** (1.0.1) - Bug fixes
+
+### Release Categories
+
+Organize your release notes with consistent sections:
+
+| Section | Purpose |
+|---------|---------|
+| Highlights | Key changes to emphasize |
+| New Features | New functionality added |
+| Improvements | Enhancements to existing features |
+| Bug Fixes | Issues that were resolved |
+| Breaking Changes | Changes that require user action |
+| Deprecations | Features being phased out |
+| Security | Security-related updates |
+
+## Custom Tab Name
+
+Change "Changelog" to something else:
+
+```json
+{
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Releases",
+        "type": "changelog",
+        "path": "/releases"
+      }
+    ]
+  }
+}
+```
+
+Or use "What's New":
+
+```json
+{
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "What's New",
+        "type": "changelog",
+        "path": "/whats-new"
+      }
+    ]
+  }
+}
+```
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Be consistent">
+    Use the same section structure for all releases. Follow semantic versioning. Include dates for all releases.
+  </Accordion>
+  
+  <Accordion title="Write for your audience">
+    Focus on user impact, not technical details. Explain how changes affect workflows. Link to relevant documentation.
+  </Accordion>
+  
+  <Accordion title="Highlight important changes">
+    Use callouts for breaking changes. Emphasize security updates. Call out deprecations early.
+  </Accordion>
+  
+  <Accordion title="Make it scannable">
+    Use clear headings. Keep descriptions concise. Use bullet points for lists.
+  </Accordion>
+</AccordionGroup>
+
+## Example Release
+
+Here's a complete example of a release file:
+
+**File: `changelog/v2.0.0.mdx`**
+
+```yaml
+---
+title: "Version 2.0.0"
+description: "Major release with breaking changes"
+date: "2024-01-15"
+version: "2.0.0"
+---
+```
+
+Then add your content with markdown headings, lists, and any MDX components.
+
+## LLM Integration
+
+Changelog entries are automatically included in your `/llms.txt` and `/llms-full.txt` files, making your release history accessible to AI assistants.
+
+See [LLMs.txt](/docs/essentials/llms-txt) for more details.

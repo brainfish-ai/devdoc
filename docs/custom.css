@@ -1,0 +1,1214 @@
+/**
+ * DevDoc CLI Theme
+ * A terminal-inspired dark theme with monospace aesthetics
+ */
+
+/* Import monospace fonts */
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Fira+Code:wght@400;500;600;700&display=swap');
+
+/* ==========================================================================
+   CSS Variables - CLI Theme
+   ========================================================================== */
+
+:root {
+  /* Terminal green palette */
+  --docs-primary: #059669;
+  --docs-primary-light: #10B981;
+  --docs-primary-dark: #047857;
+  
+  /* Secondary accent - cyan */
+  --docs-accent: #0891B2;
+  --docs-accent-light: #06B6D4;
+  
+  /* Warning/caution - amber */
+  --docs-warning: #D97706;
+  
+  /* Error - red */
+  --docs-error: #DC2626;
+  
+  /* Light mode background colors */
+  --docs-bg: #FAFAFA;
+  --docs-bg-secondary: #F4F4F5;
+  --docs-bg-tertiary: #E4E4E7;
+  --docs-bg-elevated: #FFFFFF;
+  
+  /* Light mode text colors */
+  --docs-text: #18181B;
+  --docs-text-secondary: #52525B;
+  --docs-text-muted: #71717A;
+  --docs-text-bright: #09090B;
+  
+  /* Light mode border colors */
+  --docs-border: #D4D4D8;
+  --docs-border-light: #E4E4E7;
+  --docs-border-focus: var(--docs-primary);
+  
+  /* Glow effects - subtle for light mode */
+  --docs-glow-primary: 0 0 15px rgba(5, 150, 105, 0.2);
+  --docs-glow-accent: 0 0 15px rgba(8, 145, 178, 0.2);
+  
+  /* Sidebar */
+  --docs-sidebar-width: 280px;
+  --docs-sidebar-bg: var(--docs-bg);
+  --docs-sidebar-border: var(--docs-border);
+  
+  /* Header */
+  --docs-header-height: 56px;
+  --docs-header-bg: rgba(250, 250, 250, 0.95);
+  --docs-header-border: var(--docs-border);
+  
+  /* Content */
+  --docs-content-max-width: 800px;
+  --docs-content-padding: 2rem;
+  
+  /* Code blocks - light mode */
+  --docs-code-bg: #F8FAFC;
+  --docs-code-text: #1E293B;
+  --docs-code-border: #E2E8F0;
+  --docs-code-border-radius: 6px;
+  
+  /* Typography - monospace everything */
+  --docs-font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+  --docs-font-family-mono: 'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, monospace;
+  --docs-font-size-base: 15px;
+  --docs-line-height: 1.7;
+  
+  /* Spacing */
+  --docs-spacing-xs: 0.25rem;
+  --docs-spacing-sm: 0.5rem;
+  --docs-spacing-md: 1rem;
+  --docs-spacing-lg: 1.5rem;
+  --docs-spacing-xl: 2rem;
+  
+  /* Border radius - minimal for CLI feel */
+  --docs-radius-sm: 3px;
+  --docs-radius-md: 4px;
+  --docs-radius-lg: 6px;
+  --docs-radius-xl: 8px;
+  
+  /* Shadows */
+  --docs-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --docs-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+  --docs-shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+  
+  /* Tables */
+  --docs-table-border: 1px solid var(--docs-border);
+  --docs-table-border-radius: 4px;
+  --docs-table-header-bg: var(--docs-bg-secondary);
+  --docs-table-row-hover: var(--docs-bg-tertiary);
+  --docs-table-cell-padding: 0.75rem 1rem;
+  
+  /* Headers */
+  --docs-h1-size: 2rem;
+  --docs-h1-weight: 600;
+  --docs-h1-line-height: 1.3;
+  --docs-h1-margin-top: 0;
+  --docs-h1-margin-bottom: 1.5rem;
+  
+  --docs-h2-size: 1.5rem;
+  --docs-h2-weight: 600;
+  --docs-h2-line-height: 1.4;
+  --docs-h2-margin-top: 2.5rem;
+  --docs-h2-margin-bottom: 1rem;
+  --docs-h2-border: 1px solid var(--docs-border);
+  
+  --docs-h3-size: 1.25rem;
+  --docs-h3-weight: 600;
+  --docs-h3-line-height: 1.4;
+  --docs-h3-margin-top: 2rem;
+  --docs-h3-margin-bottom: 0.75rem;
+  
+  --docs-h4-size: 1.125rem;
+  --docs-h4-weight: 600;
+  --docs-h4-line-height: 1.5;
+  --docs-h4-margin-top: 1.5rem;
+  --docs-h4-margin-bottom: 0.5rem;
+  
+  --docs-h5-size: 1rem;
+  --docs-h5-weight: 600;
+  --docs-h5-line-height: 1.5;
+  --docs-h5-margin-top: 1.25rem;
+  --docs-h5-margin-bottom: 0.5rem;
+  
+  --docs-h6-size: 0.875rem;
+  --docs-h6-weight: 600;
+  --docs-h6-line-height: 1.5;
+  --docs-h6-margin-top: 1rem;
+  --docs-h6-margin-bottom: 0.5rem;
+  
+  /* Lists */
+  --docs-list-margin: 1.25rem 0;
+  --docs-list-padding-left: 1.5rem;
+  --docs-list-item-margin: 0.5rem 0;
+  --docs-list-item-padding-left: 0.375rem;
+  --docs-list-nested-margin-top: 0.5rem;
+  --docs-list-bullet-color: var(--docs-primary);
+  --docs-list-number-color: var(--docs-primary);
+  
+  /* Paragraphs & Links */
+  --docs-paragraph-margin: 1rem 0;
+  --docs-paragraph-line-height: 1.75;
+  --docs-link-color: var(--docs-primary);
+  --docs-link-hover-color: var(--docs-primary-light);
+  
+  color-scheme: light;
+}
+
+/* Dark mode overrides */
+.dark {
+  /* Terminal green palette - brighter for dark mode */
+  --docs-primary: #10B981;
+  --docs-primary-light: #34D399;
+  --docs-primary-dark: #059669;
+  
+  /* Secondary accent - cyan */
+  --docs-accent: #06B6D4;
+  --docs-accent-light: #22D3EE;
+  
+  /* Warning/caution - amber */
+  --docs-warning: #F59E0B;
+  
+  /* Error - red */
+  --docs-error: #EF4444;
+  
+  /* Background colors - true terminal black */
+  --docs-bg: #0D0D0D;
+  --docs-bg-secondary: #141414;
+  --docs-bg-tertiary: #1A1A1A;
+  --docs-bg-elevated: #1F1F1F;
+  
+  /* Text colors - high contrast for readability */
+  --docs-text: #E4E4E7;
+  --docs-text-secondary: #A1A1AA;
+  --docs-text-muted: #71717A;
+  --docs-text-bright: #FAFAFA;
+  
+  /* Border colors - subtle */
+  --docs-border: #27272A;
+  --docs-border-light: #1F1F1F;
+  
+  /* Glow effects - more prominent in dark mode */
+  --docs-glow-primary: 0 0 20px rgba(16, 185, 129, 0.3);
+  --docs-glow-accent: 0 0 20px rgba(6, 182, 212, 0.3);
+  
+  /* Header */
+  --docs-header-bg: rgba(13, 13, 13, 0.95);
+  
+  /* Code blocks */
+  --docs-code-bg: #0A0A0A;
+  --docs-code-text: #E4E4E7;
+  --docs-code-border: #27272A;
+  
+  /* Shadows - glow style for dark mode */
+  --docs-shadow-sm: 0 0 10px rgba(0, 0, 0, 0.3);
+  --docs-shadow-md: 0 0 20px rgba(0, 0, 0, 0.4);
+  --docs-shadow-lg: 0 0 30px rgba(0, 0, 0, 0.5);
+  
+  color-scheme: dark;
+}
+
+/* ==========================================================================
+   Global Styles
+   ========================================================================== */
+
+body {
+  background-color: var(--docs-bg);
+  color: var(--docs-text);
+  font-family: var(--docs-font-family);
+  font-size: var(--docs-font-size-base);
+  line-height: var(--docs-line-height);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
+}
+
+html {
+  overflow: hidden;
+  height: 100%;
+}
+
+body {
+  height: 100%;
+}
+
+/* Selection highlight */
+::selection {
+  background-color: var(--docs-primary);
+  color: var(--docs-bg);
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--docs-bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--docs-border);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--docs-text-muted);
+}
+
+/* Dark mode scrollbar */
+.dark::-webkit-scrollbar-track {
+  background: var(--docs-bg);
+}
+
+/* ==========================================================================
+   Header - Terminal title bar style
+   ========================================================================== */
+
+.docs-header {
+  background: var(--docs-header-bg);
+  border-bottom: 1px solid var(--docs-border);
+  backdrop-filter: blur(10px);
+}
+
+.docs-header-logo {
+  opacity: 0.9;
+}
+
+.dark .docs-header-logo {
+  filter: brightness(0) invert(1);
+}
+
+.docs-header-title {
+  color: var(--docs-text-bright);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+/* Terminal-style window controls hint */
+.docs-header::before {
+  content: '';
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 12px;
+  height: 12px;
+  background: var(--docs-primary);
+  border-radius: 50%;
+  box-shadow: 
+    18px 0 0 var(--docs-warning),
+    36px 0 0 var(--docs-error);
+  opacity: 0.6;
+  display: none; /* Enable if you want window controls */
+}
+
+.docs-header-nav-link {
+  color: var(--docs-text-secondary);
+  font-size: 0.875rem;
+  transition: color 0.15s ease;
+}
+
+.docs-header-nav-link:hover {
+  color: var(--docs-primary);
+}
+
+/* ==========================================================================
+   Sidebar - File tree style
+   ========================================================================== */
+
+.docs-sidebar {
+  background: var(--docs-bg);
+  border-right: 1px solid var(--docs-border);
+}
+
+.docs-sidebar-content {
+  padding: 1rem 0;
+}
+
+.docs-sidebar-group-title {
+  color: var(--docs-text-muted);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 0.5rem 1rem;
+  margin-top: 0.5rem;
+}
+
+.docs-sidebar-item {
+  color: var(--docs-text-secondary);
+  font-size: 0.875rem;
+  padding: 0.5rem 1rem;
+  transition: all 0.15s ease;
+}
+
+.docs-sidebar-item:hover {
+  color: var(--docs-text);
+  background: var(--docs-bg-tertiary);
+}
+
+.dark .docs-sidebar-item:hover {
+  background: var(--docs-bg-secondary);
+}
+
+.docs-sidebar-item-active {
+  color: var(--docs-primary) !important;
+  background: var(--docs-bg-tertiary);
+}
+
+/* File tree prefix styling */
+.docs-sidebar-item::before {
+  content: '├─ ';
+  color: var(--docs-text-muted);
+  font-family: var(--docs-font-family-mono);
+  opacity: 0.5;
+}
+
+.docs-sidebar-item:last-child::before {
+  content: '└─ ';
+}
+
+/* Sidebar group toggle should have same tree prefix as items */
+.docs-sidebar-group-toggle::before {
+  content: '└─ ';
+  color: var(--docs-text-muted);
+  font-family: var(--docs-font-family-mono);
+  opacity: 0.5;
+  margin-right: 0;
+}
+
+/* ==========================================================================
+   Content Area
+   ========================================================================== */
+
+.docs-content-area {
+  background: var(--docs-bg);
+  min-height: 0;
+}
+
+.docs-content {
+  max-width: var(--docs-content-max-width);
+  margin: 0 auto;
+  padding: var(--docs-content-padding);
+}
+
+/* ==========================================================================
+   Prose / Typography
+   ========================================================================== */
+
+.docs-prose {
+  color: var(--docs-text);
+}
+
+.docs-prose h1,
+.docs-prose h2,
+.docs-prose h3,
+.docs-prose h4,
+.docs-prose h5,
+.docs-prose h6 {
+  color: var(--docs-text-bright);
+  font-family: var(--docs-font-family);
+}
+
+
+.docs-prose h2 {
+  border-bottom: 1px solid var(--docs-border);
+  padding-bottom: 0.5rem;
+}
+
+/* Terminal prompt style for h2 */
+.docs-prose h2::before {
+  content: '> ';
+  color: var(--docs-primary);
+}
+
+.docs-prose a {
+  color: var(--docs-primary);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: all 0.15s ease;
+}
+
+.docs-prose a:hover {
+  color: var(--docs-primary-light);
+  border-bottom-color: var(--docs-primary-light);
+}
+
+.dark .docs-prose a:hover {
+  text-shadow: var(--docs-glow-primary);
+}
+
+.docs-prose strong {
+  color: var(--docs-text-bright);
+  font-weight: 600;
+}
+
+.docs-prose code {
+  background: var(--docs-code-bg);
+  color: var(--docs-primary);
+  padding: 0.2em 0.4em;
+  border-radius: var(--docs-radius-sm);
+  font-size: 0.9em;
+  border: 1px solid var(--docs-code-border);
+}
+
+.docs-prose pre {
+  background: var(--docs-code-bg);
+  border: 1px solid var(--docs-code-border);
+  border-radius: var(--docs-radius-lg);
+  padding: 1rem;
+  padding-top: 2.5rem;
+  overflow-x: auto;
+  position: relative;
+}
+
+/* Terminal window controls - red, orange, green */
+.docs-prose pre::before {
+  content: '';
+  position: absolute;
+  top: 12px;
+  left: 14px;
+  width: 10px;
+  height: 10px;
+  background: #EF4444;
+  border-radius: 50%;
+  box-shadow: 
+    16px 0 0 0 #F59E0B,
+    32px 0 0 0 #22C55E;
+}
+
+.docs-prose pre code {
+  background: transparent;
+  border: none;
+  padding: 0;
+  color: var(--docs-code-text);
+}
+
+.docs-prose blockquote {
+  border-left: 3px solid var(--docs-primary);
+  background: var(--docs-bg-tertiary);
+  padding: 1rem 1.5rem;
+  margin: 1.5rem 0;
+  color: var(--docs-text-secondary);
+}
+
+.dark .docs-prose blockquote {
+  background: var(--docs-bg-secondary);
+}
+
+.docs-prose blockquote p {
+  margin: 0;
+}
+
+/* Lists with terminal-style bullets */
+.docs-prose ul {
+  list-style: none;
+  padding-left: 1.5rem;
+}
+
+.docs-prose ul li::before {
+  content: '▸ ';
+  color: var(--docs-primary);
+  margin-left: -1.2rem;
+  margin-right: 0.5rem;
+}
+
+.docs-prose ol,
+.docs-prose.prose ol,
+.docs-prose.prose-sm ol {
+  list-style: none !important;
+  list-style-type: none !important;
+  counter-reset: item;
+  padding-left: 1.5rem !important;
+}
+
+.docs-prose ol li,
+.docs-prose.prose ol li,
+.docs-prose.prose-sm ol li {
+  counter-increment: item;
+}
+
+.docs-prose ol li::marker,
+.docs-prose.prose ol li::marker,
+.docs-prose.prose-sm ol li::marker {
+  content: "" !important;
+  font-size: 0 !important;
+}
+
+.docs-prose ol li::before,
+.docs-prose.prose ol li::before,
+.docs-prose.prose-sm ol li::before {
+  content: counter(item) '. ';
+  color: var(--docs-primary);
+  margin-left: -1.5rem;
+  margin-right: 0.5rem;
+  font-weight: 500;
+}
+
+/* Tables */
+.docs-prose table {
+  border: 1px solid var(--docs-border);
+  border-radius: var(--docs-radius-md);
+  overflow: hidden;
+}
+
+.docs-prose thead {
+  background: var(--docs-bg-secondary);
+}
+
+.docs-prose th {
+  color: var(--docs-text-bright);
+  font-weight: 600;
+  text-align: left;
+  padding: var(--docs-table-cell-padding);
+  border-bottom: 1px solid var(--docs-border);
+}
+
+.docs-prose td {
+  padding: var(--docs-table-cell-padding);
+  border-bottom: 1px solid var(--docs-border);
+}
+
+.docs-prose tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.docs-prose tbody tr:hover {
+  background: var(--docs-bg-tertiary);
+}
+
+/* ==========================================================================
+   Callouts - Terminal message style
+   ========================================================================== */
+
+.docs-callout {
+  border-radius: var(--docs-radius-md);
+  padding: 1rem;
+  margin: 1.5rem 0;
+  border-left: 3px solid;
+}
+
+.docs-callout-note {
+  background: rgba(5, 150, 105, 0.08);
+  border-left-color: var(--docs-primary);
+}
+
+.docs-callout-info {
+  background: rgba(8, 145, 178, 0.08);
+  border-left-color: var(--docs-accent);
+}
+
+.docs-callout-warning {
+  background: rgba(217, 119, 6, 0.08);
+  border-left-color: var(--docs-warning);
+}
+
+.docs-callout-tip {
+  background: rgba(5, 150, 105, 0.08);
+  border-left-color: var(--docs-primary);
+}
+
+.docs-callout-error {
+  background: rgba(220, 38, 38, 0.08);
+  border-left-color: var(--docs-error);
+}
+
+/* Dark mode callouts - slightly more visible */
+.dark .docs-callout-note {
+  background: rgba(16, 185, 129, 0.12);
+}
+
+.dark .docs-callout-info {
+  background: rgba(6, 182, 212, 0.12);
+}
+
+.dark .docs-callout-warning {
+  background: rgba(245, 158, 11, 0.12);
+}
+
+.dark .docs-callout-tip {
+  background: rgba(16, 185, 129, 0.12);
+}
+
+.dark .docs-callout-error {
+  background: rgba(239, 68, 68, 0.12);
+}
+
+.docs-callout-title {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Terminal prefix for callout titles */
+.docs-callout-note .docs-callout-title::before { content: '[INFO]'; color: var(--docs-primary); }
+.docs-callout-info .docs-callout-title::before { content: '[NOTE]'; color: var(--docs-accent); }
+.docs-callout-warning .docs-callout-title::before { content: '[WARN]'; color: var(--docs-warning); }
+.docs-callout-tip .docs-callout-title::before { content: '[TIP]'; color: var(--docs-primary); }
+.docs-callout-error .docs-callout-title::before { content: '[ERROR]'; color: var(--docs-error); }
+
+/* ==========================================================================
+   Cards
+   ========================================================================== */
+
+.docs-card {
+  background: var(--docs-bg-elevated);
+  border: 1px solid var(--docs-border);
+  border-radius: var(--docs-radius-md);
+  padding: 1.25rem;
+  transition: all 0.2s ease;
+}
+
+.docs-card:hover {
+  border-color: var(--docs-primary);
+  box-shadow: var(--docs-shadow-md);
+}
+
+.dark .docs-card {
+  background: var(--docs-bg-secondary);
+}
+
+.dark .docs-card:hover {
+  box-shadow: var(--docs-glow-primary);
+}
+
+.docs-card-title {
+  color: var(--docs-text-bright);
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.docs-card-description {
+  color: var(--docs-text-secondary);
+  font-size: 0.875rem;
+}
+
+/* ==========================================================================
+   API Reference - Command style
+   ========================================================================== */
+
+.docs-api-endpoint {
+  background: var(--docs-bg-elevated);
+  border: 1px solid var(--docs-border);
+  border-radius: var(--docs-radius-md);
+}
+
+.docs-api-endpoint-header {
+  background: var(--docs-bg-secondary);
+  padding: 1rem;
+  border-bottom: 1px solid var(--docs-border);
+}
+
+.dark .docs-api-endpoint {
+  background: var(--docs-bg-secondary);
+}
+
+.dark .docs-api-endpoint-header {
+  background: var(--docs-bg-tertiary);
+}
+
+.docs-api-path {
+  font-family: var(--docs-font-family-mono);
+  color: var(--docs-text);
+}
+
+.docs-api-method {
+  font-family: var(--docs-font-family-mono);
+  font-weight: 600;
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--docs-radius-sm);
+  text-transform: uppercase;
+}
+
+.docs-api-method-get {
+  background: rgba(5, 150, 105, 0.15);
+  color: var(--docs-primary);
+}
+
+.docs-api-method-post {
+  background: rgba(8, 145, 178, 0.15);
+  color: var(--docs-accent);
+}
+
+.docs-api-method-put {
+  background: rgba(217, 119, 6, 0.15);
+  color: var(--docs-warning);
+}
+
+.docs-api-method-patch {
+  background: rgba(124, 58, 237, 0.15);
+  color: #7C3AED;
+}
+
+.docs-api-method-delete {
+  background: rgba(220, 38, 38, 0.15);
+  color: var(--docs-error);
+}
+
+/* Dark mode API methods - brighter */
+.dark .docs-api-method-get {
+  background: rgba(16, 185, 129, 0.2);
+}
+
+.dark .docs-api-method-post {
+  background: rgba(6, 182, 212, 0.2);
+}
+
+.dark .docs-api-method-put {
+  background: rgba(245, 158, 11, 0.2);
+}
+
+.dark .docs-api-method-patch {
+  background: rgba(139, 92, 246, 0.2);
+  color: #8B5CF6;
+}
+
+.dark .docs-api-method-delete {
+  background: rgba(239, 68, 68, 0.2);
+}
+
+/* ==========================================================================
+   Buttons - Terminal command style
+   ========================================================================== */
+
+.docs-button {
+  font-family: var(--docs-font-family-mono);
+  font-weight: 500;
+  border-radius: var(--docs-radius-sm);
+  transition: all 0.15s ease;
+}
+
+.docs-button-primary {
+  background: var(--docs-primary);
+  color: var(--docs-bg);
+  border: 1px solid var(--docs-primary);
+}
+
+.docs-button-primary:hover {
+  background: var(--docs-primary-light);
+  border-color: var(--docs-primary-light);
+  box-shadow: var(--docs-shadow-md);
+}
+
+.dark .docs-button-primary:hover {
+  box-shadow: var(--docs-glow-primary);
+}
+
+.docs-button-secondary {
+  background: transparent;
+  color: var(--docs-primary);
+  border: 1px solid var(--docs-primary);
+}
+
+.docs-button-secondary:hover {
+  background: rgba(5, 150, 105, 0.08);
+}
+
+.dark .docs-button-secondary:hover {
+  background: rgba(16, 185, 129, 0.1);
+  box-shadow: var(--docs-glow-primary);
+}
+
+/* ==========================================================================
+   Search - Command palette style
+   ========================================================================== */
+
+.docs-search-input {
+  background: var(--docs-bg-secondary);
+  border: 1px solid var(--docs-border);
+  color: var(--docs-text);
+  font-family: var(--docs-font-family-mono);
+}
+
+.docs-search-input:focus {
+  border-color: var(--docs-primary);
+  box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.1);
+  outline: none;
+}
+
+.dark .docs-search-input:focus {
+  box-shadow: var(--docs-glow-primary);
+}
+
+.docs-search-input::placeholder {
+  color: var(--docs-text-muted);
+}
+
+/* ==========================================================================
+   Tabs - Terminal tabs
+   ========================================================================== */
+
+.docs-tabs {
+  border-bottom: 1px solid var(--docs-border);
+}
+
+.docs-tab {
+  color: var(--docs-text-secondary);
+  font-family: var(--docs-font-family-mono);
+  font-size: 0.875rem;
+  padding: 0.75rem 1rem;
+  border-bottom: 2px solid transparent;
+  transition: all 0.15s ease;
+}
+
+.docs-tab:hover {
+  color: var(--docs-text);
+}
+
+.docs-tab-active {
+  color: var(--docs-primary) !important;
+  border-bottom-color: var(--docs-primary) !important;
+}
+
+/* ==========================================================================
+   Changelog
+   ========================================================================== */
+
+.docs-changelog {
+  background: var(--docs-bg);
+}
+
+.docs-changelog-version {
+  font-family: var(--docs-font-family-mono);
+  background: var(--docs-primary);
+  color: var(--docs-bg);
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--docs-radius-sm);
+  font-weight: 600;
+}
+
+.docs-changelog-date {
+  color: var(--docs-text-muted);
+  font-family: var(--docs-font-family-mono);
+  font-size: 0.875rem;
+}
+
+.docs-changelog-entry {
+  border-left: 2px solid var(--docs-border);
+  padding-left: 1.5rem;
+  margin-left: 0.5rem;
+}
+
+/* ==========================================================================
+   Agent Panel
+   ========================================================================== */
+
+.docs-agent-panel {
+  background: var(--docs-bg);
+  border-left: 1px solid var(--docs-border);
+}
+
+.docs-agent-header {
+  background: var(--docs-bg-secondary);
+  border-bottom: 1px solid var(--docs-border);
+}
+
+/* ==========================================================================
+   Cursor blink animation
+   ========================================================================== */
+
+@keyframes cursor-blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+/* Add blinking cursor effect to focused inputs */
+.docs-search-input:focus::after {
+  content: '▋';
+  animation: cursor-blink 1s infinite;
+  color: var(--docs-primary);
+}
+
+/* ==========================================================================
+   Terminal prompt decorations
+   ========================================================================== */
+
+/* Terminal window controls already applied to all pre blocks */
+
+/* ==========================================================================
+   Sandbox / Code Editor - Terminal Theme
+   ========================================================================== */
+
+/* Override hardcoded Tailwind colors in sandbox */
+/* Main backgrounds */
+[class*="bg-[#1e1e1e]"],
+[class*="bg-\[#1e1e1e\]"] {
+  background-color: var(--docs-bg) !important;
+}
+
+[class*="bg-[#181818]"],
+[class*="bg-\[#181818\]"] {
+  background-color: var(--docs-bg) !important;
+}
+
+[class*="bg-[#252526]"],
+[class*="bg-\[#252526\]"] {
+  background-color: var(--docs-bg-secondary) !important;
+}
+
+[class*="bg-[#323233]"],
+[class*="bg-\[#323233\]"] {
+  background-color: var(--docs-bg-tertiary) !important;
+}
+
+[class*="bg-[#2d2d2d]"],
+[class*="bg-\[#2d2d2d\]"] {
+  background-color: var(--docs-bg-secondary) !important;
+}
+
+[class*="bg-[#3c3c3c]"],
+[class*="bg-\[#3c3c3c\]"] {
+  background-color: var(--docs-bg-tertiary) !important;
+}
+
+/* Borders */
+[class*="border-[#3c3c3c]"],
+[class*="border-\[#3c3c3c\]"] {
+  border-color: var(--docs-border) !important;
+}
+
+[class*="border-[#454545]"],
+[class*="border-\[#454545\]"] {
+  border-color: var(--docs-border) !important;
+}
+
+/* Active tab indicator - use terminal green instead of blue */
+[class*="bg-[#007acc]"],
+[class*="bg-\[#007acc\]"] {
+  background-color: var(--docs-primary) !important;
+}
+
+/* Text colors */
+[class*="text-zinc-400"] {
+  color: var(--docs-text-secondary) !important;
+}
+
+[class*="text-zinc-500"] {
+  color: var(--docs-text-muted) !important;
+}
+
+[class*="text-zinc-100"],
+[class*="text-zinc-200"],
+[class*="text-zinc-300"] {
+  color: var(--docs-text) !important;
+}
+
+/* Blue links/buttons to green */
+[class*="text-blue-400"] {
+  color: var(--docs-primary) !important;
+}
+
+[class*="hover:text-blue-300"]:hover {
+  color: var(--docs-primary-light) !important;
+}
+
+/* Sandbox container - terminal style */
+.docs-sandbox,
+.docs-code-editor,
+[class*="code-editor"],
+[class*="sandbox"] {
+  background-color: var(--docs-bg) !important;
+  border: 1px solid var(--docs-border) !important;
+  border-radius: var(--docs-radius-lg) !important;
+  font-family: var(--docs-font-family-mono) !important;
+}
+
+/* Sandbox header - terminal title bar */
+.docs-sandbox-header,
+[class*="sandbox"] > header,
+[class*="code-editor"] > header,
+[class*="sandbox"] > div:first-child,
+[class*="notes-header"],
+[class*="NotesHeader"] {
+  background-color: var(--docs-bg-tertiary) !important;
+  border-bottom: 1px solid var(--docs-border) !important;
+  color: var(--docs-text) !important;
+  font-family: var(--docs-font-family-mono) !important;
+  font-size: 0.875rem !important;
+}
+
+/* Sandbox sidebar */
+[class*="notes-sidebar"],
+[class*="NotesSidebar"],
+.docs-sandbox-sidebar {
+  background-color: var(--docs-bg) !important;
+  border-right: 1px solid var(--docs-border) !important;
+}
+
+/* Sidebar items */
+[class*="notes-sidebar"] a,
+[class*="NotesSidebar"] a {
+  color: var(--docs-text-secondary) !important;
+  font-family: var(--docs-font-family-mono) !important;
+}
+
+[class*="notes-sidebar"] a:hover,
+[class*="NotesSidebar"] a:hover {
+  color: var(--docs-primary) !important;
+  background-color: var(--docs-bg-tertiary) !important;
+}
+
+/* Empty state */
+[class*="empty-state"],
+[class*="EmptyState"] {
+  color: var(--docs-text-muted) !important;
+}
+
+/* Monaco editor container */
+.monaco-editor,
+.monaco-editor-background,
+.monaco-editor .margin,
+.monaco-editor .inputarea.ime-input {
+  background-color: var(--docs-bg-secondary) !important;
+}
+
+/* Monaco editor text */
+.monaco-editor .view-lines {
+  color: var(--docs-text) !important;
+}
+
+/* Monaco minimap */
+.monaco-editor .minimap {
+  background-color: var(--docs-bg-secondary) !important;
+}
+
+/* Monaco scrollbar */
+.monaco-editor .scrollbar {
+  background-color: var(--docs-bg-secondary) !important;
+}
+
+/* Monaco line numbers - terminal green */
+.monaco-editor .line-numbers {
+  color: var(--docs-primary) !important;
+  opacity: 0.6;
+}
+
+/* API Playground code areas */
+.docs-api-playground pre,
+.docs-api-playground code,
+.docs-api-playground textarea {
+  background-color: var(--docs-bg-secondary) !important;
+  color: var(--docs-text) !important;
+  border-color: var(--docs-border) !important;
+  font-family: var(--docs-font-family-mono) !important;
+}
+
+/* Response viewer */
+.docs-response-viewer,
+.docs-request-body {
+  background-color: var(--docs-bg-secondary) !important;
+  border: 1px solid var(--docs-border) !important;
+  border-radius: var(--docs-radius-md) !important;
+}
+
+/* Buttons in sandbox - terminal style */
+[class*="sandbox"] button,
+[class*="code-editor"] button {
+  font-family: var(--docs-font-family-mono) !important;
+  border-radius: var(--docs-radius-sm) !important;
+}
+
+[class*="sandbox"] button:hover,
+[class*="code-editor"] button:hover {
+  color: var(--docs-primary) !important;
+}
+
+/* Dark mode overrides for sandbox */
+.dark .monaco-editor,
+.dark .monaco-editor-background,
+.dark .monaco-editor .margin {
+  background-color: var(--docs-bg-secondary) !important;
+}
+
+.dark .monaco-editor .view-lines {
+  color: var(--docs-text) !important;
+}
+
+.dark .monaco-editor .line-numbers {
+  color: var(--docs-primary) !important;
+  opacity: 0.5;
+}
+
+.dark .docs-sandbox,
+.dark .docs-code-editor,
+.dark [class*="code-editor"],
+.dark [class*="sandbox"] {
+  background-color: var(--docs-bg-secondary) !important;
+  border-color: var(--docs-border) !important;
+}
+
+.dark .docs-api-playground pre,
+.dark .docs-api-playground code,
+.dark .docs-api-playground textarea {
+  background-color: var(--docs-bg-secondary) !important;
+  color: var(--docs-text) !important;
+  border-color: var(--docs-border) !important;
+}
+
+/* Focus states - terminal green glow */
+.dark [class*="sandbox"] *:focus,
+.dark [class*="code-editor"] *:focus {
+  outline: none !important;
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.3) !important;
+}
+
+/* ==========================================================================
+   Landing Page - CommandBox always dark
+   ========================================================================== */
+
+.landing-command-box {
+  background-color: #09090b !important;
+  border: 1px solid #27272a !important;
+}
+
+.landing-command-box code {
+  background-color: transparent !important;
+  background: transparent !important;
+  color: #fafafa !important;
+  border: none !important;
+}
+
+.landing-command-box code span {
+  background-color: transparent !important;
+  background: transparent !important;
+}
+
+.landing-command-box code span:first-child {
+  color: #71717a !important;
+}
+
+.landing-command-box button {
+  color: #a1a1aa !important;
+}
+
+.landing-command-box button:hover {
+  color: #fafafa !important;
+  background-color: #3f3f46 !important;
+}
+
+/* ==========================================================================
+   Custom utilities
+   ========================================================================== */
+
+/* Glow text effect */
+.docs-glow {
+  text-shadow: var(--docs-glow-primary);
+}
+
+/* Terminal box */
+.docs-terminal {
+  background: var(--docs-code-bg);
+  border: 1px solid var(--docs-border);
+  border-radius: var(--docs-radius-md);
+  font-family: var(--docs-font-family-mono);
+  padding: 1rem;
+}
+
+.docs-terminal::before {
+  content: '$ ';
+  color: var(--docs-primary);
+}

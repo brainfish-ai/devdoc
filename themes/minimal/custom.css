@@ -1,0 +1,52 @@
+/* Minimal Theme - Custom Styles */
+
+:root {
+  /* Monochrome palette */
+  --devdoc-primary: #18181b;
+  --devdoc-primary-light: #3f3f46;
+  --devdoc-primary-dark: #09090b;
+  
+  /* System fonts for faster loading */
+  --devdoc-font-family: system-ui, -apple-system, sans-serif;
+  --devdoc-code-font-family: ui-monospace, 'SF Mono', monospace;
+  
+  /* Tighter layout */
+  --devdoc-sidebar-width: 260px;
+  --devdoc-content-max-width: 720px;
+}
+
+/* Reduce visual noise */
+.docs-sidebar {
+  border-right: none;
+}
+
+/* Simpler headings */
+.docs-content h1,
+.docs-content h2,
+.docs-content h3 {
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+/* Subtle links */
+.docs-content a:not([class]) {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: var(--devdoc-primary-light);
+  text-underline-offset: 3px;
+}
+
+.docs-content a:not([class]):hover {
+  text-decoration-color: var(--devdoc-primary);
+}
+
+/* Minimal code blocks */
+pre {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+/* Hide decorative elements */
+.docs-sidebar-indicator {
+  display: none;
+}

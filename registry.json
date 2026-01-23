@@ -1,0 +1,46 @@
+{
+  "$schema": "https://devdoc.sh/registry.json",
+  "version": "1.0.0",
+  "repository": "github:brainfish-ai/devdoc",
+  "templates": [
+    {
+      "name": "basic",
+      "description": "Simple documentation site for guides and knowledge bases",
+      "path": "templates/basic",
+      "tags": ["starter", "simple", "docs"]
+    },
+    {
+      "name": "graphql",
+      "description": "GraphQL API documentation with interactive playground",
+      "path": "templates/graphql",
+      "tags": ["api", "graphql", "playground"]
+    },
+    {
+      "name": "openapi",
+      "description": "REST API documentation with OpenAPI spec support",
+      "path": "templates/openapi",
+      "tags": ["api", "rest", "openapi", "swagger"]
+    }
+  ],
+  "themes": [
+    {
+      "name": "default",
+      "description": "Clean, professional theme with emerald accents",
+      "path": "themes/default",
+      "preview": "https://devdoc.sh/themes/default/preview.png"
+    },
+    {
+      "name": "minimal",
+      "description": "Stripped-down, content-focused design",
+      "path": "themes/minimal",
+      "preview": "https://devdoc.sh/themes/minimal/preview.png"
+    },
+    {
+      "name": "enterprise",
+      "description": "Professional theme for enterprise documentation",
+      "path": "themes/enterprise",
+      "preview": "https://devdoc.sh/themes/enterprise/preview.png"
+    }
+  ],
+  "examples": []
+}

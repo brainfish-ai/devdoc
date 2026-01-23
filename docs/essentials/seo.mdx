@@ -1,0 +1,217 @@
+---
+title: "SEO"
+description: "Optimize SEO with meta tag configuration for better search visibility"
+---
+
+Your documentation automatically handles many SEO best practices, including:
+
+- **Meta tag generation** - Title, description, Open Graph, Twitter cards
+- **Sitemap generation** - Auto-generated `/sitemap.xml`
+- **Robots.txt** - Auto-generated `/robots.txt`
+- **Semantic HTML** - Proper heading hierarchy
+- **Mobile optimization** - Responsive design
+
+## Auto-Generated Files
+
+<CardGroup cols={2}>
+  <Card title="sitemap.xml" icon="map" href="/sitemap.xml">
+    XML sitemap for search engines
+  </Card>
+  <Card title="robots.txt" icon="robot" href="/robots.txt">
+    Crawler instructions
+  </Card>
+</CardGroup>
+
+## Global Meta Tags
+
+Set default meta tags for all pages in your `docs.json`:
+
+```json
+{
+  "name": "My Documentation",
+  "seo": {
+    "metatags": {
+      "og:image": "https://example.com/og-image.png",
+      "twitter:site": "@yourhandle",
+      "google-site-verification": "your-verification-code"
+    }
+  }
+}
+```
+
+## Canonical URL
+
+Set a canonical URL for your custom domain:
+
+```json
+{
+  "seo": {
+    "metatags": {
+      "canonical": "https://docs.yourdomain.com"
+    }
+  }
+}
+```
+
+<Tip>
+A canonical URL tells search engines which version of your documentation is primary, preventing duplicate content issues.
+</Tip>
+
+## Page-Level Meta Tags
+
+Add meta tags to individual pages via frontmatter:
+
+```yaml
+---
+title: "Getting Started"
+description: "Learn how to set up your project"
+"og:image": "https://example.com/getting-started.png"
+"og:title": "Getting Started Guide"
+keywords: ["setup", "installation", "quickstart"]
+---
+```
+
+### Supported Page Meta Tags
+
+| Tag | Description |
+|-----|-------------|
+| `title` | Page title |
+| `description` | Page description for search results |
+| `keywords` | Array of keywords |
+| `og:title` | Open Graph title |
+| `og:description` | Open Graph description |
+| `og:image` | Open Graph image URL |
+| `og:url` | Open Graph URL |
+| `og:type` | Open Graph type (website, article) |
+| `twitter:title` | Twitter card title |
+| `twitter:description` | Twitter card description |
+| `twitter:image` | Twitter card image |
+| `twitter:card` | Card type (summary, summary_large_image) |
+| `twitter:site` | Twitter site handle |
+| `noindex` | Set to `true` to prevent indexing |
+| `robots` | Custom robots directive |
+
+<Note>
+Meta tags with colons (like `og:image`) must be wrapped in quotes in frontmatter.
+</Note>
+
+## Disable Indexing
+
+### Single Page
+
+Prevent a page from being indexed:
+
+```yaml
+---
+title: "Draft Page"
+noindex: true
+---
+```
+
+### All Pages
+
+Disable indexing for all pages in `docs.json`:
+
+```json
+{
+  "seo": {
+    "metatags": {
+      "robots": "noindex"
+    }
+  }
+}
+```
+
+## Custom Sitemap & Robots
+
+Override auto-generated files by creating your own:
+
+```
+your-docs/
+├── sitemap.xml    # Custom sitemap
+├── robots.txt     # Custom robots
+├── docs.json
+└── ...
+```
+
+## Common Meta Tags Reference
+
+```json
+{
+  "seo": {
+    "metatags": {
+      "charset": "UTF-8",
+      "viewport": "width=device-width, initial-scale=1.0",
+      "description": "Your site description",
+      "keywords": "keyword1, keyword2, keyword3",
+      "author": "Your Name",
+      "robots": "index, follow",
+      "googlebot": "index, follow",
+      "google-site-verification": "verification_token",
+      "theme-color": "#000000",
+      "canonical": "https://your-domain.com",
+      
+      "og:title": "Open Graph Title",
+      "og:type": "website",
+      "og:url": "https://example.com",
+      "og:image": "https://example.com/og.jpg",
+      "og:description": "Open Graph Description",
+      "og:site_name": "Site Name",
+      "og:locale": "en_US",
+      
+      "twitter:card": "summary_large_image",
+      "twitter:site": "@username",
+      "twitter:creator": "@username",
+      "twitter:title": "Twitter Title",
+      "twitter:description": "Twitter Description",
+      "twitter:image": "https://example.com/twitter.jpg",
+      
+      "apple-mobile-web-app-capable": "yes",
+      "apple-mobile-web-app-title": "App Title",
+      "application-name": "App Name",
+      "msapplication-TileColor": "#000000"
+    }
+  }
+}
+```
+
+## SEO Best Practices
+
+<AccordionGroup>
+  <Accordion title="Write descriptive titles and descriptions">
+    - Keep titles under 60 characters
+    - Keep descriptions under 160 characters
+    - Include relevant keywords naturally
+    - Make each page title unique
+  </Accordion>
+  
+  <Accordion title="Optimize content structure">
+    - Use proper heading hierarchy (H1 → H2 → H3)
+    - Include relevant keywords in headings
+    - Break content into scannable sections
+    - Use lists and tables for structured data
+  </Accordion>
+  
+  <Accordion title="Internal linking strategy">
+    - Link between related pages
+    - Use descriptive anchor text
+    - Create a logical navigation structure
+    - Avoid orphan pages
+  </Accordion>
+  
+  <Accordion title="Image SEO">
+    - Use descriptive alt text
+    - Optimize image file sizes
+    - Use descriptive file names
+    - Consider lazy loading for performance
+  </Accordion>
+</AccordionGroup>
+
+## Preview Your Meta Tags
+
+Use [metatags.io](https://metatags.io/) to preview how your pages will appear on:
+
+- Google search results
+- Facebook shares
+- Twitter cards
+- LinkedIn posts

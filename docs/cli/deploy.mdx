@@ -1,0 +1,193 @@
+---
+title: devdoc deploy
+description: Deploy your documentation to DevDoc hosting
+---
+
+Deploy your documentation to DevDoc's global hosting infrastructure.
+
+## Usage
+
+```bash
+devdoc deploy [options]
+```
+
+## Options
+
+| Option | Description |
+|--------|-------------|
+| `--api-key <key>` | API key for authentication |
+| `--url <url>` | Custom platform URL (default: https://devdoc.sh) |
+| `--dry-run` | Validate without deploying |
+
+## First Deployment
+
+On your first deployment, DevDoc will:
+
+1. Validate your `docs.json` configuration
+2. Register your subdomain (claimed only when you deploy!)
+3. Generate an API key
+4. Deploy your content
+5. Provide your live URL
+
+<Note>
+  Your subdomain is **only reserved when you actually deploy**. Running `devdoc init` or `devdoc create` checks availability but doesn't claim the subdomain until you run `devdoc deploy`.
+</Note>
+
+```bash
+$ devdoc deploy
+
+○ Deploying to DevDoc...
+✓ Configuration valid: My Documentation
+○ Registering subdomain my-docs.devdoc.sh...
+✓ Subdomain my-docs.devdoc.sh registered!
+
+○ Bundling content...
+✓ Found 12 content files
+
+○ Uploading content...
+
+✓ Deployment successful!
+
+  Your docs are live at:
+  https://my-docs.devdoc.sh
+
+⚠️ Save your API key for CI/CD deployments:
+    sk_live_xyz789...
+
+○ API key saved to .devdoc.json (add to .gitignore!)
+```
+
+### Subdomain Already Taken
+
+If your chosen subdomain was taken between `init` and `deploy`, you'll be prompted to choose a new one:
+
+```bash
+$ devdoc deploy
+
+○ Deploying to DevDoc...
+✓ Configuration valid: My Documentation
+○ Registering subdomain my-docs.devdoc.sh...
+
+⚠ Subdomain "my-docs" is no longer available.
+
+○ Suggestion: my-docs-a1b2.devdoc.sh
+
+Enter a new subdomain (my-docs-a1b2): my-awesome-docs
+
+○ Registering subdomain my-awesome-docs.devdoc.sh...
+✓ Subdomain my-awesome-docs.devdoc.sh registered!
+
+○ Uploading content...
+✓ Deployment successful!
+
+  Your docs are live at:
+  https://my-awesome-docs.devdoc.sh
+```
+
+## Subsequent Deployments
+
+After the first deploy, your `.devdoc.json` file stores the project credentials:
+
+```json
+{
+  "projectSlug": "my-docs-abc123",
+  "apiKey": "sk_live_xyz789..."
+}
+```
+
+Simply run `devdoc deploy` again to update:
+
+```bash
+$ devdoc deploy
+
+○ Deploying to DevDoc...
+✓ Configuration valid: My Documentation
+○ Bundling content...
+✓ Found 12 files
+
+Uploading...
+
+✓ Deployment successful!
+
+  Your docs are live at:
+  https://my-docs-abc123.devdoc.sh
+```
+
+## CI/CD Deployment
+
+For automated deployments, pass the API key via environment variable:
+
+```bash
+DEVDOC_API_KEY=sk_live_xyz789... devdoc deploy
+```
+
+Or use the `--api-key` flag:
+
+```bash
+devdoc deploy --api-key sk_live_xyz789...
+```
+
+<Warning>
+  Never commit your API key to version control. Use environment secrets in your CI/CD platform.
+</Warning>
+
+## Authentication Priority
+
+The CLI checks for authentication in this order:
+
+1. `--api-key` command line flag
+2. `DEVDOC_API_KEY` environment variable
+3. `.devdoc.json` file in project root
+
+## Dry Run
+
+Validate your configuration without deploying:
+
+```bash
+devdoc deploy --dry-run
+```
+
+This will:
+- Parse and validate `docs.json`
+- Check all referenced MDX files exist
+- Report any errors
+
+## What Gets Deployed
+
+The deploy command bundles:
+
+- All MDX/MD files referenced in `docs.json`
+- The `docs.json` configuration
+- OpenAPI spec files (if configured)
+- Theme configuration (`theme.json`)
+
+<Note>
+  Static assets in `public/` are not deployed. Use external URLs for images.
+</Note>
+
+## Troubleshooting
+
+### "Invalid API key"
+
+Your API key may have been regenerated. Check `.devdoc.json` or regenerate:
+
+```bash
+devdoc keys regenerate
+```
+
+### "Project not found"
+
+The project may have been deleted. Create a new project by removing `.devdoc.json` and deploying:
+
+```bash
+rm .devdoc.json
+devdoc deploy
+```
+
+### "Validation failed"
+
+Run `devdoc check` for detailed error messages:
+
+```bash
+devdoc check
+```

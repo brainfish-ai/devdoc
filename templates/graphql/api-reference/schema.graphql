@@ -1,0 +1,305 @@
+# My GraphQL API Schema
+# A sample GraphQL schema for documentation
+
+"""
+Custom scalar for date-time values
+"""
+scalar DateTime
+
+"""
+Custom scalar for JSON data
+"""
+scalar JSON
+
+"""
+A user in the system
+"""
+type User {
+  "Unique identifier"
+  id: ID!
+  "User's email address"
+  email: String!
+  "User's display name"
+  name: String!
+  "URL to user's avatar image"
+  avatar: String
+  "When the user was created"
+  createdAt: DateTime!
+  "When the user was last updated"
+  updatedAt: DateTime!
+  "Projects owned by this user"
+  projects: [Project!]!
+}
+
+"""
+A project in the system
+"""
+type Project {
+  "Unique identifier"
+  id: ID!
+  "Project name"
+  name: String!
+  "Project description"
+  description: String
+  "Project owner"
+  owner: User!
+  "Project collaborators"
+  collaborators: [User!]!
+  "When the project was created"
+  createdAt: DateTime!
+  "When the project was last updated"
+  updatedAt: DateTime!
+  "Project status"
+  status: ProjectStatus!
+}
+
+"""
+Status of a project
+"""
+enum ProjectStatus {
+  "Project is active and in progress"
+  ACTIVE
+  "Project is completed"
+  COMPLETED
+  "Project is archived"
+  ARCHIVED
+  "Project is on hold"
+  ON_HOLD
+}
+
+"""
+Input for creating a new user
+"""
+input CreateUserInput {
+  "User's email address"
+  email: String!
+  "User's display name"
+  name: String!
+  "User's password"
+  password: String!
+}
+
+"""
+Input for updating a user
+"""
+input UpdateUserInput {
+  "User's email address"
+  email: String
+  "User's display name"
+  name: String
+  "URL to user's avatar image"
+  avatar: String
+}
+
+"""
+Input for creating a new project
+"""
+input CreateProjectInput {
+  "Project name"
+  name: String!
+  "Project description"
+  description: String
+}
+
+"""
+Input for updating a project
+"""
+input UpdateProjectInput {
+  "Project name"
+  name: String
+  "Project description"
+  description: String
+  "Project status"
+  status: ProjectStatus
+}
+
+"""
+Pagination input
+"""
+input PaginationInput {
+  "Number of items per page"
+  limit: Int = 20
+  "Page offset"
+  offset: Int = 0
+}
+
+"""
+Paginated list of users
+"""
+type UserConnection {
+  "List of users"
+  nodes: [User!]!
+  "Total count of users"
+  totalCount: Int!
+  "Whether there are more pages"
+  hasNextPage: Boolean!
+}
+
+"""
+Paginated list of projects
+"""
+type ProjectConnection {
+  "List of projects"
+  nodes: [Project!]!
+  "Total count of projects"
+  totalCount: Int!
+  "Whether there are more pages"
+  hasNextPage: Boolean!
+}
+
+"""
+Root Query type
+"""
+type Query {
+  """
+  Get the currently authenticated user
+  """
+  me: User
+
+  """
+  Get a user by ID
+  """
+  user(
+    "The user ID"
+    id: ID!
+  ): User
+
+  """
+  List all users with pagination
+  """
+  users(
+    "Pagination options"
+    pagination: PaginationInput
+  ): UserConnection!
+
+  """
+  Get a project by ID
+  """
+  project(
+    "The project ID"
+    id: ID!
+  ): Project
+
+  """
+  List all projects with pagination
+  """
+  projects(
+    "Pagination options"
+    pagination: PaginationInput
+    "Filter by status"
+    status: ProjectStatus
+  ): ProjectConnection!
+
+  """
+  Search projects by name
+  """
+  searchProjects(
+    "Search query"
+    query: String!
+    "Maximum results"
+    limit: Int = 10
+  ): [Project!]!
+}
+
+"""
+Root Mutation type
+"""
+type Mutation {
+  """
+  Create a new user account
+  """
+  createUser(
+    "User creation input"
+    input: CreateUserInput!
+  ): User!
+
+  """
+  Update an existing user
+  """
+  updateUser(
+    "The user ID to update"
+    id: ID!
+    "Update input"
+    input: UpdateUserInput!
+  ): User!
+
+  """
+  Delete a user account
+  """
+  deleteUser(
+    "The user ID to delete"
+    id: ID!
+  ): Boolean!
+
+  """
+  Create a new project
+  """
+  createProject(
+    "Project creation input"
+    input: CreateProjectInput!
+  ): Project!
+
+  """
+  Update an existing project
+  """
+  updateProject(
+    "The project ID to update"
+    id: ID!
+    "Update input"
+    input: UpdateProjectInput!
+  ): Project!
+
+  """
+  Delete a project
+  """
+  deleteProject(
+    "The project ID to delete"
+    id: ID!
+  ): Boolean!
+
+  """
+  Add a collaborator to a project
+  """
+  addCollaborator(
+    "The project ID"
+    projectId: ID!
+    "The user ID to add"
+    userId: ID!
+  ): Project!
+
+  """
+  Remove a collaborator from a project
+  """
+  removeCollaborator(
+    "The project ID"
+    projectId: ID!
+    "The user ID to remove"
+    userId: ID!
+  ): Project!
+}
+
+"""
+Root Subscription type
+"""
+type Subscription {
+  """
+  Subscribe to user updates
+  """
+  userUpdated(
+    "The user ID to watch"
+    userId: ID!
+  ): User!
+
+  """
+  Subscribe to project updates
+  """
+  projectUpdated(
+    "The project ID to watch"
+    projectId: ID!
+  ): Project!
+
+  """
+  Subscribe to new projects
+  """
+  projectCreated: Project!
+}

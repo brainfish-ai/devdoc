@@ -1,0 +1,192 @@
+---
+title: "Notice"
+description: "Add a notice to display important site-wide announcements and notifications"
+---
+
+Use notices to display important announcements, updates, or notifications across your entire documentation site. Notices appear at the top of every page, support Markdown formatting, and can be made dismissible.
+
+## Configuration
+
+Add a notice by including the `notice` property in your `docs.json`:
+
+```json title="docs.json"
+{
+  "notice": {
+    "content": "🚀 Version 2.0 is now live! See our [changelog](/changelog) for details.",
+    "dismissible": true
+  }
+}
+```
+
+## Properties
+
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Required</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>content</td>
+      <td>string</td>
+      <td>Yes</td>
+      <td>The notice message. Supports plain text and Markdown formatting.</td>
+    </tr>
+    <tr>
+      <td>dismissible</td>
+      <td>boolean</td>
+      <td>No</td>
+      <td>Whether users can dismiss the notice. When true, users can close the notice and it won't reappear for their session. Defaults to false.</td>
+    </tr>
+    <tr>
+      <td>background</td>
+      <td>string</td>
+      <td>No</td>
+      <td>Custom background color. Accepts hex codes (e.g., "#1e293b"), RGB values, or any valid CSS color. Defaults to a neutral dark slate (#1e293b) that works with any theme.</td>
+    </tr>
+  </tbody>
+</table>
+
+## Use Cases
+
+### Product Announcements
+
+```json
+{
+  "notice": {
+    "content": "🎉 New feature: AI-powered search is now available!",
+    "dismissible": true
+  }
+}
+```
+
+### Maintenance Notices
+
+```json
+{
+  "notice": {
+    "content": "⚠️ Scheduled maintenance on Jan 20th, 2-4 AM UTC. [Learn more](/status)",
+    "dismissible": false
+  }
+}
+```
+
+### Required Actions
+
+```json
+{
+  "notice": {
+    "content": "🔔 Action required: Update your API keys before March 1st. [Migration guide](/migrate)",
+    "dismissible": false
+  }
+}
+```
+
+## Background Colors
+
+Customize the notice background to match the message type:
+
+### Info (Blue)
+
+```json
+{
+  "notice": {
+    "content": "📘 New documentation available for v2.0",
+    "background": "#1e40af"
+  }
+}
+```
+
+### Warning (Amber)
+
+```json
+{
+  "notice": {
+    "content": "⚠️ Scheduled maintenance tomorrow at 2 AM UTC",
+    "background": "#b45309"
+  }
+}
+```
+
+### Success (Green)
+
+```json
+{
+  "notice": {
+    "content": "✅ All systems operational",
+    "background": "#15803d"
+  }
+}
+```
+
+### Error/Critical (Red)
+
+```json
+{
+  "notice": {
+    "content": "🚨 Service disruption in progress. [Status page](/status)",
+    "background": "#b91c1c",
+    "dismissible": false
+  }
+}
+```
+
+### Dark/Neutral
+
+```json
+{
+  "notice": {
+    "content": "🚀 Welcome to our documentation!",
+    "background": "#1e293b"
+  }
+}
+```
+
+## Markdown Support
+
+Notice content supports Markdown formatting including:
+
+- **Links**: `[link text](/path)` or `[external](https://example.com)`
+- **Bold**: `**important**`
+- **Italic**: `*emphasis*`
+- **Code**: `` `inline code` ``
+
+Example with rich formatting:
+
+```json
+{
+  "notice": {
+    "content": "📢 **Breaking change** in v3.0: The `oldMethod()` is deprecated. [See migration guide](/migrate).",
+    "dismissible": true
+  }
+}
+```
+
+## Dismissible Behavior
+
+When `dismissible` is set to `true`:
+
+1. A close button (X) appears on the right side of the notice
+2. Clicking the button hides the notice for the current session
+3. The notice reappears when the user starts a new session
+4. Dismissal state is stored in browser session storage
+
+<Tip>
+Use dismissible notices for non-critical announcements. For important notices that users must see, set `dismissible` to `false`.
+</Tip>
+
+## Best Practices
+
+<Note>
+Keep notice messages concise - aim for one line of text. Long messages may wrap on smaller screens.
+</Note>
+
+- **Be concise**: Keep messages short and actionable
+- **Use emojis**: Add visual interest with relevant emojis
+- **Include links**: Direct users to more information when relevant
+- **Consider urgency**: Use non-dismissible notices only for critical information
+- **Test on mobile**: Ensure notice content displays well on smaller screens

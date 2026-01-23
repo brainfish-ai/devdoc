@@ -1,0 +1,187 @@
+---
+title: DevDoc
+description: Beautiful documentation for your APIs and products
+mode: custom
+hideHeader: true
+---
+
+<Hero variant="default" minHeight="lg">
+  <Center gap="lg">
+    {/* ASCII Art Logo - inherits text color from Hero variant */}
+    <div className="w-full flex items-center justify-center overflow-hidden mb-4">
+      <pre 
+        className="text-[8px] sm:text-[10px] md:text-[12px] lg:text-[14px] select-none"
+        style={{
+          fontFamily: "'Courier New', Consolas, 'Liberation Mono', monospace",
+          lineHeight: 1.1,
+          letterSpacing: 0,
+        }}
+      >{`██████╗ ███████╗██╗   ██╗██████╗  ██████╗  ██████╗
+██╔══██╗██╔════╝██║   ██║██╔══██╗██╔═══██╗██╔════╝
+██║  ██║█████╗  ██║   ██║██║  ██║██║   ██║██║     
+██║  ██║██╔══╝  ╚██╗ ██╔╝██║  ██║██║   ██║██║     
+██████╔╝███████╗ ╚████╔╝ ██████╔╝╚██████╔╝╚██████╗
+╚═════╝ ╚══════╝  ╚═══╝  ╚═════╝  ╚═════╝  ╚═════╝`}</pre>
+    </div>
+    
+    <Tagline variant="muted" tracking="widest">
+      DEVELOPER DOCUMENTATION PLATFORM
+    </Tagline>
+    
+    <Headline size="xl">
+      Beautiful docs in minutes, not days.
+    </Headline>
+    
+    <Description size="lg" maxWidth="lg">
+      DevDoc helps you create stunning, fast, and searchable documentation 
+      for your APIs and products. Write in MDX, deploy with one command.
+    </Description>
+    
+    <Spacer size="md" />
+    
+    <CommandBox command="npx @brainfish-ai/devdoc create my-docs" />
+    
+    <Spacer size="sm" />
+    
+    <div className="flex flex-wrap gap-4 justify-center">
+      <ButtonLink href="#guides/page/quickstart" variant="primary" size="lg" icon="arrow-right">
+        Get Started
+      </ButtonLink>
+      <ButtonLink href="https://github.com/brainfish-ai/devdoc" variant="outline" size="lg" icon="github-logo" iconPosition="left">
+        View on GitHub
+      </ButtonLink>
+    </div>
+  </Center>
+</Hero>
+
+<Section variant="default" padding="xl">
+  <Center gap="lg">
+    <Tagline variant="muted">WHY DEVDOC</Tagline>
+    <Headline size="lg">
+      Everything you need for great docs
+    </Headline>
+  </Center>
+  
+  <Spacer size="lg" />
+  
+  <FeatureGrid cols={3}>
+    <FeatureItem title="Fast Setup">
+      Deploy your docs in under 5 minutes with a single command. 
+      No complex configuration required.
+    </FeatureItem>
+    
+    <FeatureItem title="Beautiful by Default">
+      Modern design with dark mode, syntax highlighting, 
+      and responsive layout out of the box.
+    </FeatureItem>
+    
+    <FeatureItem title="Developer First">
+      Write in MDX, deploy from CLI, integrate with your 
+      CI/CD pipeline seamlessly.
+    </FeatureItem>
+    
+    <FeatureItem title="OpenAPI Support">
+      Auto-generate interactive API reference from your 
+      OpenAPI/Swagger specification.
+    </FeatureItem>
+    
+    <FeatureItem title="GraphQL Playground">
+      Built-in GraphQL explorer with query execution 
+      and schema documentation.
+    </FeatureItem>
+    
+    <FeatureItem title="AI-Powered Search">
+      Help users find answers instantly with semantic 
+      search and AI chat assistant.
+    </FeatureItem>
+  </FeatureGrid>
+</Section>
+
+<Divider variant="gradient" />
+
+<Section variant="muted" padding="xl">
+  <Center gap="lg">
+    <Tagline variant="muted">GET STARTED</Tagline>
+    <Headline size="lg">
+      Three steps to launch
+    </Headline>
+  </Center>
+  
+  <Spacer size="lg" />
+  
+  <div className="max-w-2xl mx-auto">
+    <Steps>
+      <Step title="Create a new project">
+        ```bash
+        npx @brainfish-ai/devdoc create my-docs
+        cd my-docs
+        ```
+        Choose from **basic**, **openapi**, or **graphql** templates.
+      </Step>
+      
+      <Step title="Preview locally">
+        ```bash
+        npm run dev
+        ```
+        Make changes and see them instantly with hot reload.
+      </Step>
+      
+      <Step title="Deploy">
+        ```bash
+        npx devdoc deploy
+        ```
+        Your docs are live at `https://my-docs-xxxxx.devdoc.sh`
+      </Step>
+    </Steps>
+  </div>
+</Section>
+
+<Section variant="default" padding="xl">
+  <Center gap="lg">
+    <Tagline variant="muted">LIVE DEMOS</Tagline>
+    <Headline size="lg">
+      See DevDoc in action
+    </Headline>
+    <Description size="md" maxWidth="md">
+      Explore our template demos to see what you can build.
+    </Description>
+  </Center>
+  
+  <Spacer size="lg" />
+  
+  <CardGroup cols={3}>
+    <Card title="Basic" icon="file-text" href="https://basic.devdoc.sh">
+      Simple documentation site with guides and pages.
+    </Card>
+    <Card title="OpenAPI" icon="plug" href="https://openapi.devdoc.sh">
+      REST API documentation with interactive playground.
+    </Card>
+    <Card title="GraphQL" icon="graph" href="https://graphql.devdoc.sh">
+      GraphQL API explorer with query execution.
+    </Card>
+  </CardGroup>
+</Section>
+
+<Divider variant="gradient" />
+
+<Section variant="accent" padding="xl">
+  <Center gap="md">
+    <Headline size="lg">
+      Ready to build better docs?
+    </Headline>
+    <Description size="md" maxWidth="md">
+      Get started in minutes. No credit card required.
+    </Description>
+    
+    <Spacer size="md" />
+    
+    <div className="flex flex-wrap gap-4 justify-center">
+      <ButtonLink href="#guides/page/quickstart" variant="primary" size="lg" icon="arrow-right">
+        Start Building
+      </ButtonLink>
+      <ButtonLink href="#guides/page/cli/overview" variant="outline" size="lg" icon="terminal" iconPosition="left">
+        CLI Reference
+      </ButtonLink>
+    </div>
+  </Center>
+</Section>

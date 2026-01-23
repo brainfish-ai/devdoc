@@ -1,0 +1,25 @@
+{
+  "$schema": "https://devdoc.sh/theme.json",
+  "name": "Default",
+  "description": "The default DevDoc theme - clean and professional",
+  "colors": {
+    "primary": "#10b981",
+    "primaryLight": "#34d399",
+    "primaryDark": "#059669"
+  },
+  "typography": {
+    "fontFamily": "Inter, system-ui, sans-serif",
+    "headingFontFamily": "Inter, system-ui, sans-serif",
+    "codeFontFamily": "'JetBrains Mono', 'Fira Code', monospace"
+  },
+  "header": {
+    "showSearch": true,
+    "showThemeToggle": true,
+    "showAskAI": true
+  },
+  "layout": {
+    "sidebarWidth": 280,
+    "contentMaxWidth": 768
+  },
+  "defaultTheme": "system"
+}

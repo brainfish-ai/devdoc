@@ -1,0 +1,71 @@
+---
+title: Introduction
+description: Getting started with the REST API
+---
+
+Welcome to the REST API documentation. This API follows RESTful conventions and uses standard HTTP methods.
+
+## Base URL
+
+All API requests should be made to:
+
+```
+https://api.example.com/v1
+```
+
+## Request Format
+
+The API accepts JSON-encoded request bodies and returns JSON-encoded responses.
+
+```bash
+curl -X POST https://api.example.com/v1/users \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -d '{"name": "John Doe", "email": "john@example.com"}'
+```
+
+## Response Format
+
+All responses include a consistent structure:
+
+```json
+{
+  "data": {
+    // Response data
+  },
+  "meta": {
+    "request_id": "req_abc123"
+  }
+}
+```
+
+## Pagination
+
+List endpoints support pagination using `limit` and `offset` parameters:
+
+```bash
+GET /v1/users?limit=20&offset=40
+```
+
+The response includes pagination metadata:
+
+```json
+{
+  "data": [...],
+  "meta": {
+    "total": 100,
+    "limit": 20,
+    "offset": 40
+  }
+}
+```
+
+<Note>
+  Use the **Try it out** button on any endpoint to test requests interactively.
+</Note>
+
+## Next Steps
+
+- Set up [Authentication](/api-reference/authentication)
+- Understand [Error Handling](/api-reference/errors)
+- Explore the endpoints in the sidebar

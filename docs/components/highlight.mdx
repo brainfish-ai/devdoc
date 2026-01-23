@@ -1,0 +1,108 @@
+---
+title: "Highlight"
+description: "Highlight important text with different visual styles"
+---
+
+Highlight important text with different visual styles and colors.
+
+## Marker Style (Default)
+
+The default highlight style resembles a marker pen:
+
+```jsx
+<Highlight>highlighted text</Highlight>
+```
+
+The <Highlight>Magic UI Highlighter</Highlight> makes important <Highlight color="blue">text stand out</Highlight> effortlessly.
+
+## Underline Style
+
+A clean underline effect:
+
+```jsx
+<Highlight variant="underline" color="orange">underlined text</Highlight>
+```
+
+The <Highlight variant="underline" color="orange">Magic UI Highlighter</Highlight> makes important <Highlight variant="underline" color="blue">text stand out</Highlight> effortlessly.
+
+## Box Style
+
+Text with a subtle background box:
+
+```jsx
+<Highlight variant="box" color="purple">boxed text</Highlight>
+```
+
+This is <Highlight variant="box" color="purple">important boxed text</Highlight> in your content.
+
+## Gradient Style
+
+A gradient background effect:
+
+```jsx
+<Highlight variant="gradient" color="pink">gradient highlight</Highlight>
+```
+
+Check out this <Highlight variant="gradient" color="pink">gradient highlight</Highlight> effect.
+
+## Shorthand Components
+
+Use `Marker` or `Underline` as convenient shortcuts:
+
+```jsx
+<Marker>yellow marker</Marker>
+<Marker color="blue">blue marker</Marker>
+<Underline>orange underline</Underline>
+<Underline color="pink">pink underline</Underline>
+```
+
+<Marker>yellow marker</Marker> and <Marker color="blue">blue marker</Marker> and <Underline>orange underline</Underline> and <Underline color="pink">pink underline</Underline>
+
+## All Colors
+
+### Marker Colors
+
+<Marker color="yellow">yellow</Marker> <Marker color="blue">blue</Marker> <Marker color="green">green</Marker> <Marker color="pink">pink</Marker> <Marker color="orange">orange</Marker> <Marker color="purple">purple</Marker> <Marker color="red">red</Marker>
+
+### Underline Colors
+
+<Underline color="yellow">yellow</Underline> <Underline color="blue">blue</Underline> <Underline color="green">green</Underline> <Underline color="pink">pink</Underline> <Underline color="orange">orange</Underline> <Underline color="purple">purple</Underline> <Underline color="red">red</Underline>
+
+### Box Colors
+
+<Highlight variant="box" color="yellow">yellow</Highlight> <Highlight variant="box" color="blue">blue</Highlight> <Highlight variant="box" color="green">green</Highlight> <Highlight variant="box" color="pink">pink</Highlight>
+
+### Gradient Colors
+
+<Highlight variant="gradient" color="yellow">yellow</Highlight> <Highlight variant="gradient" color="blue">blue</Highlight> <Highlight variant="gradient" color="pink">pink</Highlight> <Highlight variant="gradient" color="purple">purple</Highlight>
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `variant` | string | marker | Style: marker, underline, box, gradient |
+| `color` | string | yellow | Color: yellow, blue, green, pink, orange, purple, red |
+| `animated` | boolean | false | Enable pulse animation |
+| `className` | string | - | Custom CSS classes |
+
+## Shorthand Components
+
+### Marker
+
+Shorthand for `<Highlight variant="marker">`:
+
+```jsx
+<Marker color="blue">highlighted</Marker>
+// Equivalent to:
+<Highlight variant="marker" color="blue">highlighted</Highlight>
+```
+
+### Underline
+
+Shorthand for `<Highlight variant="underline">` with orange as default color:
+
+```jsx
+<Underline color="pink">underlined</Underline>
+// Equivalent to:
+<Highlight variant="underline" color="pink">underlined</Highlight>
+```

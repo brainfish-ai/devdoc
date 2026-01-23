@@ -1,0 +1,38 @@
+{
+  "$schema": "https://devdoc.sh/theme.json",
+  "logo": {
+    "url": "/assets/logo/light.svg",
+    "alt": "DevDoc",
+    "width": 180,
+    "height": 24
+  },
+  "header": {
+    "showAskAI": true,
+    "showSearch": true,
+    "showThemeToggle": true
+  },
+  "navbar": {
+    "links": [
+      {
+        "label": "GitHub",
+        "href": "https://github.com/brainfish-ai/devdoc",
+        "external": true
+      }
+    ],
+    "primary": {
+      "label": "Get Started",
+      "href": "/quickstart"
+    }
+  },
+  "colors": {
+    "primary": "#10B981",
+    "primaryLight": "#34D399",
+    "primaryDark": "#059669"
+  },
+  "typography": {
+    "fontFamily": "'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace",
+    "fontFamilyMono": "'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, monospace",
+    "baseFontSize": "15px"
+  },
+  "customCss": "custom.css"
+}

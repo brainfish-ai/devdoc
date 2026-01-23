@@ -1,0 +1,211 @@
+---
+title: Badge
+description: Use badges to highlight status, labels, or metadata inline or standalone.
+---
+
+Use badges to display status indicators, labels, or metadata. Badges can be used inline within text or as standalone elements.
+
+## Basic Badge
+
+<Badge>Badge</Badge>
+
+```jsx
+<Badge>Badge</Badge>
+```
+
+## Colors
+
+Badges support multiple color variants to convey different meanings.
+
+<div className="flex flex-wrap gap-2 my-4">
+  <Badge color="gray">Gray</Badge>
+  <Badge color="blue">Blue</Badge>
+  <Badge color="green">Green</Badge>
+  <Badge color="yellow">Yellow</Badge>
+  <Badge color="orange">Orange</Badge>
+  <Badge color="red">Red</Badge>
+  <Badge color="purple">Purple</Badge>
+  <Badge color="white">White</Badge>
+  <Badge color="surface">Surface</Badge>
+  <Badge color="white-destructive">Destructive</Badge>
+  <Badge color="surface-destructive">Surface Destructive</Badge>
+</div>
+
+```jsx
+<Badge color="gray">Gray</Badge>
+<Badge color="blue">Blue</Badge>
+<Badge color="green">Green</Badge>
+<Badge color="yellow">Yellow</Badge>
+<Badge color="orange">Orange</Badge>
+<Badge color="red">Red</Badge>
+<Badge color="purple">Purple</Badge>
+<Badge color="white">White</Badge>
+<Badge color="surface">Surface</Badge>
+<Badge color="white-destructive">Destructive</Badge>
+<Badge color="surface-destructive">Surface Destructive</Badge>
+```
+
+## Sizes
+
+Badges come in four sizes to match your content hierarchy.
+
+<div className="flex flex-wrap items-center gap-2 my-4">
+  <Badge size="xs">Extra Small</Badge>
+  <Badge size="sm">Small</Badge>
+  <Badge size="md">Medium</Badge>
+  <Badge size="lg">Large</Badge>
+</div>
+
+```jsx
+<Badge size="xs">Extra Small</Badge>
+<Badge size="sm">Small</Badge>
+<Badge size="md">Medium</Badge>
+<Badge size="lg">Large</Badge>
+```
+
+## Shapes
+
+Choose between rounded corners or pill-shaped badges.
+
+<div className="flex flex-wrap gap-2 my-4">
+  <Badge shape="rounded">Rounded</Badge>
+  <Badge shape="pill">Pill</Badge>
+</div>
+
+```jsx
+<Badge shape="rounded">Rounded</Badge>
+<Badge shape="pill">Pill</Badge>
+```
+
+## Icons
+
+Add icons to badges for additional context. Uses Phosphor icon names.
+
+<div className="flex flex-wrap gap-2 my-4">
+  <Badge icon="check-circle" color="green">Verified</Badge>
+  <Badge icon="clock" color="orange">Pending</Badge>
+  <Badge icon="x-circle" color="red">Failed</Badge>
+  <Badge icon="star" color="blue">Featured</Badge>
+  <Badge icon="lightning" color="purple">Fast</Badge>
+</div>
+
+```jsx
+<Badge icon="check-circle" color="green">Verified</Badge>
+<Badge icon="clock" color="orange">Pending</Badge>
+<Badge icon="x-circle" color="red">Failed</Badge>
+<Badge icon="star" color="blue">Featured</Badge>
+<Badge icon="lightning" color="purple">Fast</Badge>
+```
+
+## Stroke Variant
+
+Use the stroke variant for a more subtle appearance with an outline instead of filled background.
+
+<div className="flex flex-wrap gap-2 my-4">
+  <Badge stroke color="blue">Blue</Badge>
+  <Badge stroke color="green">Green</Badge>
+  <Badge stroke color="orange">Orange</Badge>
+  <Badge stroke color="red">Red</Badge>
+</div>
+
+```jsx
+<Badge stroke color="blue">Blue</Badge>
+<Badge stroke color="green">Green</Badge>
+<Badge stroke color="orange">Orange</Badge>
+<Badge stroke color="red">Red</Badge>
+```
+
+## Disabled State
+
+Disable badges to indicate inactive or unavailable states.
+
+<div className="flex flex-wrap gap-2 my-4">
+  <Badge disabled icon="lock" color="gray">Locked</Badge>
+  <Badge disabled icon="lock" color="blue">Disabled</Badge>
+</div>
+
+```jsx
+<Badge disabled icon="lock" color="gray">Locked</Badge>
+<Badge disabled icon="lock" color="blue">Disabled</Badge>
+```
+
+## Inline Usage
+
+Badges work naturally within text content. For example, this feature requires a <Badge color="orange" size="sm">Premium</Badge> subscription, or this API endpoint returns <Badge color="blue" size="sm">JSON</Badge> format.
+
+```jsx
+This feature requires a <Badge color="orange" size="sm">Premium</Badge> subscription.
+```
+
+## Combined Properties
+
+Combine multiple properties for custom badge styles.
+
+<div className="flex flex-wrap gap-2 my-4">
+  <Badge icon="star" color="blue" size="lg" shape="pill">Premium</Badge>
+  <Badge icon="check" stroke color="green" size="sm">Verified</Badge>
+  <Badge icon="warning" color="orange" shape="rounded">Beta</Badge>
+</div>
+
+```jsx
+<Badge icon="star" color="blue" size="lg" shape="pill">Premium</Badge>
+<Badge icon="check" stroke color="green" size="sm">Verified</Badge>
+<Badge icon="warning" color="orange" shape="rounded">Beta</Badge>
+```
+
+## Properties
+
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Default</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>color</td>
+      <td>string</td>
+      <td>"gray"</td>
+      <td>Badge color variant. Options: gray, blue, green, yellow, orange, red, purple, white, surface, white-destructive, surface-destructive.</td>
+    </tr>
+    <tr>
+      <td>size</td>
+      <td>string</td>
+      <td>"md"</td>
+      <td>Badge size. Options: xs, sm, md, lg.</td>
+    </tr>
+    <tr>
+      <td>shape</td>
+      <td>string</td>
+      <td>"rounded"</td>
+      <td>Badge shape. Options: rounded, pill.</td>
+    </tr>
+    <tr>
+      <td>icon</td>
+      <td>string</td>
+      <td>-</td>
+      <td>Phosphor icon name to display (e.g., "check-circle", "star", "warning").</td>
+    </tr>
+    <tr>
+      <td>stroke</td>
+      <td>boolean</td>
+      <td>false</td>
+      <td>Display badge with an outline instead of filled background.</td>
+    </tr>
+    <tr>
+      <td>disabled</td>
+      <td>boolean</td>
+      <td>false</td>
+      <td>Display badge in a disabled state with reduced opacity.</td>
+    </tr>
+    <tr>
+      <td>className</td>
+      <td>string</td>
+      <td>-</td>
+      <td>Additional CSS classes to apply to the badge.</td>
+    </tr>
+  </tbody>
+</table>

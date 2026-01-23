@@ -1,0 +1,72 @@
+{
+  "$schema": "https://devdoc.sh/docs.json",
+  "name": "My API Documentation",
+  "favicon": "/favicon.svg",
+  "logo": {
+    "light": "/logo.svg",
+    "dark": "/logo.svg"
+  },
+  "colors": {
+    "primary": "#10b981"
+  },
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Documentation",
+        "type": "docs",
+        "groups": [
+          {
+            "group": "Getting Started",
+            "icon": "rocket-launch",
+            "pages": [
+              "index",
+              "quickstart"
+            ]
+          },
+          {
+            "group": "Guides",
+            "icon": "book-open",
+            "pages": [
+              "guides/overview",
+              "guides/configuration"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "API Reference",
+        "type": "openapi",
+        "path": "/api-reference",
+        "versions": [
+          { "version": "v1", "spec": "api-reference/openapi.json", "default": true }
+        ],
+        "groups": [
+          {
+            "group": "Overview",
+            "icon": "book-open",
+            "pages": [
+              "api-reference/introduction",
+              "api-reference/authentication",
+              "api-reference/errors"
+            ]
+          }
+        ]
+      }
+    ],
+    "global": {
+      "anchors": [
+        {
+          "anchor": "GitHub",
+          "href": "https://github.com/your-org/your-repo",
+          "icon": "github-logo"
+        }
+      ]
+    }
+  },
+  "api": {
+    "baseUrl": "https://api.example.com",
+    "playground": {
+      "mode": "show"
+    }
+  }
+}

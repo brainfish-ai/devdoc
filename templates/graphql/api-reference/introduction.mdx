@@ -1,0 +1,54 @@
+---
+title: Introduction
+description: Getting started with the GraphQL API
+---
+
+Welcome to the GraphQL API documentation. This API provides a powerful and flexible way to query and mutate your data.
+
+## Base URL
+
+All GraphQL requests should be sent to:
+
+```
+https://api.example.com/graphql
+```
+
+## Making Requests
+
+All requests to the GraphQL API must be `POST` requests with a JSON body containing your query:
+
+```bash
+curl -X POST https://api.example.com/graphql \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -d '{"query": "{ users { id name } }"}'
+```
+
+## Response Format
+
+All responses are returned as JSON with the following structure:
+
+```json
+{
+  "data": {
+    // Your requested data
+  },
+  "errors": [
+    // Any errors that occurred (optional)
+  ]
+}
+```
+
+## Rate Limits
+
+The API is rate limited to **1000 requests per minute** per API key. If you exceed this limit, you'll receive a `429 Too Many Requests` response.
+
+<Note>
+  Use the **GraphQL API** explorer on the right to test queries interactively.
+</Note>
+
+## Next Steps
+
+- Learn about [Authentication](/api-reference/authentication) to secure your requests
+- Explore the schema using the interactive explorer
+- Try out queries in the playground

@@ -1,0 +1,230 @@
+---
+title: Redirects
+description: Configure redirects for moved, renamed, or deleted pages.
+---
+
+When you change the path of a file in your docs folder, it also changes the URL path to that page. This may happen when restructuring your docs or changing the sidebar title.
+
+<Note>
+  Hash-based redirects (e.g., `/#guides/page/index`) are supported and handled automatically via a query parameter redirect.
+</Note>
+
+## Setting Up Redirects
+
+Set up 301 redirects by adding the `redirects` field to your `docs.json` file.
+
+```json title="docs.json"
+{
+  "redirects": [
+    {
+      "source": "/source/path",
+      "destination": "/destination/path"
+    }
+  ]
+}
+```
+
+This permanently redirects `/source/path` to `/destination/path` so that you don't lose any previous SEO for the original page.
+
+## Wildcard Redirects
+
+To match a wildcard path, use `*` after a parameter. In this example, `/beta/:slug*` matches `/beta/introduction` and redirects it to `/v2/introduction`.
+
+```json title="docs.json"
+{
+  "redirects": [
+    {
+      "source": "/beta/:slug*",
+      "destination": "/v2/:slug*"
+    }
+  ]
+}
+```
+
+### Examples
+
+<table>
+  <thead>
+    <tr>
+      <th>Source URL</th>
+      <th>Destination URL</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>/beta/introduction</td>
+      <td>/v2/introduction</td>
+    </tr>
+    <tr>
+      <td>/beta/guides/quickstart</td>
+      <td>/v2/guides/quickstart</td>
+    </tr>
+    <tr>
+      <td>/beta/api/endpoints</td>
+      <td>/v2/api/endpoints</td>
+    </tr>
+  </tbody>
+</table>
+
+## Partial Wildcard Redirects
+
+Use partial wildcards to match URL segments that start with a specific prefix.
+
+```json title="docs.json"
+{
+  "redirects": [
+    {
+      "source": "/articles/concepts-*",
+      "destination": "/collections/overview"
+    }
+  ]
+}
+```
+
+This matches any URLs with the `/articles/concepts-` path, such as `/articles/concepts-getting-started` and `/articles/concepts-overview`, and redirects them all to `/collections/overview`.
+
+### Preserving Wildcard Values
+
+You can also substitute the captured wildcard value in the destination.
+
+```json title="docs.json"
+{
+  "redirects": [
+    {
+      "source": "/old/article-*",
+      "destination": "/new/article-*"
+    }
+  ]
+}
+```
+
+This redirects `/old/article-123` to `/new/article-123`, preserving the captured value after the prefix.
+
+## Multiple Redirects
+
+Add multiple redirect rules as needed:
+
+```json title="docs.json"
+{
+  "redirects": [
+    {
+      "source": "/getting-started",
+      "destination": "/quickstart"
+    },
+    {
+      "source": "/api-docs/:slug*",
+      "destination": "/api-reference/:slug*"
+    },
+    {
+      "source": "/blog/announcements-*",
+      "destination": "/changelog"
+    }
+  ]
+}
+```
+
+## Common Use Cases
+
+### Renamed Pages
+
+When you rename a page or change its slug:
+
+```json
+{
+  "source": "/introduction",
+  "destination": "/getting-started"
+}
+```
+
+### Restructured Sections
+
+When moving pages to a new section:
+
+```json
+{
+  "source": "/guides/authentication",
+  "destination": "/security/authentication"
+}
+```
+
+### Consolidated Content
+
+When merging multiple pages into one:
+
+```json
+{
+  "redirects": [
+    {
+      "source": "/setup/installation",
+      "destination": "/quickstart"
+    },
+    {
+      "source": "/setup/configuration",
+      "destination": "/quickstart"
+    }
+  ]
+}
+```
+
+### Version Migration
+
+When deprecating an old API version:
+
+```json
+{
+  "source": "/v1/:slug*",
+  "destination": "/v2/:slug*"
+}
+```
+
+## Avoid Infinite Redirects
+
+<Warning>
+  Do not create circular redirects where paths redirect back to each other. This will cause infinite redirect loops.
+</Warning>
+
+```json title="Bad Example - Infinite Loop"
+{
+  "redirects": [
+    {
+      "source": "/docs/:slug*",
+      "destination": "/help/:slug*"
+    },
+    {
+      "source": "/help/:slug*",
+      "destination": "/docs/:slug*"
+    }
+  ]
+}
+```
+
+## Redirect Properties
+
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Required</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>source</td>
+      <td>string</td>
+      <td>Yes</td>
+      <td>The original URL path to redirect from. Supports wildcards with <code>:slug*</code> or partial wildcards with <code>*</code>.</td>
+    </tr>
+    <tr>
+      <td>destination</td>
+      <td>string</td>
+      <td>Yes</td>
+      <td>The target URL path to redirect to. Can include wildcard placeholders to preserve matched segments.</td>
+    </tr>
+  </tbody>
+</table>
+
+<Note>
+  All redirects are permanent 301 redirects, which tells search engines to update their index with the new URL.
+</Note>

@@ -1,0 +1,105 @@
+---
+title: "Tabs"
+description: "Organize content into tabbed sections"
+---
+
+Organize content into tabbed sections for better navigation.
+
+## Basic Tabs
+
+```jsx
+<Tabs>
+  <Tab title="JavaScript">
+    JavaScript code and examples here.
+  </Tab>
+  <Tab title="Python">
+    Python code and examples here.
+  </Tab>
+</Tabs>
+```
+
+<Tabs>
+  <Tab title="JavaScript">
+    Use `console.log()` to print messages to the console.
+  </Tab>
+  <Tab title="Python">
+    Use `print()` to output text in Python.
+  </Tab>
+  <Tab title="Ruby">
+    Use `puts` to print in Ruby.
+  </Tab>
+</Tabs>
+
+## Code Examples
+
+Perfect for showing code in multiple languages:
+
+<Tabs>
+  <Tab title="npm">
+    ```bash
+    npm install @example/sdk
+    ```
+  </Tab>
+  <Tab title="yarn">
+    ```bash
+    yarn add @example/sdk
+    ```
+  </Tab>
+  <Tab title="pnpm">
+    ```bash
+    pnpm add @example/sdk
+    ```
+  </Tab>
+</Tabs>
+
+## Framework Examples
+
+Show implementation across different frameworks:
+
+<Tabs>
+  <Tab title="React">
+    ```jsx
+    import { Button } from '@example/react'
+    
+    export function App() {
+      return <Button>Click me</Button>
+    }
+    ```
+  </Tab>
+  <Tab title="Vue">
+    ```vue
+    <template>
+      <Button>Click me</Button>
+    </template>
+    
+    <script setup>
+    import { Button } from '@example/vue'
+    </script>
+    ```
+  </Tab>
+  <Tab title="Svelte">
+    ```svelte
+    <script>
+      import { Button } from '@example/svelte'
+    </script>
+    
+    <Button>Click me</Button>
+    ```
+  </Tab>
+</Tabs>
+
+## Props
+
+### Tabs Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `children` | ReactNode | required | Tab components |
+| `defaultIndex` | number | 0 | Initially selected tab |
+
+### Tab Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `title` | string | required | Tab label |
+| `children` | ReactNode | required | Tab content |

@@ -1,0 +1,87 @@
+---
+title: "Navigation"
+description: "Configure your documentation navigation"
+---
+
+## Overview
+
+Navigation is configured in `docs.json`. You can organize content with tabs and groups.
+
+## Tabs
+
+Top-level navigation tabs:
+
+```json
+{
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Guides",
+        "groups": [...]
+      },
+      {
+        "tab": "API Reference",
+        "groups": [...]
+      }
+    ]
+  }
+}
+```
+
+## Groups
+
+Organize pages within tabs:
+
+```json
+{
+  "group": "Getting Started",
+  "pages": [
+    "index",
+    "quickstart",
+    "development"
+  ]
+}
+```
+
+## Page References
+
+Pages are referenced by their file path (without extension):
+
+| File | Reference |
+|------|-----------|
+| `index.mdx` | `"index"` |
+| `quickstart.mdx` | `"quickstart"` |
+| `guides/intro.mdx` | `"guides/intro"` |
+
+## Global Anchors
+
+Add external links to the sidebar:
+
+```json
+{
+  "global": {
+    "anchors": [
+      {
+        "anchor": "GitHub",
+        "href": "https://github.com/your-org",
+        "icon": "github-logo"
+      }
+    ]
+  }
+}
+```
+
+## Icons
+
+Use Phosphor icon names for icons:
+
+<CardGroup cols={3}>
+  <Card title="rocket" icon="rocket" />
+  <Card title="book" icon="book" />
+  <Card title="code" icon="code" />
+  <Card title="gear" icon="gear" />
+  <Card title="lightning" icon="lightning" />
+  <Card title="star" icon="star" />
+</CardGroup>
+
+Browse all icons at [phosphoricons.com](https://phosphoricons.com).

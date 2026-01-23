@@ -1,0 +1,255 @@
+---
+title: devdoc create
+description: Create a new DevDoc documentation site with templates
+---
+
+The `devdoc create` command scaffolds a new documentation project with your choice of template.
+
+## Usage
+
+```bash
+devdoc create [project-directory] [options]
+```
+
+## Options
+
+| Option | Description |
+|--------|-------------|
+| `-t, --template <type>` | Template to use: `basic`, `openapi`, or `graphql` |
+| `--no-git` | Skip git initialization |
+| `--no-install` | Skip dependency installation |
+| `-h, --help` | Show help |
+
+## Templates
+
+Choose the template that best fits your documentation needs:
+
+<CardGroup cols={3}>
+  <Card title="Basic" icon="file-text" href="https://basic.devdoc.sh">
+    Simple documentation with guides and pages. Perfect for getting started.
+  </Card>
+  <Card title="OpenAPI" icon="plug" href="https://openapi.devdoc.sh">
+    Includes REST API reference with interactive playground. Uses OpenAPI/Swagger spec.
+  </Card>
+  <Card title="GraphQL" icon="graph" href="https://graphql.devdoc.sh">
+    Includes GraphQL API playground with schema explorer and query execution.
+  </Card>
+</CardGroup>
+
+<Tip>
+  Click on any template card above to see a live demo!
+</Tip>
+
+### Basic Template
+
+A minimal documentation site with essential pages:
+
+```
+my-docs/
+├── docs.json
+├── index.mdx
+├── quickstart.mdx
+├── guides/
+│   ├── overview.mdx
+│   └── configuration.mdx
+└── public/
+    ├── favicon.svg
+    └── logo.svg
+```
+
+### OpenAPI Template
+
+Documentation with REST API reference:
+
+```
+my-docs/
+├── docs.json
+├── index.mdx
+├── quickstart.mdx
+├── guides/
+│   ├── overview.mdx
+│   └── configuration.mdx
+├── api-reference/
+│   └── openapi.json      # Your OpenAPI spec
+└── public/
+    ├── favicon.svg
+    └── logo.svg
+```
+
+The `docs.json` includes an API Reference tab configured to load the OpenAPI spec:
+
+```json
+{
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Documentation",
+        "type": "docs",
+        "groups": [...]
+      },
+      {
+        "tab": "API Reference",
+        "type": "openapi",
+        "path": "/api-reference",
+        "versions": [
+          { "version": "v1", "spec": "api-reference/openapi.json", "default": true }
+        ]
+      }
+    ]
+  }
+}
+```
+
+### GraphQL Template
+
+Documentation with GraphQL API playground:
+
+```
+my-docs/
+├── docs.json
+├── index.mdx
+├── quickstart.mdx
+├── guides/
+│   ├── overview.mdx
+│   └── configuration.mdx
+├── api-reference/
+│   └── schema.graphql    # Your GraphQL schema
+└── public/
+    ├── favicon.svg
+    └── logo.svg
+```
+
+The `docs.json` includes a GraphQL API tab:
+
+```json
+{
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Documentation",
+        "type": "docs",
+        "groups": [...]
+      },
+      {
+        "tab": "GraphQL API",
+        "type": "graphql",
+        "path": "/graphql-api",
+        "schema": "api-reference/schema.graphql",
+        "endpoint": "https://api.example.com/graphql"
+      }
+    ]
+  }
+}
+```
+
+## Examples
+
+### Interactive Mode
+
+Run without arguments to be prompted for project name and template:
+
+```bash
+devdoc create
+```
+
+```
+🐟 Create DevDoc Doc
+
+What is your project named? (my-docs): my-api-docs
+
+Which template would you like to use?
+
+  1. Basic - Simple documentation site with guides and pages
+  2. OpenAPI - Documentation with REST API reference (OpenAPI/Swagger)
+  3. GraphQL - Documentation with GraphQL API playground
+
+Enter number: 2
+
+Enter subdomain for your-project.devdoc.sh (my-api-docs): my-api-docs
+Checking if my-api-docs.devdoc.sh is available...
+✓ my-api-docs.devdoc.sh is available!
+
+Creating a new OpenAPI DevDoc documentation site in /path/to/my-api-docs
+...
+
+✓ Created my-api-docs at /path/to/my-api-docs
+
+Your docs will be available at:
+  https://my-api-docs.devdoc.sh
+
+○ Note: The subdomain will be reserved when you run "devdoc deploy"
+```
+
+<Note>
+  The subdomain is checked for availability but **not reserved until you deploy**. This prevents subdomain squatting.
+</Note>
+
+### With Project Name
+
+Specify the project directory, then select a template:
+
+```bash
+devdoc create my-docs
+```
+
+### Fully Specified
+
+Skip all prompts:
+
+```bash
+# Basic template
+devdoc create my-docs --template basic
+
+# OpenAPI template
+devdoc create my-docs --template openapi
+
+# GraphQL template
+devdoc create my-docs --template graphql
+```
+
+### Skip Git and Install
+
+For CI environments or manual setup:
+
+```bash
+devdoc create my-docs --template basic --no-git --no-install
+```
+
+## After Creating
+
+Once your project is created:
+
+<Steps>
+  <Step title="Navigate to your project">
+    ```bash
+    cd my-docs
+    ```
+  </Step>
+  
+  <Step title="Start development server">
+    ```bash
+    npm run dev
+    # or
+    devdoc dev
+    ```
+
+    Your browser will automatically open to [http://localhost:3333](http://localhost:3333) with your docs.
+  </Step>
+</Steps>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Configuration" icon="gear" href="/config/docs-json">
+    Customize your docs.json settings.
+  </Card>
+  <Card title="Writing Content" icon="pencil-simple" href="/essentials/markdown">
+    Learn MDX syntax and components.
+  </Card>
+  <Card title="OpenAPI Setup" icon="plug" href="/essentials/openapi">
+    Configure REST API documentation.
+  </Card>
+  <Card title="GraphQL Setup" icon="graph" href="/essentials/graphql">
+    Configure GraphQL playground.
+  </Card>
+</CardGroup>

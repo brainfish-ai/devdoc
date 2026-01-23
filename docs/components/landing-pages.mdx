@@ -1,0 +1,431 @@
+---
+title: Landing Pages
+description: Build custom landing pages with MDX components
+---
+
+DevDoc provides a set of components to build beautiful custom landing pages for your documentation. These components allow you to create hero sections, feature grids, CTAs, and more—all using MDX.
+
+## Setting Up a Custom Page
+
+To create a custom landing page, add these frontmatter options to your MDX file:
+
+```yaml
+---
+title: My Landing Page
+description: A custom landing page
+mode: custom
+hideHeader: true
+---
+```
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `mode` | `'default' \| 'wide' \| 'custom'` | Set to `custom` for full-width landing pages |
+| `hideHeader` | `boolean` | Hides the default page header |
+| `fullWidth` | `boolean` | Removes max-width constraints |
+| `background` | `string` | Custom background CSS value |
+
+## Components
+
+### Hero
+
+A full-width hero section for the top of your landing page.
+
+```jsx
+<Hero variant="dark" minHeight="lg" align="center">
+  {/* Your content here */}
+</Hero>
+```
+
+**Props:**
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `variant` | `'default' \| 'gradient' \| 'dark' \| 'pattern'` | `'default'` | Background style |
+| `align` | `'top' \| 'center' \| 'bottom'` | `'center'` | Vertical alignment |
+| `minHeight` | `'sm' \| 'md' \| 'lg' \| 'full'` | `'md'` | Minimum height (40vh, 60vh, 80vh, 100vh) |
+
+**Variants:**
+- `default` — Standard background color
+- `gradient` — Subtle gradient from top to bottom
+- `dark` — Dark background with white text
+- `pattern` — Radial gradient pattern
+
+---
+
+### Center
+
+Centers content horizontally with optional vertical spacing between children.
+
+```jsx
+<Center gap="lg">
+  <Tagline>WELCOME</Tagline>
+  <Headline>Hello World</Headline>
+  <Description>Some description text</Description>
+</Center>
+```
+
+**Props:**
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `gap` | `'none' \| 'sm' \| 'md' \| 'lg'` | `'md'` | Vertical spacing between children |
+
+---
+
+### Tagline
+
+Uppercase text for subtitles or category labels.
+
+```jsx
+<Tagline variant="muted" tracking="widest">
+  DEVELOPER PLATFORM
+</Tagline>
+```
+
+**Props:**
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `variant` | `'default' \| 'muted' \| 'accent'` | `'default'` | Text color variant |
+| `tracking` | `'normal' \| 'wide' \| 'wider' \| 'widest'` | `'wider'` | Letter spacing |
+
+---
+
+### Headline
+
+Large display text for main headlines.
+
+```jsx
+<Headline size="xl" weight="bold">
+  Beautiful docs in minutes
+</Headline>
+```
+
+**Props:**
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `size` | `'md' \| 'lg' \| 'xl' \| '2xl'` | `'xl'` | Text size |
+| `weight` | `'normal' \| 'medium' \| 'semibold' \| 'bold'` | `'normal'` | Font weight |
+
+---
+
+### Description
+
+Body text for hero descriptions and supporting content.
+
+```jsx
+<Description size="lg" maxWidth="lg">
+  DevDoc helps you create stunning documentation for your APIs.
+</Description>
+```
+
+**Props:**
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `size` | `'sm' \| 'md' \| 'lg'` | `'lg'` | Text size |
+| `maxWidth` | `'sm' \| 'md' \| 'lg' \| 'full'` | `'lg'` | Maximum width constraint |
+
+---
+
+### CommandBox
+
+A copyable command display with click-to-copy functionality.
+
+```jsx
+<CommandBox 
+  command="npx @brainfish-ai/devdoc create my-docs" 
+  prefix="$"
+  variant="default"
+/>
+```
+
+**Props:**
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `command` | `string` | — | The command to display (required) |
+| `prefix` | `string` | `'$'` | Prefix symbol (e.g., `$`, `>`) |
+| `variant` | `'default' \| 'minimal' \| 'bordered'` | `'default'` | Visual style |
+
+---
+
+### Section
+
+A full-width section wrapper for organizing content.
+
+```jsx
+<Section variant="muted" padding="xl" id="features">
+  {/* Section content */}
+</Section>
+```
+
+**Props:**
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `variant` | `'default' \| 'muted' \| 'dark' \| 'accent'` | `'default'` | Background style |
+| `padding` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'lg'` | Vertical padding |
+| `id` | `string` | — | Section ID for anchor links |
+
+---
+
+### FeatureGrid
+
+A responsive grid layout for feature cards.
+
+```jsx
+<FeatureGrid cols={3}>
+  <FeatureItem title="Fast Setup">
+    Deploy in under 5 minutes.
+  </FeatureItem>
+  <FeatureItem title="Beautiful">
+    Modern design out of the box.
+  </FeatureItem>
+  <FeatureItem title="Developer First">
+    Write in MDX, deploy from CLI.
+  </FeatureItem>
+</FeatureGrid>
+```
+
+**Props:**
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `cols` | `2 \| 3 \| 4` | `3` | Number of columns |
+
+---
+
+### FeatureItem
+
+Individual feature card for use within `FeatureGrid`.
+
+```jsx
+<FeatureItem title="Fast Setup" icon={<RocketIcon />}>
+  Deploy your docs in under 5 minutes with a single command.
+</FeatureItem>
+```
+
+**Props:**
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `title` | `string` | — | Feature title |
+| `icon` | `ReactNode` | — | Optional icon element |
+
+---
+
+### ButtonLink
+
+Styled link buttons for CTAs.
+
+```jsx
+<ButtonLink href="/quickstart" variant="primary" size="lg">
+  Get Started
+</ButtonLink>
+
+<ButtonLink href="/docs" variant="outline" size="md">
+  Read Docs
+</ButtonLink>
+```
+
+**Props:**
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `href` | `string` | — | Link destination (required) |
+| `variant` | `'primary' \| 'secondary' \| 'outline' \| 'ghost'` | `'primary'` | Button style |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Button size |
+
+---
+
+### Spacer
+
+Adds vertical spacing between elements.
+
+```jsx
+<Spacer size="lg" />
+```
+
+**Props:**
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl' \| '2xl'` | `'md'` | Spacing amount |
+
+**Size values:** xs=8px, sm=16px, md=32px, lg=48px, xl=64px, 2xl=96px
+
+---
+
+### Divider
+
+Horizontal divider line between sections.
+
+```jsx
+<Divider variant="gradient" />
+```
+
+**Props:**
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `variant` | `'solid' \| 'dashed' \| 'gradient'` | `'solid'` | Divider style |
+
+---
+
+### Pre
+
+Pre-formatted monospace text for logos, terminal output, or structured content that needs to preserve whitespace and alignment.
+
+**Example 1: Text Logo**
+
+```jsx
+<Pre size="lg" color="primary" align="center">
+{`[ DEVDOC ]`}
+</Pre>
+```
+
+**Example 2: Terminal Output**
+
+```jsx
+<Pre size="sm" color="muted" align="left">
+{`$ npm install my-package
+added 42 packages in 2.1s
+
+$ npm run build
+✓ Compiled successfully in 1.2s
+✓ Output: dist/`}
+</Pre>
+```
+
+**Example 3: Version Banner**
+
+```jsx
+<Pre size="md" color="white" align="center">
+{`╭─────────────────────────────╮
+│   Version 2.0 Released!     │
+│   Now with Dark Mode 🌙     │
+╰─────────────────────────────╯`}
+</Pre>
+```
+
+**Props:**
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | Font size |
+| `align` | `'left' \| 'center' \| 'right'` | `'center'` | Text alignment |
+| `color` | `'default' \| 'muted' \| 'primary' \| 'white'` | `'default'` | Text color |
+| `leading` | `'none' \| 'tight' \| 'normal' \| 'relaxed'` | `'tight'` | Line height |
+| `decorative` | `boolean` | `false` | Hide from screen readers |
+
+---
+
+## Full Example
+
+Here's a complete example of a custom landing page:
+
+```mdx
+---
+title: My Product
+description: The best product ever
+mode: custom
+hideHeader: true
+---
+
+<Hero variant="dark" minHeight="lg">
+  <Center gap="lg">
+    <Tagline variant="muted" tracking="widest">
+      INTRODUCING
+    </Tagline>
+    
+    <Headline size="2xl" weight="bold">
+      My Amazing Product
+    </Headline>
+    
+    <Description size="lg" maxWidth="lg">
+      Build something incredible with our powerful platform.
+      Get started in minutes.
+    </Description>
+    
+    <Spacer size="md" />
+    
+    <CommandBox command="npm install my-product" />
+    
+    <Spacer size="sm" />
+    
+    <div className="flex flex-wrap gap-4 justify-center">
+      <ButtonLink href="/quickstart" variant="primary" size="lg">
+        Get Started
+      </ButtonLink>
+      <ButtonLink href="/docs" variant="outline" size="lg">
+        Documentation
+      </ButtonLink>
+    </div>
+  </Center>
+</Hero>
+
+<Section variant="default" padding="xl">
+  <Center gap="lg">
+    <Tagline variant="muted">FEATURES</Tagline>
+    <Headline size="lg">Why choose us</Headline>
+  </Center>
+  
+  <Spacer size="lg" />
+  
+  <FeatureGrid cols={3}>
+    <FeatureItem title="Lightning Fast">
+      Optimized for performance from the ground up.
+    </FeatureItem>
+    <FeatureItem title="Easy to Use">
+      Intuitive API that just makes sense.
+    </FeatureItem>
+    <FeatureItem title="Well Documented">
+      Comprehensive guides and examples.
+    </FeatureItem>
+  </FeatureGrid>
+</Section>
+
+<Divider variant="gradient" />
+
+<Section variant="dark" padding="xl">
+  <Center gap="md">
+    <Headline size="lg">Ready to start?</Headline>
+    <ButtonLink href="/quickstart" variant="primary" size="lg">
+      Get Started Now
+    </ButtonLink>
+  </Center>
+</Section>
+```
+
+## Using Custom HTML
+
+You can also use custom HTML/JSX directly in your MDX for advanced layouts:
+
+```jsx
+<div className="w-full flex items-center justify-center">
+  <pre 
+    className="text-sm font-mono text-white"
+    style={{
+      fontFamily: "'Courier New', monospace",
+      lineHeight: 1.1,
+    }}
+  >
+{`Your ASCII art or custom content here`}
+  </pre>
+</div>
+```
+
+<Callout type="tip">
+  Use Tailwind CSS classes directly in your MDX for quick styling adjustments.
+</Callout>
+
+## Tips
+
+1. **Keep it simple** — Start with the basic components and add complexity as needed
+2. **Test responsively** — All components are responsive, but test on different screen sizes
+3. **Use semantic sections** — Use `Section` with `id` props for anchor navigation
+4. **Consistent spacing** — Use `Spacer` components for consistent vertical rhythm
+5. **Dark sections** — Use `variant="dark"` on `Hero` and `Section` for contrast

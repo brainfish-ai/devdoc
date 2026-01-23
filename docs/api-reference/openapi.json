@@ -1,0 +1,721 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "DevDoc API",
+    "description": "The DevDoc API for managing documentation projects programmatically.",
+    "version": "1.0.0",
+    "contact": {
+      "name": "DevDoc Support",
+      "url": "https://devdoc.sh"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://api.devdoc.sh",
+      "description": "Production"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "Deploy",
+      "description": "Deploy and update documentation"
+    },
+    {
+      "name": "Projects",
+      "description": "Manage documentation projects"
+    },
+    {
+      "name": "Keys",
+      "description": "Manage API keys"
+    }
+  ],
+  "paths": {
+    "/api/deploy": {
+      "post": {
+        "operationId": "deploy",
+        "summary": "Deploy Documentation",
+        "description": "Deploy or update documentation. For new projects, an API key will be returned. For updates, the API key must be provided in the Authorization header.",
+        "tags": ["Deploy"],
+        "security": [
+          {},
+          { "bearerAuth": [] }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeployRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Deployment successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeployResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "API key required for updates",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Invalid API key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "operationId": "getDeployStatus",
+        "summary": "Check Deployment Status",
+        "description": "Check if a project exists and get its URL",
+        "tags": ["Deploy"],
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "query",
+            "required": true,
+            "description": "Project slug",
+            "schema": {
+              "type": "string",
+              "example": "my-docs-abc123"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Project found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "exists": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "slug": {
+                      "type": "string",
+                      "example": "my-docs-abc123"
+                    },
+                    "url": {
+                      "type": "string",
+                      "example": "https://my-docs-abc123.devdoc.sh"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Project not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "exists": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "slug": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/projects": {
+      "get": {
+        "operationId": "listProjects",
+        "summary": "List Projects",
+        "description": "List project(s) associated with the provided API key. Currently returns a single project per API key.",
+        "tags": ["Projects"],
+        "responses": {
+          "200": {
+            "description": "Projects list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectListResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "API key required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Invalid API key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/projects/{slug}": {
+      "get": {
+        "operationId": "getProject",
+        "summary": "Get Project Details",
+        "description": "Get detailed information about a project including file list",
+        "tags": ["Projects"],
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "description": "Project slug",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Project details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "API key required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "API key does not match this project",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Project not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "deleteProject",
+        "summary": "Delete Project",
+        "description": "Permanently delete a project and all its content",
+        "tags": ["Projects"],
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "description": "Project slug",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Project deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Project my-docs-abc123 has been deleted"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "API key required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "API key does not match this project",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Project not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/projects/{slug}/stats": {
+      "get": {
+        "operationId": "getProjectStats",
+        "summary": "Get Project Statistics",
+        "description": "Get statistics about a project including file counts and deployment info",
+        "tags": ["Projects"],
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "description": "Project slug",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Project statistics",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectStats"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "API key required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "API key does not match this project",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/keys/regenerate": {
+      "post": {
+        "operationId": "regenerateApiKey",
+        "summary": "Regenerate API Key",
+        "description": "Generate a new API key for a project. This invalidates the old key.",
+        "tags": ["Keys"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "slug": {
+                    "type": "string",
+                    "description": "Project slug",
+                    "example": "my-docs-abc123"
+                  }
+                },
+                "required": ["slug"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "New API key generated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "apiKey": {
+                      "type": "string",
+                      "description": "New API key",
+                      "example": "sk_live_abc123xyz..."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "API key required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Invalid API key for this project",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "API key (format: sk_live_xxx)"
+      }
+    },
+    "schemas": {
+      "DeployRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Project name from docs.json",
+            "example": "My Documentation"
+          },
+          "slug": {
+            "type": "string",
+            "description": "Existing project slug (for updates)",
+            "example": "my-docs-abc123"
+          },
+          "docsJson": {
+            "type": "object",
+            "description": "The docs.json configuration object"
+          },
+          "files": {
+            "type": "array",
+            "description": "Content files to deploy",
+            "items": {
+              "type": "object",
+              "properties": {
+                "path": {
+                  "type": "string",
+                  "description": "File path relative to project root",
+                  "example": "index.mdx"
+                },
+                "content": {
+                  "type": "string",
+                  "description": "File content"
+                }
+              },
+              "required": ["path", "content"]
+            }
+          }
+        },
+        "required": ["name", "docsJson", "files"]
+      },
+      "DeployResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "example": true
+          },
+          "slug": {
+            "type": "string",
+            "description": "Project slug",
+            "example": "my-docs-abc123"
+          },
+          "url": {
+            "type": "string",
+            "description": "Live documentation URL",
+            "example": "https://my-docs-abc123.devdoc.sh"
+          },
+          "blobUrl": {
+            "type": "string",
+            "description": "Storage URL"
+          },
+          "isUpdate": {
+            "type": "boolean",
+            "description": "Whether this was an update to existing project"
+          },
+          "filesCount": {
+            "type": "integer",
+            "description": "Number of files deployed"
+          },
+          "apiKey": {
+            "type": "string",
+            "description": "API key (only returned for new projects)",
+            "example": "sk_live_abc123xyz..."
+          }
+        }
+      },
+      "ProjectListResponse": {
+        "type": "object",
+        "properties": {
+          "projects": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Project"
+            }
+          }
+        }
+      },
+      "Project": {
+        "type": "object",
+        "properties": {
+          "slug": {
+            "type": "string",
+            "example": "my-docs-abc123"
+          },
+          "name": {
+            "type": "string",
+            "example": "My Documentation"
+          },
+          "url": {
+            "type": "string",
+            "example": "https://my-docs-abc123.devdoc.sh"
+          },
+          "filesCount": {
+            "type": "integer",
+            "example": 15
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "lastDeployedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "ProjectDetails": {
+        "type": "object",
+        "properties": {
+          "slug": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "lastDeployedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "filesCount": {
+            "type": "integer"
+          },
+          "totalSize": {
+            "type": "integer",
+            "description": "Total size in bytes"
+          },
+          "files": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "path": {
+                  "type": "string"
+                },
+                "size": {
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "config": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "favicon": {
+                "type": "string"
+              },
+              "navigation": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "ProjectStats": {
+        "type": "object",
+        "properties": {
+          "slug": {
+            "type": "string"
+          },
+          "stats": {
+            "type": "object",
+            "properties": {
+              "totalFiles": {
+                "type": "integer"
+              },
+              "mdxPages": {
+                "type": "integer"
+              },
+              "configFiles": {
+                "type": "integer"
+              },
+              "otherFiles": {
+                "type": "integer"
+              },
+              "totalSizeBytes": {
+                "type": "integer"
+              },
+              "totalSizeKB": {
+                "type": "number"
+              }
+            }
+          },
+          "deployment": {
+            "type": "object",
+            "properties": {
+              "createdAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "updatedAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "lastDeployedAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "daysSinceCreation": {
+                "type": "integer"
+              }
+            }
+          },
+          "analytics": {
+            "type": "object",
+            "properties": {
+              "pageViews": {
+                "type": "string",
+                "example": "coming soon"
+              },
+              "uniqueVisitors": {
+                "type": "string",
+                "example": "coming soon"
+              }
+            }
+          }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "description": "Error message",
+            "example": "API key required"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "$schema": "https://devdoc.sh/theme.json",
+  "name": "Enterprise",
+  "description": "Professional theme for enterprise documentation",
+  "extends": "github:brainfish-ai/devdoc/themes/default",
+  "colors": {
+    "primary": "#2563eb",
+    "primaryLight": "#3b82f6",
+    "primaryDark": "#1d4ed8"
+  },
+  "typography": {
+    "fontFamily": "'IBM Plex Sans', system-ui, sans-serif",
+    "headingFontFamily": "'IBM Plex Sans', system-ui, sans-serif",
+    "codeFontFamily": "'IBM Plex Mono', monospace"
+  },
+  "header": {
+    "showSearch": true,
+    "showThemeToggle": true,
+    "showAskAI": true
+  },
+  "layout": {
+    "sidebarWidth": 300,
+    "contentMaxWidth": 800
+  },
+  "defaultTheme": "system"
+}

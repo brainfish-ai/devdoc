@@ -1,0 +1,405 @@
+---
+title: Files & Assets
+description: Serve static assets and embed files with previews in your documentation.
+---
+
+Serve static assets from your documentation repository. All assets should be placed in the `assets/` folder at the root of your project.
+
+<Note>
+  **Convention:** All static files (images, videos, fonts, etc.) should go in the `assets/` folder. This is the recommended structure for DevDoc projects.
+</Note>
+
+## Project Structure
+
+```text
+/your-project
+  ├── docs.json
+  ├── theme.json
+  ├── assets/                    # All static assets go here
+  │   ├── logo/
+  │   │   ├── light.svg         # Light mode logo
+  │   │   └── dark.svg          # Dark mode logo
+  │   ├── images/
+  │   │   ├── hero.png
+  │   │   └── screenshots/
+  │   │       └── dashboard.png
+  │   ├── videos/
+  │   │   └── demo.mp4
+  │   └── fonts/
+  │       └── custom-font.woff2
+  ├── index.mdx
+  └── quickstart.mdx
+```
+
+Files in the `assets/` folder are automatically uploaded during deployment and served from your documentation domain.
+
+<Tip>
+  During `devdoc deploy`, binary assets (images, videos, fonts) are uploaded separately with progress tracking. Assets up to **25 MB** per file are supported.
+</Tip>
+
+## Supported File Types
+
+### All Plans
+
+<table>
+  <thead>
+    <tr>
+      <th>Category</th>
+      <th>Extensions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Images</td>
+      <td>.png, .jpg, .jpeg, .gif, .webp, .svg, .ico</td>
+    </tr>
+    <tr>
+      <td>Video</td>
+      <td>.mp4, .webm</td>
+    </tr>
+    <tr>
+      <td>Audio</td>
+      <td>.mp3, .wav</td>
+    </tr>
+    <tr>
+      <td>Data</td>
+      <td>.json, .yaml</td>
+    </tr>
+    <tr>
+      <td>Stylesheets</td>
+      <td>.css</td>
+    </tr>
+    <tr>
+      <td>Scripts</td>
+      <td>.js</td>
+    </tr>
+    <tr>
+      <td>Fonts</td>
+      <td>.woff, .woff2, .ttf, .eot</td>
+    </tr>
+  </tbody>
+</table>
+
+### Custom Plans
+
+<table>
+  <thead>
+    <tr>
+      <th>Category</th>
+      <th>Extensions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Documents</td>
+      <td>.pdf, .txt</td>
+    </tr>
+    <tr>
+      <td>Data</td>
+      <td>.xml, .csv</td>
+    </tr>
+    <tr>
+      <td>Archives</td>
+      <td>.zip</td>
+    </tr>
+  </tbody>
+</table>
+
+## Referencing Assets
+
+Assets are served from the `/assets/` path on your domain. Reference them in your MDX files:
+
+```mdx
+![Hero Image](/assets/images/hero.png)
+
+<Image src="/assets/images/screenshot.png" alt="Screenshot" />
+```
+
+The `assets/` folder structure maps directly to URL paths:
+
+| File Path | URL |
+|-----------|-----|
+| `assets/logo/light.svg` | `/assets/logo/light.svg` |
+| `assets/images/hero.png` | `/assets/images/hero.png` |
+| `assets/videos/demo.mp4` | `/assets/videos/demo.mp4` |
+
+## Embedding Files
+
+Embed files directly in your documentation with preview support.
+
+### Images
+
+Use the `Image` component for responsive images with optional captions:
+
+<Image 
+  src="/assets/images/screenshot.png" 
+  alt="Self-service workflow"
+  caption="Brainfish self-service documentation workflow"
+/>
+
+```jsx
+<Image src="/assets/images/screenshot.png" alt="Dashboard screenshot" />
+
+<Image 
+  src="/assets/images/screenshot.png" 
+  alt="Feature preview"
+  caption="The new dashboard interface"
+  width={600}
+/>
+```
+
+### Videos
+
+Embed videos with the `Video` component:
+
+```jsx
+<Video src="/assets/demo.mp4" />
+
+<Video 
+  src="/assets/tutorial.mp4"
+  title="Getting Started Tutorial"
+  autoplay={false}
+  controls
+/>
+```
+
+### PDF Documents
+
+Embed PDF files with inline preview using the `PDF` component:
+
+<PDF src="https://ontheline.trincoll.edu/images/bookdown/sample-local-pdf.pdf" title="Sample Document" height={400} />
+
+```jsx
+<PDF src="/assets/whitepaper.pdf" />
+
+<PDF 
+  src="/assets/guide.pdf" 
+  height={600}
+  title="User Guide"
+/>
+```
+
+### Audio
+
+Embed audio files with the `Audio` component:
+
+```jsx
+<Audio src="/assets/podcast.mp3" />
+
+<Audio 
+  src="/assets/interview.mp3"
+  title="Interview with the Team"
+/>
+```
+
+### Downloadable Files
+
+Create download links for any file type using the `Download` component:
+
+```jsx
+<Download src="/assets/template.zip" label="Download Template" />
+
+<Download 
+  src="/assets/data.csv" 
+  label="Export Data"
+  icon="file-csv"
+/>
+```
+
+## Component Reference
+
+### Image
+
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>src</td>
+      <td>string</td>
+      <td>Path to the image file (required)</td>
+    </tr>
+    <tr>
+      <td>alt</td>
+      <td>string</td>
+      <td>Alternative text for accessibility</td>
+    </tr>
+    <tr>
+      <td>caption</td>
+      <td>string</td>
+      <td>Caption displayed below the image</td>
+    </tr>
+    <tr>
+      <td>width</td>
+      <td>number</td>
+      <td>Width in pixels</td>
+    </tr>
+    <tr>
+      <td>height</td>
+      <td>number</td>
+      <td>Height in pixels</td>
+    </tr>
+  </tbody>
+</table>
+
+### Video
+
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Default</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>src</td>
+      <td>string</td>
+      <td>-</td>
+      <td>Path to the video file (required)</td>
+    </tr>
+    <tr>
+      <td>title</td>
+      <td>string</td>
+      <td>-</td>
+      <td>Title displayed above the video</td>
+    </tr>
+    <tr>
+      <td>autoplay</td>
+      <td>boolean</td>
+      <td>false</td>
+      <td>Auto-play the video on load</td>
+    </tr>
+    <tr>
+      <td>controls</td>
+      <td>boolean</td>
+      <td>true</td>
+      <td>Show video controls</td>
+    </tr>
+    <tr>
+      <td>loop</td>
+      <td>boolean</td>
+      <td>false</td>
+      <td>Loop the video</td>
+    </tr>
+    <tr>
+      <td>muted</td>
+      <td>boolean</td>
+      <td>false</td>
+      <td>Mute the video</td>
+    </tr>
+  </tbody>
+</table>
+
+### PDF
+
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Default</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>src</td>
+      <td>string</td>
+      <td>-</td>
+      <td>Path to the PDF file (required)</td>
+    </tr>
+    <tr>
+      <td>title</td>
+      <td>string</td>
+      <td>-</td>
+      <td>Title displayed above the preview</td>
+    </tr>
+    <tr>
+      <td>height</td>
+      <td>number</td>
+      <td>500</td>
+      <td>Height of the preview in pixels</td>
+    </tr>
+  </tbody>
+</table>
+
+### Audio
+
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Default</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>src</td>
+      <td>string</td>
+      <td>-</td>
+      <td>Path to the audio file (required)</td>
+    </tr>
+    <tr>
+      <td>title</td>
+      <td>string</td>
+      <td>-</td>
+      <td>Title displayed above the player</td>
+    </tr>
+    <tr>
+      <td>autoplay</td>
+      <td>boolean</td>
+      <td>false</td>
+      <td>Auto-play the audio on load</td>
+    </tr>
+    <tr>
+      <td>loop</td>
+      <td>boolean</td>
+      <td>false</td>
+      <td>Loop the audio</td>
+    </tr>
+  </tbody>
+</table>
+
+### Download
+
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>src</td>
+      <td>string</td>
+      <td>Path to the file (required)</td>
+    </tr>
+    <tr>
+      <td>label</td>
+      <td>string</td>
+      <td>Button label text</td>
+    </tr>
+    <tr>
+      <td>icon</td>
+      <td>string</td>
+      <td>Phosphor icon name</td>
+    </tr>
+    <tr>
+      <td>filename</td>
+      <td>string</td>
+      <td>Override the downloaded filename</td>
+    </tr>
+  </tbody>
+</table>

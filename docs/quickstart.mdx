@@ -1,0 +1,146 @@
+---
+title: Quickstart
+description: Get your documentation site up and running in 5 minutes
+---
+
+This guide will help you create and deploy your first DevDoc documentation site.
+
+## Prerequisites
+
+- Node.js 18 or later
+- npm or yarn
+
+## Create a New Project
+
+<Steps>
+  <Step title="Run the scaffolder">
+    Use `devdoc create` to create a new documentation project:
+
+    ```bash
+    npx @brainfish-ai/devdoc create my-docs
+    ```
+
+    You'll be prompted to select a template:
+    - **Basic** - Simple documentation with guides
+    - **OpenAPI** - Docs with REST API reference
+    - **GraphQL** - Docs with GraphQL playground
+
+    Or specify the template directly:
+
+    ```bash
+    npx @brainfish-ai/devdoc create my-docs --template openapi
+    ```
+  </Step>
+
+  <Step title="Navigate to your project">
+    ```bash
+    cd my-docs
+    ```
+  </Step>
+
+  <Step title="Start the development server">
+    ```bash
+    npm run dev
+    ```
+
+    Your browser will automatically open to [http://localhost:3333](http://localhost:3333) with your docs.
+  </Step>
+</Steps>
+
+## Project Structure
+
+After scaffolding, your project will look like this:
+
+```
+my-docs/
+├── docs.json          # Configuration file
+├── index.mdx          # Homepage
+├── quickstart.mdx     # Quickstart guide
+├── guides/            # Your documentation pages
+│   ├── overview.mdx
+│   └── configuration.mdx
+├── api-reference/     # API specs (OpenAPI/GraphQL templates)
+│   └── openapi.json   # or schema.graphql
+├── public/            # Static assets
+│   ├── favicon.svg
+│   └── logo.svg
+└── package.json
+```
+
+<Note>
+  The `api-reference/` folder is only included in the **openapi** and **graphql** templates.
+</Note>
+
+## Configuration
+
+The `docs.json` file controls your documentation structure:
+
+```json
+{
+  "name": "My Documentation",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Guides",
+        "type": "docs",
+        "groups": [
+          {
+            "group": "Getting Started",
+            "pages": ["index", "quickstart"]
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+## Writing Content
+
+Create MDX files anywhere in your project. Add them to `docs.json` to include in navigation:
+
+```mdx
+---
+title: My Page
+description: A description of my page
+---
+
+# My Page
+
+Welcome to my documentation page!
+
+<Note>
+  You can use MDX components like this note.
+</Note>
+```
+
+## Deploy
+
+When you're ready to go live:
+
+```bash
+npx devdoc deploy
+```
+
+Your docs will be deployed to `https://my-docs-xxxxx.devdoc.sh`.
+
+<Tip>
+  Save the API key from your first deploy! You'll need it for CI/CD deployments.
+</Tip>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="CLI Commands" icon="terminal" href="/cli/overview">
+    Learn all available CLI commands.
+  </Card>
+  <Card title="Deployment Guide" icon="cloud-arrow-up" href="/deployment">
+    Set up CI/CD and custom domains.
+  </Card>
+  <Card title="MDX Components" icon="puzzle-piece" href="/essentials/components">
+    Explore available components.
+  </Card>
+  <Card title="Configuration" icon="gear" href="/config/docs-json">
+    Configure your documentation.
+  </Card>
+</CardGroup>

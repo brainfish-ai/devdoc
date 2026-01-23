@@ -1,0 +1,139 @@
+---
+title: "Embeds"
+description: "Embed videos, iframes, and external content in your documentation"
+---
+
+## Iframe
+
+The `Iframe` component allows you to embed any external content with customizable sizing.
+
+### Basic Usage
+
+```jsx
+<Iframe src="https://example.com" />
+```
+
+### With Fixed Size
+
+Specify exact width and height in pixels or any CSS unit:
+
+```jsx
+<Iframe 
+  src="https://example.com" 
+  width={800} 
+  height={450} 
+/>
+```
+
+```jsx
+<Iframe 
+  src="https://example.com" 
+  width="100%" 
+  height="400px" 
+/>
+```
+
+### With Aspect Ratio
+
+Use `aspectRatio` for responsive embeds that maintain proportions:
+
+```jsx
+<Iframe 
+  src="https://example.com" 
+  aspectRatio="16/9" 
+/>
+```
+
+Common aspect ratios:
+- `16/9` - Widescreen video (default for Video component)
+- `4/3` - Traditional video
+- `1/1` - Square
+- `9/16` - Vertical/mobile video
+
+### Iframe Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `src` | string | required | URL of the content to embed |
+| `title` | string | "Embedded content" | Accessible title for the iframe |
+| `width` | string \| number | - | Fixed width (e.g., 800 or "100%") |
+| `height` | string \| number | - | Fixed height (e.g., 450 or "400px") |
+| `aspectRatio` | string | - | Aspect ratio (e.g., "16/9", "4/3") |
+| `allowFullScreen` | boolean | true | Allow fullscreen mode |
+
+## Video
+
+The `Video` component is a convenience wrapper for embedding videos from YouTube, Vimeo, and other platforms. It automatically converts watch URLs to embed URLs.
+
+### YouTube
+
+```jsx
+<Video src="https://www.youtube.com/watch?v=dQw4w9WgXcQ" />
+```
+
+Or with short URL:
+
+```jsx
+<Video src="https://youtu.be/dQw4w9WgXcQ" />
+```
+
+### Vimeo
+
+```jsx
+<Video src="https://vimeo.com/123456789" />
+```
+
+### Custom Aspect Ratio
+
+```jsx
+<Video 
+  src="https://www.youtube.com/watch?v=dQw4w9WgXcQ" 
+  aspectRatio="4/3" 
+/>
+```
+
+### Video Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `src` | string | required | Video URL (YouTube, Vimeo, or embed URL) |
+| `title` | string | "Video" | Accessible title |
+| `aspectRatio` | "16/9" \| "4/3" | "16/9" | Video aspect ratio |
+
+## Loom
+
+Embed Loom recordings using just the video ID.
+
+```jsx
+<Loom id="your-loom-video-id" />
+```
+
+<Note>
+You can find the Loom ID in your Loom share URL: `https://www.loom.com/share/your-loom-video-id`
+</Note>
+
+### Loom Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `id` | string | required | Loom video ID |
+| `title` | string | "Loom video" | Accessible title |
+
+## Styling
+
+You can customize embed styles using CSS classes in your `custom.css`:
+
+```css
+.docs-iframe {
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+}
+
+.docs-video {
+  /* Video-specific styles */
+}
+
+.docs-loom {
+  /* Loom-specific styles */
+}
+```

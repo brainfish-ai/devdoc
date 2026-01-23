@@ -1,0 +1,253 @@
+---
+title: "Typography"
+description: "Styles for headings, paragraphs, lists, and more"
+---
+
+Beautiful typography makes your documentation easy to read. All standard markdown syntax is automatically styled.
+
+---
+
+## The Documentation Story
+
+Once upon a time, in a bustling tech company, there was a team of developers who struggled with messy, inconsistent documentation. One day, their lead engineer discovered the power of good typography.
+
+### The Problem
+
+The team's docs were hard to read. Headers looked the same as body text, lists were confusing, and code blocks blended into paragraphs.
+
+> "Good documentation is not just about content," she said, "it's about presentation. Clear typography helps users find what they need."
+
+### The Solution
+
+They adopted a consistent typography system:
+
+- **Clear hierarchy** with distinct heading sizes
+- **Readable paragraphs** with proper line height
+- **Organized lists** for step-by-step instructions
+- **Highlighted code** that stands out
+
+As a result, people stopped ignoring the docs, and developers actually *enjoyed* reading them.
+
+### The Outcome
+
+| Before | After |
+|--------|-------|
+| Confusing | Crystal clear |
+| Ignored | Referenced daily |
+| Outdated | Always current |
+
+The moral: never underestimate the power of good typography.
+
+---
+
+## Headings
+
+Use `#` symbols for headings:
+
+```markdown
+# Heading 1
+## Heading 2
+### Heading 3
+#### Heading 4
+##### Heading 5
+###### Heading 6
+```
+
+# Heading 1
+
+## Heading 2
+
+### Heading 3
+
+#### Heading 4
+
+##### Heading 5
+
+###### Heading 6
+
+---
+
+## Paragraphs
+
+Just write text with blank lines between paragraphs.
+
+```markdown
+This is the first paragraph. It can span multiple
+lines and will be rendered as a single block.
+
+This is the second paragraph, separated by a blank line.
+```
+
+This is a sample paragraph. The king, seeing how much happier his subjects were, realized the error of his ways and repealed the joke tax. Good typography ensures comfortable reading with proper line height and spacing.
+
+This is another paragraph. Notice the spacing between paragraphs makes the content easy to scan.
+
+---
+
+## Bold and Italic
+
+```markdown
+**Bold text** for strong emphasis
+*Italic text* for subtle emphasis
+***Bold and italic*** for maximum emphasis
+~~Strikethrough~~ for deprecated content
+```
+
+**Bold text** for strong emphasis
+
+*Italic text* for subtle emphasis
+
+***Bold and italic*** for maximum emphasis
+
+~~Strikethrough~~ for deprecated content
+
+---
+
+## Blockquotes
+
+Use `>` for blockquotes:
+
+```markdown
+> This is a blockquote. Use it for quotes,
+> important callouts, or highlighting key information.
+```
+
+> "After all," he said, "everyone enjoys a good joke, so it's only fair that they should pay for the privilege."
+
+---
+
+## Lists
+
+### Unordered Lists
+
+```markdown
+- First item
+- Second item
+  - Nested item
+  - Another nested item
+- Third item
+```
+
+- First item in the list
+- Second item with more details
+  - Nested item goes here
+  - Another nested item
+- Third item to complete the set
+
+### Ordered Lists
+
+```markdown
+1. First step
+2. Second step
+   1. Sub-step A
+   2. Sub-step B
+3. Third step
+```
+
+1. First step in the process
+2. Second step follows naturally
+   1. Sub-step with more detail
+   2. Another sub-step
+3. Final step completes the flow
+
+---
+
+## Code
+
+### Inline Code
+
+Use backticks for `inline code`:
+
+```markdown
+Use the `useState` hook to manage state.
+Install with `npm install package-name`.
+```
+
+Use the `useState` hook to manage state. Install with `npm install package-name`.
+
+### Code Blocks
+
+Use triple backticks with a language:
+
+````markdown
+```javascript
+function greet(name) {
+  console.log(`Hello, ${name}!`);
+}
+```
+````
+
+```javascript
+function greet(name) {
+  console.log(`Hello, ${name}!`);
+  return `Welcome to our documentation`;
+}
+```
+
+```python
+def greet(name):
+    print(f"Hello, {name}!")
+    return f"Welcome to our documentation"
+```
+
+---
+
+## Tables
+
+```markdown
+| Feature | Free | Pro |
+|---------|------|-----|
+| API Calls | 1,000 | Unlimited |
+| Support | Community | Priority |
+```
+
+| Feature | Free | Pro | Enterprise |
+|---------|------|-----|------------|
+| API Calls | 1,000 | 10,000 | Unlimited |
+| Support | Community | Email | Dedicated |
+| SLA | None | 99.9% | 99.99% |
+
+---
+
+## Links
+
+```markdown
+[Link text](https://example.com)
+[Link with title](https://example.com "Title text")
+```
+
+Check out the [Getting Started](/docs/quickstart) guide or visit [our website](https://example.com).
+
+---
+
+## Horizontal Rules
+
+Use `---` or `***` for horizontal rules:
+
+```markdown
+---
+```
+
+---
+
+## CSS Customization
+
+Customize typography via CSS variables in `custom.css`:
+
+```css
+:root {
+  /* Headings */
+  --docs-h1-size: 2.25rem;
+  --docs-h2-size: 1.875rem;
+  --docs-h3-size: 1.5rem;
+  
+  /* Paragraphs */
+  --docs-paragraph-line-height: 1.75;
+  
+  /* Lists */
+  --docs-list-bullet-color: var(--muted-foreground);
+  
+  /* Links */
+  --docs-link-color: var(--primary);
+}
+```

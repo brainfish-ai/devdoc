@@ -1,0 +1,26 @@
+{
+  "$schema": "https://devdoc.sh/theme.json",
+  "name": "Minimal",
+  "description": "A clean, minimal theme focused on content",
+  "extends": "github:brainfish-ai/devdoc/themes/default",
+  "colors": {
+    "primary": "#18181b",
+    "primaryLight": "#3f3f46",
+    "primaryDark": "#09090b"
+  },
+  "typography": {
+    "fontFamily": "system-ui, -apple-system, sans-serif",
+    "headingFontFamily": "system-ui, -apple-system, sans-serif",
+    "codeFontFamily": "ui-monospace, 'SF Mono', monospace"
+  },
+  "header": {
+    "showSearch": true,
+    "showThemeToggle": true,
+    "showAskAI": false
+  },
+  "layout": {
+    "sidebarWidth": 260,
+    "contentMaxWidth": 720
+  },
+  "defaultTheme": "light"
+}

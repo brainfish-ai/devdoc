@@ -1,0 +1,111 @@
+---
+title: "Callouts"
+description: "Highlight important information with styled callout boxes"
+---
+
+Use callouts to highlight important information, warnings, tips, and more.
+
+## Note
+
+General information or context.
+
+```jsx
+<Note>
+  This is a note with helpful information.
+</Note>
+```
+
+<Note>
+  This is a note with helpful information.
+</Note>
+
+## Tip
+
+Best practices and recommendations.
+
+```jsx
+<Tip title="Pro Tip">
+  Use tips to share best practices and recommendations.
+</Tip>
+```
+
+<Tip title="Pro Tip">
+  Use tips to share best practices and recommendations.
+</Tip>
+
+## Warning
+
+Important cautions or potential issues.
+
+```jsx
+<Warning>
+  Be careful! This action cannot be undone.
+</Warning>
+```
+
+<Warning>
+  Be careful! This action cannot be undone.
+</Warning>
+
+## Info
+
+Additional context or background information.
+
+```jsx
+<Info>
+  Additional context or background information.
+</Info>
+```
+
+<Info>
+  Additional context or background information.
+</Info>
+
+## Check / Success
+
+Confirmations and success messages.
+
+```jsx
+<Check>
+  Success! Your changes have been saved.
+</Check>
+```
+
+<Check>
+  Success! Your changes have been saved.
+</Check>
+
+## Error
+
+Error messages and critical warnings.
+
+```jsx
+<Error>
+  Something went wrong. Please try again.
+</Error>
+```
+
+<Error>
+  Something went wrong. Please try again.
+</Error>
+
+## With Custom Title
+
+All callouts support a custom title:
+
+```jsx
+<Note title="Important Note">
+  This note has a custom title instead of the default.
+</Note>
+```
+
+<Note title="Important Note">
+  This note has a custom title instead of the default.
+</Note>
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `title` | string | Type name | Optional custom title |
+| `children` | ReactNode | required | Callout content |

@@ -1,0 +1,99 @@
+---
+title: CLI Overview
+description: Command line interface for managing your DevDoc documentation
+---
+
+The DevDoc CLI helps you develop, build, and deploy your documentation from the command line.
+
+## Installation
+
+Install the CLI globally:
+
+```bash
+npm install -g @brainfish-ai/devdoc
+```
+
+Or use with npx (no installation required):
+
+```bash
+npx @brainfish-ai/devdoc <command>
+```
+
+## Commands
+
+| Command | Description |
+|---------|-------------|
+| `devdoc create` | Create a new documentation project |
+| `devdoc dev` | Start development server with hot reload |
+| `devdoc build` | Build static site for production |
+| `devdoc deploy` | Deploy to DevDoc hosting |
+| `devdoc check` | Validate docs.json and content files |
+| `devdoc keys` | Manage API keys for your project |
+| `devdoc whoami` | Show current project information |
+
+## Global Options
+
+These options work with all commands:
+
+| Option | Description |
+|--------|-------------|
+| `--help` | Show help for a command |
+| `--version` | Show CLI version |
+| `--verbose` | Enable verbose logging |
+
+## Configuration
+
+The CLI looks for configuration in this order:
+
+1. `docs.json` in the current directory
+2. `DEVDOC_PROJECT_ROOT` environment variable
+3. Parent directories (walks up the tree)
+
+## Environment Variables
+
+| Variable | Description |
+|----------|-------------|
+| `DEVDOC_API_KEY` | API key for deployments (CI/CD) |
+| `DEVDOC_PROJECT_ROOT` | Path to project root |
+
+## Quick Reference
+
+```bash
+# Create a new project
+devdoc create my-docs
+
+# Create with specific template
+devdoc create my-docs --template openapi
+
+# Start local development
+devdoc dev
+
+# Deploy to production
+devdoc deploy
+
+# Check for errors
+devdoc check
+
+# View project info
+devdoc whoami
+
+# Regenerate API key
+devdoc keys regenerate
+```
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="devdoc create" icon="plus" href="/cli/create">
+    Create a new documentation site.
+  </Card>
+  <Card title="devdoc deploy" icon="cloud-arrow-up" href="/cli/deploy">
+    Deploy your documentation.
+  </Card>
+  <Card title="devdoc dev" icon="play" href="/cli/dev">
+    Local development server.
+  </Card>
+  <Card title="devdoc keys" icon="key" href="/cli/keys">
+    Manage API keys.
+  </Card>
+</CardGroup>

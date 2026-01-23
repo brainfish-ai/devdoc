@@ -1,0 +1,236 @@
+---
+title: Theme Configuration
+description: Customize the look and feel of your documentation
+---
+
+Customize your documentation's appearance with the `theme.json` file.
+
+## Basic Theme
+
+Create a `theme.json` file in your project root:
+
+```json
+{
+  "logo": {
+    "light": "/logo/light.svg",
+    "dark": "/logo/dark.svg",
+    "alt": "Acme Docs"
+  },
+  "colors": {
+    "primary": "#6366f1"
+  }
+}
+```
+
+## Logo
+
+Configure your logo for light and dark modes:
+
+```json
+{
+  "logo": {
+    "light": "/logo/light.svg",
+    "dark": "/logo/dark.svg",
+    "alt": "My Documentation",
+    "width": 120,
+    "height": 32
+  }
+}
+```
+
+| Field | Description |
+|-------|-------------|
+| `light` | Logo for light mode |
+| `dark` | Logo for dark mode |
+| `url` | Single logo for both modes |
+| `alt` | Alt text for accessibility |
+| `width` | Logo width in pixels |
+| `height` | Logo height in pixels |
+
+## Colors
+
+Customize your brand colors:
+
+```json
+{
+  "colors": {
+    "primary": "#6366f1",
+    "primaryLight": "#818cf8",
+    "primaryDark": "#4f46e5"
+  }
+}
+```
+
+| Color | Usage |
+|-------|-------|
+| `primary` | Links, buttons, accents |
+| `primaryLight` | Hover states, light mode accents |
+| `primaryDark` | Dark mode accents |
+
+### Color Examples
+
+<CardGroup cols={3}>
+  <Card title="Indigo">
+    ```json
+    { "primary": "#6366f1" }
+    ```
+  </Card>
+  <Card title="Blue">
+    ```json
+    { "primary": "#3b82f6" }
+    ```
+  </Card>
+  <Card title="Green">
+    ```json
+    { "primary": "#10b981" }
+    ```
+  </Card>
+</CardGroup>
+
+## Header
+
+Configure header elements:
+
+```json
+{
+  "header": {
+    "showAskAI": true,
+    "showSearch": true,
+    "showThemeToggle": true
+  }
+}
+```
+
+| Option | Default | Description |
+|--------|---------|-------------|
+| `showAskAI` | true | Show AI assistant button |
+| `showSearch` | true | Show search bar |
+| `showThemeToggle` | true | Show dark/light mode toggle |
+
+## Navbar Links
+
+Add links to the header:
+
+```json
+{
+  "navbar": {
+    "links": [
+      {
+        "label": "Blog",
+        "href": "https://blog.example.com",
+        "external": true
+      },
+      {
+        "label": "Dashboard",
+        "href": "https://app.example.com"
+      }
+    ],
+    "primary": {
+      "label": "Get Started",
+      "href": "/quickstart"
+    }
+  }
+}
+```
+
+## Typography
+
+Customize fonts (coming soon):
+
+```json
+{
+  "typography": {
+    "fontFamily": "Inter, sans-serif",
+    "fontFamilyMono": "JetBrains Mono, monospace",
+    "baseFontSize": "16px"
+  }
+}
+```
+
+## Custom CSS
+
+Add custom styles:
+
+```json
+{
+  "customCss": "custom.css"
+}
+```
+
+Then create `custom.css`:
+
+```css
+/* Custom styles */
+:root {
+  --docs-sidebar-width: 280px;
+}
+
+.docs-content h1 {
+  font-size: 2.5rem;
+}
+
+/* Dark mode overrides */
+.dark .docs-content {
+  --code-bg: #1e1e1e;
+}
+```
+
+## Complete Example
+
+```json
+{
+  "logo": {
+    "light": "/logo/light.svg",
+    "dark": "/logo/dark.svg",
+    "alt": "Acme Documentation",
+    "width": 120
+  },
+  "colors": {
+    "primary": "#6366f1",
+    "primaryLight": "#818cf8",
+    "primaryDark": "#4f46e5"
+  },
+  "header": {
+    "showAskAI": true,
+    "showSearch": true,
+    "showThemeToggle": true
+  },
+  "navbar": {
+    "links": [
+      {
+        "label": "Blog",
+        "href": "https://blog.acme.com",
+        "external": true
+      }
+    ],
+    "primary": {
+      "label": "Sign Up",
+      "href": "https://app.acme.com/signup"
+    }
+  },
+  "customCss": "custom.css"
+}
+```
+
+## File Structure
+
+```
+my-docs/
+├── docs.json
+├── theme.json        # Theme configuration
+├── custom.css        # Custom styles (optional)
+├── logo/
+│   ├── light.svg     # Light mode logo
+│   └── dark.svg      # Dark mode logo
+└── ...
+```
+
+## Tips
+
+<Tip>
+  Use SVG logos for best quality across all screen sizes.
+</Tip>
+
+<Note>
+  Colors should have sufficient contrast for accessibility. Test with both light and dark modes.
+</Note>

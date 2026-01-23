@@ -1,0 +1,465 @@
+---
+title: "OpenAPI Setup"
+description: "Configure your API reference documentation from OpenAPI/Swagger specifications"
+---
+
+Generate beautiful, interactive API documentation from your OpenAPI (Swagger) specifications.
+
+## Features
+
+<CardGroup cols={2}>
+  <Card title="Auto-Generated Docs" icon="magic-wand">
+    Endpoints, parameters, and schemas from your spec
+  </Card>
+  <Card title="API Playground" icon="play-circle">
+    Try API calls directly in the browser
+  </Card>
+  <Card title="Multiple Versions" icon="git-branch">
+    Support for API versioning
+  </Card>
+  <Card title="Authentication" icon="key">
+    Built-in auth configuration UI
+  </Card>
+</CardGroup>
+
+## Quick Setup
+
+### 1. Add Your OpenAPI Spec
+
+Place your OpenAPI specification file in your docs folder:
+
+```
+your-docs/
+├── api-reference/
+│   └── openapi.json    # or openapi.yaml
+├── docs.json
+└── ...
+```
+
+### 2. Configure docs.json
+
+Add an API Reference tab to your navigation:
+
+```json
+{
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "API Reference",
+        "type": "openapi",
+        "path": "/api-reference",
+        "spec": "api-reference/openapi.json"
+      }
+    ]
+  }
+}
+```
+
+<Tip>
+The `path` defines the URL path, while `spec` points to your OpenAPI file.
+</Tip>
+
+## Multiple API Versions
+
+Support multiple versions of your API:
+
+```json
+{
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "API Reference",
+        "type": "openapi",
+        "path": "/api-reference",
+        "versions": [
+          { 
+            "version": "v2", 
+            "spec": "api-reference/v2/openapi.json", 
+            "default": true 
+          },
+          { 
+            "version": "v1", 
+            "spec": "api-reference/v1/openapi.json" 
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+### Version File Structure
+
+```
+your-docs/
+├── api-reference/
+│   ├── v1/
+│   │   └── openapi.json
+│   └── v2/
+│       └── openapi.json
+├── docs.json
+└── ...
+```
+
+## Adding Documentation Pages
+
+Add custom MDX documentation pages alongside your API endpoints using the `groups` property:
+
+```json
+{
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "API Reference",
+        "type": "openapi",
+        "path": "/api-reference",
+        "spec": "api-reference/openapi.json",
+        "groups": [
+          {
+            "group": "Overview",
+            "pages": [
+              "api-reference/introduction",
+              "api-reference/authentication",
+              "api-reference/errors"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+Then create the corresponding MDX files:
+
+```
+your-docs/
+├── api-reference/
+│   ├── openapi.json
+│   ├── introduction.mdx
+│   ├── authentication.mdx
+│   └── errors.mdx
+├── docs.json
+└── ...
+```
+
+<Tip>
+Documentation pages appear in the sidebar above your API endpoints, making it easy to provide context, authentication guides, and error handling documentation.
+</Tip>
+
+## API Configuration
+
+Configure API settings in your `docs.json`:
+
+```json
+{
+  "api": {
+    "baseUrl": "https://api.example.com",
+    "playground": {
+      "mode": "show"
+    }
+  }
+}
+```
+
+### Options
+
+| Option | Description |
+|--------|-------------|
+| `baseUrl` | Base URL for API requests |
+| `playground.mode` | `"show"` (default), `"hide"`, or `"simple"` |
+
+## OpenAPI Specification
+
+Your OpenAPI file should follow the [OpenAPI 3.0](https://swagger.io/specification/) standard:
+
+```json
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "My API",
+    "version": "2.0.0",
+    "description": "API for managing resources"
+  },
+  "servers": [
+    {
+      "url": "https://api.example.com/v2",
+      "description": "Production server"
+    }
+  ],
+  "paths": {
+    "/users": {
+      "get": {
+        "summary": "List users",
+        "description": "Retrieve a list of all users",
+        "tags": ["Users"],
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/User" }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "email": { "type": "string", "format": "email" }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      },
+      "apiKey": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-API-Key"
+      }
+    }
+  }
+}
+```
+
+## Authentication
+
+Define security schemes in your OpenAPI spec:
+
+### Bearer Token
+
+```json
+{
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "security": [
+    { "bearerAuth": [] }
+  ]
+}
+```
+
+### API Key
+
+```json
+{
+  "components": {
+    "securitySchemes": {
+      "apiKey": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-API-Key"
+      }
+    }
+  }
+}
+```
+
+### OAuth 2.0
+
+```json
+{
+  "components": {
+    "securitySchemes": {
+      "oauth2": {
+        "type": "oauth2",
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://auth.example.com/authorize",
+            "tokenUrl": "https://auth.example.com/token",
+            "scopes": {
+              "read": "Read access",
+              "write": "Write access"
+            }
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+## Organizing Endpoints
+
+Use tags to group related endpoints:
+
+```json
+{
+  "tags": [
+    { "name": "Users", "description": "User management" },
+    { "name": "Products", "description": "Product catalog" },
+    { "name": "Orders", "description": "Order processing" }
+  ],
+  "paths": {
+    "/users": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "List users"
+      }
+    },
+    "/products": {
+      "get": {
+        "tags": ["Products"],
+        "summary": "List products"
+      }
+    }
+  }
+}
+```
+
+## Request Examples
+
+Add examples to your spec for better documentation:
+
+```json
+{
+  "paths": {
+    "/users": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CreateUser" },
+              "example": {
+                "name": "John Doe",
+                "email": "john@example.com"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+## Response Examples
+
+```json
+{
+  "responses": {
+    "200": {
+      "description": "Success",
+      "content": {
+        "application/json": {
+          "schema": { "$ref": "#/components/schemas/User" },
+          "examples": {
+            "basic": {
+              "summary": "Basic user",
+              "value": {
+                "id": "usr_123",
+                "name": "John Doe",
+                "email": "john@example.com"
+              }
+            },
+            "admin": {
+              "summary": "Admin user",
+              "value": {
+                "id": "usr_456",
+                "name": "Admin",
+                "email": "admin@example.com",
+                "role": "admin"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+## YAML Support
+
+You can also use YAML format for your OpenAPI spec:
+
+```yaml
+openapi: 3.0.0
+info:
+  title: My API
+  version: 2.0.0
+  
+paths:
+  /users:
+    get:
+      summary: List users
+      responses:
+        '200':
+          description: Success
+```
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Write clear descriptions">
+    - Add detailed descriptions to endpoints
+    - Document all parameters and their constraints
+    - Include example values where helpful
+  </Accordion>
+  
+  <Accordion title="Use consistent naming">
+    - Follow REST conventions (GET, POST, PUT, DELETE)
+    - Use plural nouns for collections (`/users` not `/user`)
+    - Use kebab-case for multi-word paths
+  </Accordion>
+  
+  <Accordion title="Document errors">
+    - Include all possible error responses
+    - Add error schemas with codes and messages
+    - Provide troubleshooting hints
+  </Accordion>
+  
+  <Accordion title="Keep specs up to date">
+    - Generate specs from code when possible
+    - Version your API specs
+    - Deprecate old endpoints properly
+  </Accordion>
+</AccordionGroup>
+
+## Troubleshooting
+
+<Warning>
+**Spec not loading?** Check that your OpenAPI file is valid JSON/YAML and follows the OpenAPI 3.0 specification.
+</Warning>
+
+### Common Issues
+
+| Issue | Solution |
+|-------|----------|
+| Endpoints not showing | Check that paths are defined correctly |
+| Auth not working | Verify securitySchemes configuration |
+| Examples missing | Add `example` or `examples` to schemas |
+| Version dropdown empty | Ensure `versions` array is configured |
+
+### Validate Your Spec
+
+Use these tools to validate your OpenAPI specification:
+
+- [Swagger Editor](https://editor.swagger.io/)
+- [OpenAPI Validator](https://apitools.dev/swagger-parser/online/)

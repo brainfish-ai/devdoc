@@ -1,0 +1,99 @@
+---
+title: "Accordion"
+description: "Collapsible content sections for FAQs and organized information"
+---
+
+Collapsible content sections perfect for FAQs and organizing large amounts of information.
+
+## Basic Accordion
+
+```jsx
+<AccordionGroup>
+  <Accordion title="What is this?">
+    This is an accordion component for FAQs.
+  </Accordion>
+  <Accordion title="How do I use it?">
+    Wrap your content in an Accordion component.
+  </Accordion>
+</AccordionGroup>
+```
+
+<AccordionGroup>
+  <Accordion title="What is this?">
+    This is an accordion component for FAQs or collapsible content.
+  </Accordion>
+  <Accordion title="How do I use it?">
+    Simply wrap your content in an Accordion component with a title prop.
+  </Accordion>
+</AccordionGroup>
+
+## FAQ Example
+
+<AccordionGroup>
+  <Accordion title="How do I get started?">
+    Getting started is easy! Just install the package using npm or yarn, then import the components you need.
+  </Accordion>
+  <Accordion title="Is there a free tier?">
+    Yes! We offer a generous free tier that includes all essential features. Upgrade to Pro for advanced functionality.
+  </Accordion>
+  <Accordion title="Can I customize the styling?">
+    Absolutely. All components support custom CSS classes and follow your theme configuration.
+  </Accordion>
+  <Accordion title="Do you offer support?">
+    We provide email support for all users, with priority support available for Pro and Enterprise plans.
+  </Accordion>
+</AccordionGroup>
+
+## With Rich Content
+
+Accordions can contain any MDX content:
+
+<AccordionGroup>
+  <Accordion title="Installation Instructions">
+    Install the package using your preferred package manager:
+    
+    ```bash
+    npm install @example/sdk
+    ```
+    
+    <Note>Make sure you have Node.js 18 or higher installed.</Note>
+  </Accordion>
+  <Accordion title="Configuration Options">
+    Create a configuration file in your project root:
+    
+    | Option | Type | Description |
+    |--------|------|-------------|
+    | `apiKey` | string | Your API key |
+    | `environment` | string | prod or staging |
+  </Accordion>
+</AccordionGroup>
+
+## Single Accordion
+
+You can also use a single accordion without the group:
+
+```jsx
+<Accordion title="Click to expand">
+  Hidden content that appears when expanded.
+</Accordion>
+```
+
+<Accordion title="Click to expand">
+  Hidden content that appears when expanded. This is useful for spoilers or optional information.
+</Accordion>
+
+## Props
+
+### AccordionGroup Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `children` | ReactNode | required | Accordion components |
+
+### Accordion Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `title` | string | required | Accordion header text |
+| `children` | ReactNode | required | Collapsible content |
+| `defaultOpen` | boolean | false | Initially expanded |

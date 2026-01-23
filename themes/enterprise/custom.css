@@ -1,0 +1,75 @@
+/* Enterprise Theme - Custom Styles */
+
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap');
+
+:root {
+  /* Professional blue palette */
+  --devdoc-primary: #2563eb;
+  --devdoc-primary-light: #3b82f6;
+  --devdoc-primary-dark: #1d4ed8;
+  
+  /* IBM Plex fonts */
+  --devdoc-font-family: 'IBM Plex Sans', system-ui, sans-serif;
+  --devdoc-heading-font-family: 'IBM Plex Sans', system-ui, sans-serif;
+  --devdoc-code-font-family: 'IBM Plex Mono', monospace;
+  
+  /* Wider layout */
+  --devdoc-sidebar-width: 300px;
+  --devdoc-content-max-width: 800px;
+}
+
+/* Professional header */
+.docs-header {
+  border-bottom: 2px solid var(--devdoc-primary);
+}
+
+/* Stronger headings */
+.docs-content h1 {
+  font-weight: 700;
+  font-size: 2.25rem;
+  letter-spacing: -0.025em;
+}
+
+.docs-content h2 {
+  font-weight: 600;
+  font-size: 1.5rem;
+  margin-top: 2.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+/* Polished links */
+.docs-content a:not([class]) {
+  color: var(--devdoc-primary);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.docs-content a:not([class]):hover {
+  text-decoration: underline;
+}
+
+/* Enhanced code blocks */
+pre {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Table styling */
+.docs-content table {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.docs-content th {
+  background-color: var(--muted);
+  font-weight: 600;
+}
+
+/* Callout enhancements */
+.callout {
+  border-radius: 8px;
+  border-left-width: 4px;
+}

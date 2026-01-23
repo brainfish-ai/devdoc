@@ -1,0 +1,292 @@
+---
+title: docs.json Configuration
+description: Configure your documentation structure and settings
+---
+
+The `docs.json` file is the main configuration file for your DevDoc documentation. It defines the structure, navigation, and behavior of your docs.
+
+## Basic Structure
+
+```json
+{
+  "name": "My Documentation",
+  "favicon": "/favicon.svg",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Guides",
+        "type": "docs",
+        "groups": [
+          {
+            "group": "Getting Started",
+            "pages": ["index", "quickstart"]
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+## Top-Level Fields
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `name` | string | Your documentation site name |
+| `favicon` | string | Path to favicon file |
+| `notice` | object | Optional announcement banner |
+| `navigation` | object | Navigation structure |
+| `openapi` | string | Path to OpenAPI spec |
+| `api` | object | API configuration |
+| `seo` | object | SEO settings |
+| `redirects` | array | URL redirects |
+
+## Navigation
+
+### Tabs
+
+Organize your docs into tabs:
+
+```json
+{
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Guides",
+        "type": "docs",
+        "groups": [...]
+      },
+      {
+        "tab": "API Reference",
+        "type": "openapi"
+      },
+      {
+        "tab": "Changelog",
+        "type": "changelog"
+      }
+    ]
+  }
+}
+```
+
+**Tab Types:**
+
+| Type | Description |
+|------|-------------|
+| `docs` | Documentation pages (MDX files) |
+| `openapi` | Auto-generated API reference |
+| `changelog` | Changelog entries |
+
+### Groups
+
+Organize pages within a tab:
+
+```json
+{
+  "tab": "Guides",
+  "type": "docs",
+  "groups": [
+    {
+      "group": "Getting Started",
+      "icon": "rocket-launch",
+      "pages": ["index", "quickstart", "installation"]
+    },
+    {
+      "group": "Advanced",
+      "pages": ["configuration", "deployment"]
+    }
+  ]
+}
+```
+
+### Nested Groups
+
+Create nested navigation:
+
+```json
+{
+  "group": "Components",
+  "pages": [
+    "components/overview",
+    {
+      "group": "UI Components",
+      "pages": [
+        "components/buttons",
+        "components/cards",
+        "components/modals"
+      ]
+    }
+  ]
+}
+```
+
+### Icons
+
+Use Phosphor icons for groups:
+
+```json
+{
+  "group": "Getting Started",
+  "icon": "rocket-launch",
+  "pages": [...]
+}
+```
+
+Common icons: `rocket-launch`, `book-open`, `code`, `gear`, `terminal`, `puzzle-piece`
+
+## Notice Banner
+
+Show an announcement banner:
+
+```json
+{
+  "notice": {
+    "content": "🚀 We just launched v2.0! [Check it out](/changelog)",
+    "dismissible": true
+  }
+}
+```
+
+## OpenAPI Configuration
+
+For API reference documentation:
+
+```json
+{
+  "openapi": "api-reference/openapi.json",
+  "api": {
+    "baseUrl": "https://api.example.com",
+    "playground": {
+      "mode": "show"
+    }
+  },
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "API Reference",
+        "type": "openapi",
+        "versions": [
+          { "version": "v2", "spec": "api-reference/v2/openapi.json", "default": true },
+          { "version": "v1", "spec": "api-reference/v1/openapi.json" }
+        ]
+      }
+    ]
+  }
+}
+```
+
+## SEO Settings
+
+```json
+{
+  "seo": {
+    "indexing": "navigation",
+    "metatags": {
+      "og:image": "https://example.com/og-image.png",
+      "twitter:card": "summary_large_image"
+    }
+  }
+}
+```
+
+## Redirects
+
+```json
+{
+  "redirects": [
+    {
+      "source": "/old-page",
+      "destination": "/new-page"
+    },
+    {
+      "source": "/docs/:slug*",
+      "destination": "/:slug*"
+    }
+  ]
+}
+```
+
+## Global Navigation
+
+Add external links to the header:
+
+```json
+{
+  "navigation": {
+    "global": {
+      "anchors": [
+        {
+          "anchor": "GitHub",
+          "href": "https://github.com/your-org/your-repo",
+          "icon": "github-logo"
+        },
+        {
+          "anchor": "Discord",
+          "href": "https://discord.gg/your-server",
+          "icon": "discord-logo"
+        }
+      ]
+    }
+  }
+}
+```
+
+## Complete Example
+
+```json
+{
+  "name": "Acme Docs",
+  "favicon": "/favicon.svg",
+  "notice": {
+    "content": "📚 New tutorials available!",
+    "dismissible": true
+  },
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Guides",
+        "type": "docs",
+        "groups": [
+          {
+            "group": "Getting Started",
+            "icon": "rocket-launch",
+            "pages": ["index", "quickstart"]
+          },
+          {
+            "group": "Features",
+            "icon": "star",
+            "pages": ["features/auth", "features/api"]
+          }
+        ]
+      },
+      {
+        "tab": "API Reference",
+        "type": "openapi"
+      }
+    ],
+    "global": {
+      "anchors": [
+        {
+          "anchor": "GitHub",
+          "href": "https://github.com/acme/docs",
+          "icon": "github-logo"
+        }
+      ]
+    }
+  },
+  "openapi": "api-reference/openapi.json",
+  "seo": {
+    "indexing": "navigation"
+  }
+}
+```
+
+## Validation
+
+Validate your configuration:
+
+```bash
+devdoc check
+```
+
+This will report any errors in your `docs.json` structure.

@@ -1,0 +1,68 @@
+name: Validate
+
+on:
+  pull_request:
+    paths:
+      - 'templates/**'
+      - 'themes/**'
+      - 'docs/**'
+
+jobs:
+  validate-templates:
+    name: Validate Templates
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        template: [basic, graphql, openapi]
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          
+      - name: Validate template structure
+        run: |
+          cd templates/${{ matrix.template }}
+          # Check required files exist
+          test -f docs.json || (echo "Missing docs.json" && exit 1)
+          test -f theme.json || (echo "Missing theme.json" && exit 1)
+          test -f index.mdx || (echo "Missing index.mdx" && exit 1)
+          test -f package.json || (echo "Missing package.json" && exit 1)
+          echo "✅ Template ${{ matrix.template }} structure is valid"
+
+  validate-themes:
+    name: Validate Themes
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        theme: [default, minimal, enterprise]
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Validate theme structure
+        run: |
+          cd themes/${{ matrix.theme }}
+          # Check required files exist
+          test -f theme.json || (echo "Missing theme.json" && exit 1)
+          test -f README.md || (echo "Missing README.md" && exit 1)
+          echo "✅ Theme ${{ matrix.theme }} structure is valid"
+
+  validate-docs:
+    name: Validate Documentation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          
+      - name: Validate docs structure
+        run: |
+          cd docs
+          test -f docs.json || (echo "Missing docs.json" && exit 1)
+          test -f index.mdx || (echo "Missing index.mdx" && exit 1)
+          echo "✅ Documentation structure is valid"

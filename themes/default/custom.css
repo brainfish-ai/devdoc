@@ -1,0 +1,48 @@
+/* Default Theme - Custom Styles */
+
+:root {
+  /* Primary colors */
+  --devdoc-primary: #10b981;
+  --devdoc-primary-light: #34d399;
+  --devdoc-primary-dark: #059669;
+  
+  /* Typography */
+  --devdoc-font-family: 'Inter', system-ui, sans-serif;
+  --devdoc-heading-font-family: 'Inter', system-ui, sans-serif;
+  --devdoc-code-font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  
+  /* Layout */
+  --devdoc-sidebar-width: 280px;
+  --devdoc-content-max-width: 768px;
+}
+
+/* Smooth transitions for theme toggle */
+* {
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+/* Custom link styling */
+.docs-content a:not([class]) {
+  color: var(--devdoc-primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.docs-content a:not([class]):hover {
+  color: var(--devdoc-primary-dark);
+}
+
+/* Code block enhancements */
+pre code {
+  font-family: var(--devdoc-code-font-family);
+  font-size: 0.875rem;
+  line-height: 1.7;
+}
+
+/* Inline code */
+:not(pre) > code {
+  background-color: var(--muted);
+  padding: 0.125rem 0.375rem;
+  border-radius: 0.25rem;
+  font-size: 0.875em;
+}

@@ -1,0 +1,117 @@
+---
+title: "Images"
+description: "Display images with captions, styling options, and responsive sizing"
+---
+
+Display images with captions, styling options, and responsive sizing.
+
+## Basic Image
+
+```jsx
+<Image 
+  src="https://picsum.photos/800/400" 
+  alt="Sample image"
+/>
+```
+
+## Image with Caption
+
+```jsx
+<Image 
+  src="https://picsum.photos/800/400" 
+  alt="Sample image"
+  caption="An example image with a descriptive caption"
+/>
+```
+
+## Image Sizing
+
+Control the maximum width of images:
+
+```jsx
+<Image 
+  src="https://picsum.photos/800/400" 
+  alt="Sample image"
+  maxWidth={400}
+  caption="Constrained to 400px width"
+/>
+```
+
+## Screenshot Component
+
+Pre-styled for app screenshots with rounded corners, shadow, and border:
+
+```jsx
+<Screenshot 
+  src="https://picsum.photos/800/500" 
+  alt="App screenshot"
+  caption="Dashboard overview"
+/>
+```
+
+Screenshots automatically apply:
+- Rounded corners
+- Subtle shadow
+- Border
+- Optional caption
+
+## Image Alignment
+
+Align images to the left, center, or right:
+
+```jsx
+<Image 
+  src="https://picsum.photos/300/200" 
+  alt="Left aligned"
+  align="left"
+  maxWidth={200}
+/>
+
+<Image 
+  src="https://picsum.photos/300/200" 
+  alt="Right aligned"
+  align="right"
+  maxWidth={200}
+/>
+```
+
+## Frame Component
+
+Wrap any content in a styled frame with optional caption:
+
+```jsx
+<Frame caption="Dashboard screenshot">
+  <img src="/images/dashboard.png" alt="Dashboard" />
+</Frame>
+```
+
+## Props
+
+### Image Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `src` | string | required | Image URL |
+| `alt` | string | required | Alt text for accessibility |
+| `width` | number | - | Fixed width in pixels |
+| `height` | number | - | Fixed height in pixels |
+| `maxWidth` | number | - | Maximum width in pixels |
+| `caption` | string | - | Caption text below image |
+| `rounded` | boolean | true | Apply rounded corners |
+| `shadow` | boolean | false | Apply drop shadow |
+| `border` | boolean | false | Apply border |
+| `align` | string | center | Alignment: left, center, right |
+
+### Screenshot Props
+
+Same as Image, with these defaults:
+- `rounded`: true
+- `shadow`: true
+- `border`: true
+
+### Frame Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `children` | ReactNode | required | Content to frame |
+| `caption` | string | - | Caption text |

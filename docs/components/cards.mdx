@@ -1,0 +1,110 @@
+---
+title: "Cards"
+description: "Display content in organized, clickable card layouts"
+---
+
+Cards are great for navigation and highlighting key content.
+
+## Basic Card
+
+```jsx
+<Card title="Getting Started" icon="rocket" href="/quickstart">
+  Learn how to get up and running quickly.
+</Card>
+```
+
+<Card title="Getting Started" icon="rocket" href="/quickstart">
+  Learn how to get up and running quickly.
+</Card>
+
+## Card with Image
+
+```jsx
+<Card title="Dashboard" img="/images/dashboard.png" href="/dashboard">
+  View your analytics and insights.
+</Card>
+```
+
+## Horizontal Card
+
+```jsx
+<Card title="Documentation" icon="book" horizontal>
+  Complete guides and API references for developers.
+</Card>
+```
+
+<Card title="Documentation" icon="book" horizontal>
+  Complete guides and API references for developers.
+</Card>
+
+## Card Group
+
+Display cards in a responsive grid:
+
+```jsx
+<CardGroup cols={2}>
+  <Card title="First Card" icon="star">
+    Description for the first card.
+  </Card>
+  <Card title="Second Card" icon="gear">
+    Description for the second card.
+  </Card>
+</CardGroup>
+```
+
+<CardGroup cols={2}>
+  <Card title="First Card" icon="star">
+    Description for the first card.
+  </Card>
+  <Card title="Second Card" icon="gear">
+    Description for the second card.
+  </Card>
+</CardGroup>
+
+## Three Column Grid
+
+```jsx
+<CardGroup cols={3}>
+  <Card title="Install" icon="download">
+    Get started quickly.
+  </Card>
+  <Card title="Configure" icon="gear">
+    Set up your preferences.
+  </Card>
+  <Card title="Deploy" icon="rocket">
+    Ship to production.
+  </Card>
+</CardGroup>
+```
+
+<CardGroup cols={3}>
+  <Card title="Install" icon="download">
+    Get started quickly.
+  </Card>
+  <Card title="Configure" icon="gear">
+    Set up your preferences.
+  </Card>
+  <Card title="Deploy" icon="rocket">
+    Ship to production.
+  </Card>
+</CardGroup>
+
+## Props
+
+### Card Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `title` | string | required | Card title |
+| `icon` | string | - | Phosphor icon name |
+| `href` | string | - | Link destination |
+| `horizontal` | boolean | false | Horizontal layout |
+| `img` | string | - | Image URL |
+| `cta` | string | - | Call-to-action text |
+| `arrow` | boolean | - | Show arrow icon (auto for external) |
+
+### CardGroup Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `cols` | number | 2 | Number of columns (1-4) |

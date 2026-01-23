@@ -1,0 +1,168 @@
+{
+  "$schema": "https://devdoc.sh/docs.json",
+  "name": "DevDoc Documentation",
+  "favicon": "/favicon.svg",
+  "notice": {
+    "content": "🚀 DevDoc is in beta! [Get started](/quickstart) in under 5 minutes.",
+    "dismissible": true
+  },
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Guides",
+        "type": "docs",
+        "groups": [
+          {
+            "group": "Getting Started",
+            "icon": "rocket-launch",
+            "pages": [
+              "index",
+              "quickstart",
+              "deployment"
+            ]
+          },
+          {
+            "group": "CLI Reference",
+            "icon": "terminal",
+            "pages": [
+              "cli/overview",
+              "cli/create",
+              "cli/dev",
+              "cli/deploy",
+              "cli/keys"
+            ]
+          },
+          {
+            "group": "Writing Content",
+            "icon": "pencil-simple",
+            "pages": [
+              "essentials/markdown",
+              "essentials/typography",
+              {
+                "group": "Components",
+                "pages": [
+                  "essentials/components",
+                  "components/landing-pages",
+                  "components/accordion",
+                  "components/badge",
+                  "components/callouts",
+                  "components/cards",
+                  "components/code-blocks",
+                  "components/embeds",
+                  "components/highlight",
+                  "components/images",
+                  "components/mermaid",
+                  "components/steps",
+                  "components/tabs"
+                ]
+              },
+              "essentials/navigation",
+              "essentials/files"
+            ]
+          },
+          {
+            "group": "Configuration",
+            "icon": "gear",
+            "pages": [
+              "config/docs-json",
+              "config/theme",
+              "essentials/notice",
+              "essentials/seo",
+              "essentials/redirects"
+            ]
+          },
+          {
+            "group": "Advanced",
+            "icon": "code",
+            "pages": [
+              "essentials/openapi",
+              "essentials/graphql",
+              "essentials/changelog",
+              "essentials/llms-txt",
+              "ci-cd"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "API Reference",
+        "type": "openapi",
+        "path": "/api-reference",
+        "versions": [
+          { "version": "v1", "spec": "api-reference/openapi.json", "default": true }
+        ],
+        "groups": [
+          {
+            "group": "Overview",
+            "icon": "book-open",
+            "pages": [
+              "api-reference/introduction",
+              "api-reference/authentication"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "GraphQL API",
+        "type": "graphql",
+        "path": "/graphql-api",
+        "schema": "api-reference/schema.graphql",
+        "endpoint": "https://api.example.com/graphql",
+        "groups": [
+          {
+            "group": "Overview",
+            "icon": "book-open",
+            "pages": [
+              "api-reference/introduction",
+              "api-reference/authentication"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Changelog",
+        "type": "changelog",
+        "path": "/changelog"
+      }
+    ],
+    "global": {
+      "anchors": [
+        {
+          "anchor": "GitHub",
+          "href": "https://github.com/brainfish-ai/devdoc",
+          "icon": "github-logo"
+        }
+      ]
+    }
+  },
+  "navbar": {
+    "primary": {
+      "label": "Sign up",
+      "href": "https://app.brainfi.sh"
+    }
+  },
+  "openapi": "api-reference/openapi.json",
+  "api": {
+    "baseUrl": "https://api.devdoc.sh",
+    "playground": {
+      "mode": "show"
+    }
+  },
+  "seo": {
+    "indexing": "navigation",
+    "metatags": {
+      "og:image": "https://devdoc.sh/og-image.png",
+      "twitter:card": "summary_large_image"
+    }
+  },
+  "redirects": [
+    {
+      "source": "/introduction",
+      "destination": "/#guides/page/index"
+    },
+    {
+      "source": "/quickstart",
+      "destination": "/#guides/page/index"
+    }
+  ]
+}

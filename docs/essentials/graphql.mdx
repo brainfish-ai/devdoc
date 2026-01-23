@@ -1,0 +1,306 @@
+---
+title: "GraphQL Setup"
+description: "Configure your GraphQL API documentation from schema files"
+---
+
+Generate interactive GraphQL API documentation from your schema definitions.
+
+## Features
+
+<CardGroup cols={2}>
+  <Card title="Schema Explorer" icon="diagram-project">
+    Browse types, queries, mutations, and subscriptions
+  </Card>
+  <Card title="GraphQL Playground" icon="play-circle">
+    Test GraphQL operations directly in the browser
+  </Card>
+  <Card title="Auto Documentation" icon="file-doc">
+    Documentation extracted from schema descriptions
+  </Card>
+  <Card title="Variable Support" icon="brackets-curly">
+    Auto-generated example variables from types
+  </Card>
+</CardGroup>
+
+## Quick Setup
+
+### 1. Add Your GraphQL Schema
+
+Place your GraphQL schema file (SDL format) in your docs folder:
+
+```
+your-docs/
+├── api-reference/
+│   └── schema.graphql    # Your GraphQL schema
+├── docs.json
+└── ...
+```
+
+### 2. Configure docs.json
+
+Add a GraphQL tab to your navigation:
+
+```json
+{
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "GraphQL API",
+        "type": "graphql",
+        "path": "/graphql",
+        "schema": "api-reference/schema.graphql",
+        "endpoint": "https://api.example.com/graphql"
+      }
+    ]
+  }
+}
+```
+
+<Tip>
+The `schema` points to your SDL file, and `endpoint` is the GraphQL endpoint for the playground.
+</Tip>
+
+## Multiple Schemas
+
+Support multiple GraphQL schemas (e.g., public vs admin API):
+
+```json
+{
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "GraphQL API",
+        "type": "graphql",
+        "path": "/graphql",
+        "schemas": [
+          {
+            "name": "Public API",
+            "schema": "api-reference/public.graphql",
+            "endpoint": "https://api.example.com/graphql",
+            "default": true
+          },
+          {
+            "name": "Admin API",
+            "schema": "api-reference/admin.graphql",
+            "endpoint": "https://admin.example.com/graphql"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+## Adding Documentation Pages
+
+Add custom MDX documentation pages alongside your GraphQL operations using the `groups` property:
+
+```json
+{
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "GraphQL API",
+        "type": "graphql",
+        "path": "/graphql",
+        "schema": "api-reference/schema.graphql",
+        "endpoint": "https://api.example.com/graphql",
+        "groups": [
+          {
+            "group": "Overview",
+            "pages": [
+              "api-reference/introduction",
+              "api-reference/authentication"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+Then create the corresponding MDX files:
+
+```
+your-docs/
+├── api-reference/
+│   ├── schema.graphql
+│   ├── introduction.mdx
+│   └── authentication.mdx
+├── docs.json
+└── ...
+```
+
+<Tip>
+Documentation pages appear in the sidebar above your GraphQL operations, making it easy to provide context, authentication guides, and getting started content.
+</Tip>
+
+## Schema Format
+
+Your schema file should be valid GraphQL SDL (Schema Definition Language):
+
+```graphql
+"""
+A user in the system
+"""
+type User {
+  "Unique identifier"
+  id: ID!
+  "User's email address"
+  email: String!
+  "Display name"
+  name: String!
+  "User's projects"
+  projects: [Project!]!
+}
+
+"""
+Query root
+"""
+type Query {
+  "Get the currently authenticated user"
+  me: User
+  
+  "Get a user by ID"
+  user(id: ID!): User
+  
+  "List all users"
+  users(first: Int, after: String): UserConnection!
+}
+
+"""
+Mutation root
+"""
+type Mutation {
+  "Create a new user"
+  createUser(input: CreateUserInput!): User!
+  
+  "Update user profile"
+  updateUser(id: ID!, input: UpdateUserInput!): User!
+}
+```
+
+## Documentation from Descriptions
+
+Add descriptions using triple quotes or hash comments:
+
+```graphql
+"""
+Block description for types and fields.
+Supports **markdown** formatting.
+"""
+type User {
+  "Single-line field description"
+  id: ID!
+  
+  """
+  Multi-line description
+  with more details
+  """
+  email: String!
+}
+```
+
+## Input Types
+
+Define input types for mutations:
+
+```graphql
+"""
+Input for creating a user
+"""
+input CreateUserInput {
+  "User's email"
+  email: String!
+  "Display name"
+  name: String!
+  "Optional avatar URL"
+  avatar: String
+}
+```
+
+## Enums
+
+Define enums with descriptions:
+
+```graphql
+"""
+User role in the system
+"""
+enum UserRole {
+  "Regular user with limited access"
+  USER
+  "Administrator with full access"
+  ADMIN
+  "Moderator with content management access"
+  MODERATOR
+}
+```
+
+## Custom Scalars
+
+Declare custom scalar types:
+
+```graphql
+"ISO 8601 date-time string"
+scalar DateTime
+
+"Arbitrary JSON data"
+scalar JSON
+
+"URL string"
+scalar URL
+```
+
+## Directives
+
+Use directives for field-level metadata:
+
+```graphql
+directive @deprecated(
+  reason: String = "No longer supported"
+) on FIELD_DEFINITION | ENUM_VALUE
+
+type Query {
+  oldEndpoint: String @deprecated(reason: "Use newEndpoint instead")
+  newEndpoint: String
+}
+```
+
+## Authentication
+
+GraphQL authentication is typically handled via headers. Configure your playground to include auth:
+
+```json
+{
+  "api": {
+    "baseUrl": "https://api.example.com",
+    "playground": {
+      "mode": "show"
+    }
+  }
+}
+```
+
+The playground will automatically include authentication headers configured in the global auth settings.
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Use Descriptive Names">
+    Name your types, fields, and arguments clearly. Use `createUser` instead of `create`, `userById` instead of `get`.
+  </Accordion>
+  
+  <Accordion title="Add Descriptions">
+    Every type, field, and argument should have a description. These become your API documentation.
+  </Accordion>
+  
+  <Accordion title="Use Non-Null Types">
+    Mark required fields as non-null (`!`) and use nullable types for optional fields.
+  </Accordion>
+  
+  <Accordion title="Paginate Lists">
+    Use connection patterns (edges, pageInfo) for lists that can grow large.
+  </Accordion>
+</AccordionGroup>

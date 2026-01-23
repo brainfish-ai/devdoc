@@ -1,0 +1,112 @@
+---
+title: "Embeds"
+description: "Embed videos, iframes, and external content"
+---
+
+Embed videos, iframes, and external content in your documentation.
+
+## Video
+
+Embed YouTube or Vimeo videos with automatic aspect ratio:
+
+### YouTube
+
+```jsx
+<Video 
+  src="https://www.youtube.com/watch?v=dQw4w9WgXcQ" 
+  title="Video title"
+/>
+```
+
+### Vimeo
+
+```jsx
+<Video 
+  src="https://vimeo.com/123456789" 
+  title="Vimeo video"
+/>
+```
+
+## Loom
+
+Embed Loom recordings for tutorials and walkthroughs:
+
+```jsx
+<Loom id="your-loom-video-id" />
+```
+
+<Note>
+Find your Loom video ID in the share URL: `https://www.loom.com/share/VIDEO_ID`
+</Note>
+
+## Iframe
+
+Embed any external content with a responsive iframe:
+
+```jsx
+<Iframe 
+  src="https://example.com" 
+  height={400}
+  title="Embedded content"
+/>
+```
+
+### CodeSandbox Example
+
+```jsx
+<Iframe 
+  src="https://codesandbox.io/embed/new"
+  height={500}
+  title="CodeSandbox"
+/>
+```
+
+### Figma Embed
+
+```jsx
+<Iframe 
+  src="https://www.figma.com/embed?embed_host=share&url=YOUR_FIGMA_URL"
+  height={450}
+  title="Figma Design"
+/>
+```
+
+## Custom Aspect Ratio
+
+Control the aspect ratio for different content types:
+
+```jsx
+<Video 
+  src="https://www.youtube.com/watch?v=VIDEO_ID" 
+  aspectRatio="4/3"
+  title="4:3 aspect ratio video"
+/>
+```
+
+## Props
+
+### Video Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `src` | string | required | YouTube or Vimeo URL |
+| `title` | string | - | Accessible title |
+| `aspectRatio` | string | 16/9 | Video aspect ratio |
+
+### Loom Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `id` | string | required | Loom video ID |
+| `title` | string | - | Accessible title |
+
+### Iframe Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `src` | string | required | URL to embed |
+| `title` | string | - | Accessible title |
+| `width` | string/number | 100% | Width |
+| `height` | string/number | 400 | Height |
+| `aspectRatio` | string | - | Aspect ratio (overrides height) |
+| `allowFullScreen` | boolean | true | Allow fullscreen |
