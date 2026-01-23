@@ -51,17 +51,13 @@ See the [Configuration Guide](/guides/configuration) for more details.
 
 ## Deployment
 
-Deploy to Vercel:
-
-```bash
-vercel
-```
-
-Or use DevDoc's hosting:
+Deploy to DevDoc hosting:
 
 ```bash
 npx @brainfish-ai/devdoc deploy
 ```
+
+Your docs will be available at `https://your-subdomain.devdoc.sh`
 
 ## Learn More
 
