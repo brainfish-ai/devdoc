@@ -1,0 +1,89 @@
+---
+description: Create new documentation pages interactively
+globs: ["**/*.mdx", "**/docs.json"]
+---
+
+# Create Documentation
+
+When asked to create documentation:
+
+## Step 0: Read Context
+
+Read `.devdoc/context.json` if exists for terminology, templates, and code language.
+
+## Step 1: Understand What to Create
+
+Ask: "What would you like to document?
+1. **A feature or concept** - I'll create a guide/tutorial
+2. **Code files** - Point me to the code, I'll generate docs
+3. **API endpoints** - I'll analyze your API
+4. **Something else** - Describe what you need"
+
+## Step 2: Gather Information
+
+**For Feature/Concept:**
+- Topic/title?
+- Page type? (Guide, Tutorial, Reference, Troubleshooting)
+- Specific sections?
+
+**For Code Documentation:**
+- Which files/directories?
+- Focus? (Public API, Architecture, Examples, All)
+- Read and extract functions, types, examples
+
+**For API Documentation:**
+- Check for OpenAPI/GraphQL specs
+- If found, offer to generate from spec
+- Extract endpoints, parameters, responses
+
+## Step 3: Read Template
+
+Read from `.devdoc/templates/`:
+- Guide → `guide.md`
+- Tutorial → `tutorial.md`
+- API → `api-reference.md`
+- Quickstart → `quickstart.md`
+- Troubleshooting → `troubleshooting.md`
+
+## Step 4: Generate Content
+
+1. Follow template structure
+2. Apply context (terminology, voice)
+3. Include mermaid diagrams for flows
+4. Add real code examples
+5. Use MDX components (Steps, Cards, etc.)
+
+## Step 5: Save and Update Navigation
+
+1. Propose file location
+2. Create MDX file
+3. Ask to update docs.json
+4. Show summary
+
+## Code to Doc Example
+
+```typescript
+// Source
+export function validateToken(token: string): boolean
+```
+
+Generates:
+```mdx
+## validateToken
+
+Validates an authentication token.
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `token` | `string` | JWT token to validate |
+
+**Returns:** `boolean`
+```
+
+## Guidelines
+
+- Extract real examples, don't fabricate
+- Include error handling
+- Add TODO for sections needing review
+- Use mermaid for complex flows
+- Apply terminology from context.json

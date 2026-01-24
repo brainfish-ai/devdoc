@@ -1,0 +1,95 @@
+---
+description: Update existing documentation by analyzing codebase
+globs: ["**/*.mdx", "**/docs.json"]
+---
+
+# Update Documentation
+
+When asked to update documentation:
+
+## Step 0: Read Context
+
+Read `.devdoc/context.json` for terminology and conventions.
+
+## Step 1: Understand What to Update
+
+Ask: "What would you like to update?
+1. **A specific page** - Tell me which page
+2. **Sync with codebase** - I'll find outdated docs
+3. **Navigation** - Update docs.json
+4. **Multiple pages** - Describe changes
+5. **Fix issues** - Point me to problems"
+
+## Step 2: Analyze
+
+**For Specific Page:**
+- Read current content
+- Ask what changes needed
+
+**For Codebase Sync:**
+Compare docs vs code:
+- Function signatures changed?
+- New exports undocumented?
+- Removed features still documented?
+- Versions outdated?
+
+Generate sync report:
+```
+## Sync Report
+
+### Outdated
+- `api/users.mdx`: signature changed
+- `quickstart.mdx`: version outdated
+
+### Missing
+- New endpoint not documented
+
+### Up to Date ✓
+- `guides/auth.mdx`
+```
+
+**For Navigation:**
+- Read docs.json
+- Ask what to change
+
+## Step 3: Propose Changes
+
+Show what will change before applying:
+
+"I'll make these changes:
+- `api/users.mdx`: Update signature
+- `quickstart.mdx`: Update version
+- `docs.json`: Add new page
+
+Proceed?"
+
+## Step 4: Apply Updates
+
+- Preserve prose, update technical details
+- Fix terminology per context.json
+- Add deprecation notices for removed features
+- Create stubs for new features
+
+## Update Patterns
+
+**Changed Signature:**
+Update code and parameters table.
+
+**Removed Feature:**
+```mdx
+<Warning>
+**Deprecated in v2.0**: Use `newMethod()` instead.
+</Warning>
+```
+
+**New Feature:**
+```mdx
+{/* TODO: Document this */}
+## New Feature
+Coming soon...
+```
+
+## Summary
+
+Show what was updated and suggest:
+"Use `/commit-doc` when ready to commit changes."

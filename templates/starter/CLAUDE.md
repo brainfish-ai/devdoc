@@ -2,6 +2,15 @@
 
 This is a DevDoc documentation project using MDX (Markdown + React components).
 
+## Source Code Location
+
+If this docs folder is inside a larger repository, the source code is in the parent directory:
+- Source code: `../src/` or `../lib/`
+- Package config: `../package.json`
+- README: `../README.md`
+
+When generating documentation, always check the parent directory (`../`) for source code to document.
+
 ## Project Structure
 
 ```
