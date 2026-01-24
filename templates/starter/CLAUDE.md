@@ -197,7 +197,10 @@ If you have Claude Code skills installed (`devdoc ai`):
 
 - `/bootstrap-docs` - Generate documentation from codebase
 - `/migrate-docs` - Migrate from other platforms
-- `/sync-docs` - Update outdated documentation
+- `/import-api-spec` - Import OpenAPI, GraphQL, or AsyncAPI specs
 - `/check-docs` - Health check for docs
-- `/create-doc-page` - Create new MDX page
-- `/update-docs-json` - Update navigation
+- `/blame-doc` - Find duplicates, outdated content, discrepancies
+- `/create-doc` - Create new documentation page
+- `/update-doc` - Update existing documentation
+- `/delete-doc` - Delete documentation pages
+- `/commit-doc` - Commit documentation changes

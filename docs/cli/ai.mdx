@@ -40,7 +40,6 @@ Setting up AI agent configuration...
 ✓ Created CLAUDE.md
 ✓ Created .claude/skills/bootstrap-docs/SKILL.md
 ✓ Created .claude/skills/migrate-docs/SKILL.md
-✓ Created .claude/skills/sync-docs/SKILL.md
 ...
 
 AI agent configuration complete!
@@ -67,7 +66,6 @@ Updating AI agent configuration...
 
 ✓ Updated CLAUDE.md
 ✓ Updated .claude/skills/bootstrap-docs/SKILL.md
-✓ Updated .claude/skills/sync-docs/SKILL.md
 ✓ Updated .cursor/rules/devdoc-bootstrap.mdc
 ...
 
@@ -108,12 +106,12 @@ npx @brainfish-ai/devdoc ai --tool claude --update
 | `.claude/skills/bootstrap-docs/SKILL.md` | Generate docs from codebase |
 | `.claude/skills/migrate-docs/SKILL.md` | Migrate from other platforms |
 | `.claude/skills/import-api-spec/SKILL.md` | Import OpenAPI/GraphQL specs |
-| `.claude/skills/sync-docs/SKILL.md` | Find and fix outdated docs |
 | `.claude/skills/check-docs/SKILL.md` | Quick health check |
-| `.claude/skills/create-doc-page/SKILL.md` | Create new MDX page |
-| `.claude/skills/update-docs-json/SKILL.md` | Update navigation |
-| `.claude/skills/generate-api-docs/SKILL.md` | Generate API reference |
-| `.claude/skills/docs-from-code/SKILL.md` | Generate docs from code |
+| `.claude/skills/blame-doc/SKILL.md` | Find duplicates, outdated content, discrepancies |
+| `.claude/skills/create-doc/SKILL.md` | Create new documentation page |
+| `.claude/skills/update-doc/SKILL.md` | Update existing documentation |
+| `.claude/skills/delete-doc/SKILL.md` | Delete documentation pages |
+| `.claude/skills/commit-doc/SKILL.md` | Commit documentation changes |
 
 ### Cursor
 
@@ -122,7 +120,11 @@ npx @brainfish-ai/devdoc ai --tool claude --update
 | `.cursor/rules/devdoc.mdc` | Core DevDoc writing rules |
 | `.cursor/rules/devdoc-bootstrap.mdc` | Repository analysis rules |
 | `.cursor/rules/devdoc-migrate.mdc` | Migration rules |
-| `.cursor/rules/devdoc-sync.mdc` | Documentation sync rules |
+| `.cursor/rules/devdoc-blame.mdc` | Documentation analysis rules |
+| `.cursor/rules/devdoc-create.mdc` | Page creation rules |
+| `.cursor/rules/devdoc-update.mdc` | Documentation update rules |
+| `.cursor/rules/devdoc-delete.mdc` | Page deletion rules |
+| `.cursor/rules/devdoc-commit.mdc` | Commit rules |
 
 ## Available Commands After Setup
 
@@ -133,12 +135,12 @@ npx @brainfish-ai/devdoc ai --tool claude --update
 | `/bootstrap-docs` | Analyze repo and generate initial documentation |
 | `/migrate-docs` | Migrate from Mintlify, Docusaurus, GitBook, etc. |
 | `/import-api-spec` | Import OpenAPI, GraphQL, or AsyncAPI specs |
-| `/sync-docs` | Find and fix outdated documentation |
 | `/check-docs` | Quick health check without changes |
-| `/create-doc-page` | Create a new documentation page |
-| `/update-docs-json` | Add pages to navigation |
-| `/generate-api-docs` | Generate API documentation |
-| `/docs-from-code` | Generate docs from specific code files |
+| `/blame-doc` | Find duplicates, outdated content, discrepancies |
+| `/create-doc` | Create a new documentation page |
+| `/update-doc` | Update existing documentation |
+| `/delete-doc` | Delete documentation pages |
+| `/commit-doc` | Commit documentation changes |
 
 ### Cursor Prompts
 
@@ -147,8 +149,10 @@ In Agent mode, try these prompts:
 - "Analyze this repo and generate initial documentation"
 - "Migrate my Mintlify docs to DevDoc format"
 - "Check my docs for outdated content"
+- "Blame docs - find duplicates and discrepancies"
 - "Create a new guide about authentication"
-- "Add this page to the navigation"
+- "Update the quickstart guide"
+- "Delete the deprecated API page"
 
 ## Example Workflow
 
@@ -175,13 +179,6 @@ In Agent mode, try these prompts:
     ```
     
     Review generated docs and make adjustments.
-  </Step>
-  
-  <Step title="Keep docs in sync">
-    After code changes, run:
-    ```
-    /sync-docs
-    ```
   </Step>
   
   <Step title="Update skills periodically">

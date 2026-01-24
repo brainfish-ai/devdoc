@@ -113,13 +113,19 @@ npx @brainfish-ai/devdoc ai
 |---------|-------------|
 | `/bootstrap-docs` | Generate docs from your codebase |
 | `/migrate-docs` | Migrate from Mintlify, Docusaurus, etc. |
-| `/sync-docs` | Find and fix outdated documentation |
-| `/create-doc-page` | Create a new documentation page |
+| `/import-api-spec` | Import OpenAPI, GraphQL, or AsyncAPI specs |
+| `/check-docs` | Quick health check |
+| `/blame-doc` | Find duplicates, outdated content, discrepancies |
+| `/create-doc` | Create a new documentation page |
+| `/update-doc` | Update existing documentation |
+| `/delete-doc` | Delete documentation pages |
+| `/commit-doc` | Commit documentation changes |
 
 **In Cursor**, just ask in Agent mode:
+- "Generate initial documentation from this repo"
+- "Blame docs - find duplicates and outdated content"
 - "Create a new guide about authentication"
-- "Check my docs for outdated content"
-- "Add this page to the navigation"
+- "Update the quickstart guide"
 
 ## Learn More
 
