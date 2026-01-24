@@ -26,5 +26,6 @@
     "primaryLight": "#34d399",
     "primaryDark": "#059669"
   },
-  "defaultTheme": "system"
+  "defaultTheme": "system",
+  "customCss": "custom.css"
 }
