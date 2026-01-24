@@ -21,7 +21,7 @@ Your documentation is always available at `your-project.devdoc.sh`. With a custo
 <Steps>
   <Step title="Add your domain">
     ```bash
-    devdoc domain add docs.example.com
+    npx @brainfish-ai/devdoc domain add docs.example.com
     ```
   </Step>
   <Step title="Configure DNS">
@@ -29,7 +29,7 @@ Your documentation is always available at `your-project.devdoc.sh`. With a custo
   </Step>
   <Step title="Verify DNS">
     ```bash
-    devdoc domain verify
+    npx @brainfish-ai/devdoc domain verify
     ```
   </Step>
   <Step title="Wait for SSL">
@@ -42,7 +42,7 @@ Your documentation is always available at `your-project.devdoc.sh`. With a custo
 Run the `domain add` command with your desired domain:
 
 ```bash
-devdoc domain add docs.example.com
+npx @brainfish-ai/devdoc domain add docs.example.com
 ```
 
 You'll receive DNS records to configure:
@@ -92,7 +92,7 @@ Add the DNS records to your domain provider. The exact steps vary by provider:
 After adding DNS records, verify the configuration:
 
 ```bash
-devdoc domain verify
+npx @brainfish-ai/devdoc domain verify
 ```
 
 If successful:
@@ -118,7 +118,7 @@ SSL certificate will be provisioned automatically (1-24 hours).
 View your domain's current status anytime:
 
 ```bash
-devdoc domain status
+npx @brainfish-ai/devdoc domain status
 ```
 
 ### Status Values
@@ -136,13 +136,13 @@ devdoc domain status
 To remove your custom domain:
 
 ```bash
-devdoc domain remove
+npx @brainfish-ai/devdoc domain remove
 ```
 
 Or specify the domain explicitly:
 
 ```bash
-devdoc domain remove docs.example.com
+npx @brainfish-ai/devdoc domain remove docs.example.com
 ```
 
 Your documentation remains accessible at the default `*.devdoc.sh` subdomain.
@@ -277,20 +277,20 @@ To change your custom domain:
 
 ```bash
 # Remove existing domain
-devdoc domain remove
+npx @brainfish-ai/devdoc domain remove
 
 # Add new domain
-devdoc domain add new-docs.example.com
+npx @brainfish-ai/devdoc domain add new-docs.example.com
 ```
 
 ## CLI Reference
 
 | Command | Description |
 |---------|-------------|
-| `devdoc domain add <domain>` | Add a custom domain |
-| `devdoc domain status` | Check domain status |
-| `devdoc domain verify` | Verify DNS configuration |
-| `devdoc domain remove [domain]` | Remove custom domain |
+| `npx @brainfish-ai/devdoc domain add <domain>` | Add a custom domain |
+| `npx @brainfish-ai/devdoc domain status` | Check domain status |
+| `npx @brainfish-ai/devdoc domain verify` | Verify DNS configuration |
+| `npx @brainfish-ai/devdoc domain remove [domain]` | Remove custom domain |
 
 All commands support these options:
 

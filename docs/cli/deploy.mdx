@@ -8,7 +8,7 @@ Deploy your documentation to DevDoc's global hosting infrastructure.
 ## Usage
 
 ```bash
-devdoc deploy [options]
+npx @brainfish-ai/devdoc deploy [options]
 ```
 
 ## Options
@@ -118,13 +118,13 @@ Uploading...
 For automated deployments, pass the API key via environment variable:
 
 ```bash
-DEVDOC_API_KEY=sk_live_xyz789... devdoc deploy
+DEVDOC_API_KEY=sk_live_xyz789... npx @brainfish-ai/devdoc deploy
 ```
 
 Or use the `--api-key` flag:
 
 ```bash
-devdoc deploy --api-key sk_live_xyz789...
+npx @brainfish-ai/devdoc deploy --api-key sk_live_xyz789...
 ```
 
 <Warning>
@@ -144,7 +144,7 @@ The CLI checks for authentication in this order:
 Validate your configuration without deploying:
 
 ```bash
-devdoc deploy --dry-run
+npx @brainfish-ai/devdoc deploy --dry-run
 ```
 
 This will:
@@ -172,7 +172,7 @@ The deploy command bundles:
 Your API key may have been regenerated. Check `.devdoc.json` or regenerate:
 
 ```bash
-devdoc keys regenerate
+npx @brainfish-ai/devdoc keys regenerate
 ```
 
 ### "Project not found"
@@ -181,13 +181,13 @@ The project may have been deleted. Create a new project by removing `.devdoc.jso
 
 ```bash
 rm .devdoc.json
-devdoc deploy
+npx @brainfish-ai/devdoc deploy
 ```
 
 ### "Validation failed"
 
-Run `devdoc check` for detailed error messages:
+Run the check command for detailed error messages:
 
 ```bash
-devdoc check
+npx @brainfish-ai/devdoc check
 ```

@@ -5,32 +5,34 @@ description: Command line interface for managing your DevDoc documentation
 
 The DevDoc CLI helps you develop, build, and deploy your documentation from the command line.
 
-## Installation
+## Usage
 
-Install the CLI globally:
-
-```bash
-npm install -g @brainfish-ai/devdoc
-```
-
-Or use with npx (no installation required):
+Use the CLI with npx (recommended - no installation required):
 
 ```bash
 npx @brainfish-ai/devdoc <command>
+```
+
+Or install globally:
+
+```bash
+npm install -g @brainfish-ai/devdoc
+devdoc <command>
 ```
 
 ## Commands
 
 | Command | Description |
 |---------|-------------|
-| `devdoc create` | Create a new documentation project |
-| `devdoc dev` | Start development server with hot reload |
-| `devdoc build` | Build static site for production |
-| `devdoc deploy` | Deploy to DevDoc hosting |
-| `devdoc check` | Validate docs.json and content files |
-| `devdoc keys` | Manage API keys for your project |
-| `devdoc domain` | Manage custom domains |
-| `devdoc whoami` | Show current project information |
+| `npx @brainfish-ai/devdoc create` | Create a new documentation project |
+| `npx @brainfish-ai/devdoc dev` | Start development server with hot reload |
+| `npx @brainfish-ai/devdoc build` | Build static site for production |
+| `npx @brainfish-ai/devdoc deploy` | Deploy to DevDoc hosting |
+| `npx @brainfish-ai/devdoc check` | Validate docs.json and content files |
+| `npx @brainfish-ai/devdoc ai` | Set up AI agent configuration |
+| `npx @brainfish-ai/devdoc keys` | Manage API keys for your project |
+| `npx @brainfish-ai/devdoc domain` | Manage custom domains |
+| `npx @brainfish-ai/devdoc whoami` | Show current project information |
 
 ## Global Options
 
@@ -61,46 +63,49 @@ The CLI looks for configuration in this order:
 
 ```bash
 # Create a new project
-devdoc create my-docs
+npx @brainfish-ai/devdoc create my-docs
 
 # Create with specific template
-devdoc create my-docs --template openapi
+npx @brainfish-ai/devdoc create my-docs --template openapi
 
 # Start local development
-devdoc dev
+npx @brainfish-ai/devdoc dev
 
 # Deploy to production
-devdoc deploy
+npx @brainfish-ai/devdoc deploy
 
 # Check for errors
-devdoc check
+npx @brainfish-ai/devdoc check
+
+# Set up AI agents
+npx @brainfish-ai/devdoc ai
 
 # View project info
-devdoc whoami
+npx @brainfish-ai/devdoc whoami
 
 # Regenerate API key
-devdoc keys regenerate
+npx @brainfish-ai/devdoc keys regenerate
 
 # Add custom domain
-devdoc domain add docs.example.com
+npx @brainfish-ai/devdoc domain add docs.example.com
 
 # Check domain status
-devdoc domain status
+npx @brainfish-ai/devdoc domain status
 ```
 
 ## Next Steps
 
 <CardGroup cols={2}>
-  <Card title="devdoc create" icon="plus" href="/cli/create">
+  <Card title="Create Project" icon="plus" href="/cli/create">
     Create a new documentation site.
   </Card>
-  <Card title="devdoc deploy" icon="cloud-arrow-up" href="/cli/deploy">
+  <Card title="Deploy" icon="cloud-arrow-up" href="/cli/deploy">
     Deploy your documentation.
   </Card>
-  <Card title="devdoc dev" icon="play" href="/cli/dev">
+  <Card title="Development" icon="play" href="/cli/dev">
     Local development server.
   </Card>
-  <Card title="devdoc keys" icon="key" href="/cli/keys">
-    Manage API keys.
+  <Card title="AI Agents" icon="robot" href="/cli/ai">
+    Set up AI-powered documentation.
   </Card>
 </CardGroup>

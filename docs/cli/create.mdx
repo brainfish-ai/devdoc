@@ -8,7 +8,7 @@ The `devdoc create` command scaffolds a new documentation project with your choi
 ## Usage
 
 ```bash
-devdoc create [project-directory] [options]
+npx @brainfish-ai/devdoc create [project-directory] [options]
 ```
 
 ## Options
@@ -149,7 +149,7 @@ The `docs.json` includes a GraphQL API tab:
 Run without arguments to be prompted for project name and template:
 
 ```bash
-devdoc create
+npx @brainfish-ai/devdoc create
 ```
 
 ```
@@ -189,7 +189,7 @@ Your docs will be available at:
 Specify the project directory, then select a template:
 
 ```bash
-devdoc create my-docs
+npx @brainfish-ai/devdoc create my-docs
 ```
 
 ### Fully Specified
@@ -198,13 +198,13 @@ Skip all prompts:
 
 ```bash
 # Basic template
-devdoc create my-docs --template basic
+npx @brainfish-ai/devdoc create my-docs --template basic
 
 # OpenAPI template
-devdoc create my-docs --template openapi
+npx @brainfish-ai/devdoc create my-docs --template openapi
 
 # GraphQL template
-devdoc create my-docs --template graphql
+npx @brainfish-ai/devdoc create my-docs --template graphql
 ```
 
 ### Skip Git and Install
@@ -212,7 +212,7 @@ devdoc create my-docs --template graphql
 For CI environments or manual setup:
 
 ```bash
-devdoc create my-docs --template basic --no-git --no-install
+npx @brainfish-ai/devdoc create my-docs --template basic --no-git --no-install
 ```
 
 ## After Creating
@@ -230,7 +230,7 @@ Once your project is created:
     ```bash
     npm run dev
     # or
-    devdoc dev
+    npx @brainfish-ai/devdoc dev
     ```
 
     Your browser will automatically open to [http://localhost:3333](http://localhost:3333) with your docs.

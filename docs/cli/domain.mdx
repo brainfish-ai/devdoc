@@ -8,7 +8,7 @@ The `devdoc domain` command manages custom domains for your DevDoc project. Each
 ## Usage
 
 ```bash
-devdoc domain <subcommand> [options]
+npx @brainfish-ai/devdoc domain <subcommand> [options]
 ```
 
 ## Subcommands
@@ -18,13 +18,13 @@ devdoc domain <subcommand> [options]
 Add a custom domain to your project.
 
 ```bash
-devdoc domain add <custom-domain>
+npx @brainfish-ai/devdoc domain add <custom-domain>
 ```
 
 **Example:**
 
 ```bash
-devdoc domain add docs.example.com
+npx @brainfish-ai/devdoc domain add docs.example.com
 ```
 
 **Output:**
@@ -43,7 +43,7 @@ devdoc domain add docs.example.com
      Value: devdoc-verify=abc123xyz...
 
 After adding DNS records, run:
-  devdoc domain verify
+  npx @brainfish-ai/devdoc domain verify
 ```
 
 ### domain status
@@ -51,7 +51,7 @@ After adding DNS records, run:
 Check the status of your custom domain.
 
 ```bash
-devdoc domain status
+npx @brainfish-ai/devdoc domain status
 ```
 
 **Output (pending):**
@@ -73,7 +73,7 @@ TXT Record:
   Name:  _devdoc-verify.docs.example.com
   Value: devdoc-verify=abc123xyz...
 
-Next: Add the DNS records above, then run "devdoc domain verify"
+Next: Add the DNS records above, then run "npx @brainfish-ai/devdoc domain verify"
 ```
 
 **Output (active):**
@@ -97,7 +97,7 @@ https://my-project.devdoc.sh
 Verify DNS configuration for your custom domain.
 
 ```bash
-devdoc domain verify
+npx @brainfish-ai/devdoc domain verify
 ```
 
 **Output (success):**
@@ -117,7 +117,7 @@ TXT Verification Record:
 DNS verified!
 SSL certificate will be provisioned automatically (1-24 hours).
 
-Run "devdoc domain status" to check SSL provisioning progress.
+Run "npx @brainfish-ai/devdoc domain status" to check SSL provisioning progress.
 ```
 
 **Output (incomplete):**
@@ -141,7 +141,7 @@ DNS verification incomplete
 DNS records not found. Please add the required CNAME and TXT records.
 
 DNS changes can take 1-24 hours to propagate.
-Run "devdoc domain verify" again later.
+Run "npx @brainfish-ai/devdoc domain verify" again later.
 ```
 
 ### domain remove
@@ -149,7 +149,7 @@ Run "devdoc domain verify" again later.
 Remove a custom domain from your project.
 
 ```bash
-devdoc domain remove [custom-domain]
+npx @brainfish-ai/devdoc domain remove [custom-domain]
 ```
 
 If no domain is specified, removes the project's configured domain.
@@ -157,7 +157,7 @@ If no domain is specified, removes the project's configured domain.
 **Example:**
 
 ```bash
-devdoc domain remove docs.example.com
+npx @brainfish-ai/devdoc domain remove docs.example.com
 ```
 
 **Output:**
@@ -168,7 +168,7 @@ devdoc domain remove docs.example.com
 Your docs remain accessible at the default subdomain.
 
 You can add a new custom domain anytime with:
-  devdoc domain add docs.yourdomain.com
+  npx @brainfish-ai/devdoc domain add docs.yourdomain.com
 ```
 
 ## Options
@@ -186,38 +186,38 @@ All subcommands support these options:
 
 ```bash
 # Add the domain
-devdoc domain add docs.mycompany.com
+npx @brainfish-ai/devdoc domain add docs.mycompany.com
 
 # Configure DNS records (see output)
 # Wait for DNS propagation (1-24 hours)
 
 # Verify DNS
-devdoc domain verify
+npx @brainfish-ai/devdoc domain verify
 
 # Check status until active
-devdoc domain status
+npx @brainfish-ai/devdoc domain status
 ```
 
 ### Change your custom domain
 
 ```bash
 # Remove existing domain
-devdoc domain remove
+npx @brainfish-ai/devdoc domain remove
 
 # Add new domain
-devdoc domain add new-docs.mycompany.com
+npx @brainfish-ai/devdoc domain add new-docs.mycompany.com
 ```
 
 ### Use in CI/CD
 
 ```bash
 # Check domain status in deployment script
-devdoc domain status --api-key $DEVDOC_API_KEY
+npx @brainfish-ai/devdoc domain status --api-key $DEVDOC_API_KEY
 ```
 
 ## Requirements
 
-- Project must be deployed (`devdoc deploy`) before adding a custom domain
+- Project must be deployed (`npx @brainfish-ai/devdoc deploy`) before adding a custom domain
 - API key is required (stored in `.devdoc.json` after first deploy)
 - DNS access to your domain for adding records
 
@@ -234,7 +234,7 @@ devdoc domain status --api-key $DEVDOC_API_KEY
   <Card title="Custom Domains Guide" icon="globe" href="/custom-domains">
     Complete guide to DNS setup and troubleshooting.
   </Card>
-  <Card title="devdoc deploy" icon="cloud-arrow-up" href="/cli/deploy">
+  <Card title="Deploy" icon="cloud-arrow-up" href="/cli/deploy">
     Deploy your documentation first.
   </Card>
 </CardGroup>

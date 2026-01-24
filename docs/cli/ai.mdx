@@ -8,7 +8,7 @@ The `devdoc ai` command sets up AI agent configuration in your DevDoc project, e
 ## Usage
 
 ```bash
-devdoc ai [options]
+npx @brainfish-ai/devdoc ai [options]
 ```
 
 ## Options
@@ -23,7 +23,7 @@ devdoc ai [options]
 Running without options prompts you to select your AI tool:
 
 ```bash
-$ devdoc ai
+$ npx @brainfish-ai/devdoc ai
 
 DevDoc AI Agent Setup
 
@@ -51,15 +51,15 @@ AI agent configuration complete!
 Update your skills to the latest version by running the command again:
 
 ```bash
-devdoc ai
+npx @brainfish-ai/devdoc ai
 # or explicitly:
-devdoc ai --update
+npx @brainfish-ai/devdoc ai --update
 ```
 
 The command auto-detects existing installations and shows what's updated:
 
 ```bash
-$ devdoc ai
+$ npx @brainfish-ai/devdoc ai
 
 DevDoc AI Agent Update
 
@@ -86,16 +86,16 @@ Skip the interactive prompt by specifying the tool:
 
 ```bash
 # Claude Code only
-devdoc ai --tool claude
+npx @brainfish-ai/devdoc ai --tool claude
 
 # Cursor only
-devdoc ai --tool cursor
+npx @brainfish-ai/devdoc ai --tool cursor
 
 # Both tools
-devdoc ai --tool both
+npx @brainfish-ai/devdoc ai --tool both
 
 # Update specific tool
-devdoc ai --tool claude --update
+npx @brainfish-ai/devdoc ai --tool claude --update
 ```
 
 ## Files Created
@@ -155,7 +155,7 @@ In Agent mode, try these prompts:
 <Steps>
   <Step title="Set up AI agents">
     ```bash
-    devdoc ai
+    npx @brainfish-ai/devdoc ai
     ```
   </Step>
   
@@ -171,7 +171,7 @@ In Agent mode, try these prompts:
   
   <Step title="Preview and refine">
     ```bash
-    devdoc dev
+    npx @brainfish-ai/devdoc dev
     ```
     
     Review generated docs and make adjustments.
@@ -186,7 +186,7 @@ In Agent mode, try these prompts:
   
   <Step title="Update skills periodically">
     ```bash
-    devdoc ai --update
+    npx @brainfish-ai/devdoc ai --update
     ```
     
     Keep skills updated for new features and improvements.

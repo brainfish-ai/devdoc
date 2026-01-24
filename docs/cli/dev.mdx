@@ -8,7 +8,7 @@ Start a local development server to preview your documentation with hot reload.
 ## Usage
 
 ```bash
-devdoc dev [options]
+npx @brainfish-ai/devdoc dev [options]
 ```
 
 ## Options
@@ -25,7 +25,7 @@ devdoc dev [options]
 Start the development server:
 
 ```bash
-devdoc dev
+npx @brainfish-ai/devdoc dev
 ```
 
 Output:
@@ -48,7 +48,7 @@ The browser will automatically open to your documentation site.
 If you don't want the browser to open automatically:
 
 ```bash
-devdoc dev --no-open
+npx @brainfish-ai/devdoc dev --no-open
 ```
 
 ## Custom Port
@@ -56,7 +56,7 @@ devdoc dev --no-open
 Run on a different port:
 
 ```bash
-devdoc dev --port 4000
+npx @brainfish-ai/devdoc dev --port 4000
 ```
 
 ## Hot Reload
@@ -142,7 +142,7 @@ sequenceDiagram
 If port 3000 is busy:
 
 ```bash
-devdoc dev --port 3001
+npx @brainfish-ai/devdoc dev --port 3001
 ```
 
 Or find and kill the process:
@@ -158,7 +158,7 @@ Try clearing the Next.js cache:
 
 ```bash
 rm -rf .next
-devdoc dev
+npx @brainfish-ai/devdoc dev
 ```
 
 ### MDX Parsing Errors
@@ -169,8 +169,8 @@ Check your MDX syntax. Common issues:
 - Invalid frontmatter YAML
 - Mismatched component brackets
 
-Run `devdoc check` for detailed validation:
+Run the check command for detailed validation:
 
 ```bash
-devdoc check
+npx @brainfish-ai/devdoc check
 ```
