@@ -17,12 +17,40 @@ Cards are great for navigation and highlighting key content.
   Learn how to get up and running quickly.
 </Card>
 
-## Card with Image
+## Card with Header Image
+
+Use `img` for a full-width header image:
 
 ```jsx
 <Card title="Dashboard" img="/images/dashboard.png" href="/dashboard">
   View your analytics and insights.
 </Card>
+```
+
+## Custom Icon Image
+
+Use a React node in `icon` for custom images:
+
+```jsx
+<Card 
+  title="Claude Code" 
+  icon={<img src="/assets/images/claude.png" className="h-8 w-8 object-contain" />}
+>
+  Custom skills with slash commands.
+</Card>
+```
+
+Control the size with Tailwind classes:
+
+```jsx
+{/* Small */}
+<Card icon={<img src="/logo.png" className="h-6 w-6" />} title="Small">...</Card>
+
+{/* Large */}
+<Card icon={<img src="/logo.png" className="h-12 w-12" />} title="Large">...</Card>
+
+{/* Rounded */}
+<Card icon={<img src="/logo.png" className="h-10 w-10 rounded-full" />} title="Rounded">...</Card>
 ```
 
 ## Horizontal Card
@@ -96,10 +124,11 @@ Display cards in a responsive grid:
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
 | `title` | string | required | Card title |
-| `icon` | string | - | Phosphor icon name |
+| `icon` | string \| ReactNode | - | Phosphor icon name or custom React element (e.g., `<img />`) |
+| `iconSize` | `sm` \| `md` \| `lg` \| `xl` | `md` | Icon container size (32px, 40px, 48px, 64px) |
 | `href` | string | - | Link destination |
 | `horizontal` | boolean | false | Horizontal layout |
-| `img` | string | - | Image URL |
+| `img` | string | - | Full-width header image URL |
 | `cta` | string | - | Call-to-action text |
 | `arrow` | boolean | - | Show arrow icon (auto for external) |
 
