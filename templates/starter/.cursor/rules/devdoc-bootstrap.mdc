@@ -1,5 +1,5 @@
 ---
-description: Rules for bootstrapping documentation from repository analysis
+description: Rules for bootstrapping documentation with context memory
 globs: ["**/README.md", "**/package.json", "**/src/**", "**/lib/**"]
 ---
 
@@ -7,60 +7,187 @@ globs: ["**/README.md", "**/package.json", "**/src/**", "**/lib/**"]
 
 When asked to bootstrap or generate initial documentation:
 
-## Analysis Checklist
+## Step 1: Check Context Memory
 
-1. Read README.md for project overview
-2. Check package.json for:
-   - Project name and description
-   - Dependencies (to understand tech stack)
-   - Scripts (for CLI documentation)
-3. Scan source directory structure
-4. Identify API endpoints or exported functions
-5. Look for existing OpenAPI/GraphQL specs
-6. Check for example files or tests
+**First, check if `.devdoc/context.json` exists:**
 
-## Documentation Generation Order
+- **If populated:** Read it and use saved context. Tell user: "Using existing product context."
+- **If empty/missing:** Run Discovery Flow below.
 
-1. index.mdx (homepage) - from README
-2. quickstart.mdx - installation + basic usage
-3. API reference - from specs or code analysis
-4. Feature guides - from major modules
+## Step 2: Discovery Flow
 
-## Always Include
+### 2a. Locate Project
 
-- Real code examples from the codebase
-- Accurate installation commands
-- Links between related pages
-- TODO comments for sections needing review
+- If `docs.json` exists → you're in docs folder, source is in `../`
+- If `package.json` + `src/` exist → you're at repo root
+- Otherwise, ask user for source code path
 
-## File Structure to Generate
+### 2b. Auto-Discover
 
+Scan and extract:
+- **README.md:** Product name, description, features
+- **package.json:** Language, framework, dependencies
+- **OpenAPI/GraphQL:** API style, auth, patterns
+- **Source structure:** Key directories, conventions
+
+### 2c. Ask Key Questions
+
+1. **Documentation Type:**
+   "What type of documentation?
+   1. **internal** - Team setup, architecture
+   2. **api** - API reference, SDKs for developers
+   3. **product** - Feature guides for end users"
+
+2. **Target Audience:**
+   "Who is your primary audience?"
+
+3. **Terminology (optional):**
+   "Any terms to use/avoid? Brand names? (Enter to skip)"
+
+4. **Code Examples:**
+   "Primary language for code examples?"
+
+### 2d. Create Context Memory
+
+Create `.devdoc/context.json`:
+
+```json
+{
+  "$schema": "https://devdoc.sh/schemas/context.json",
+  "version": "1.0",
+  "lastUpdated": "[timestamp]",
+  "product": {
+    "name": "[discovered]",
+    "description": "[discovered]",
+    "type": "[api/sdk/platform/cli]",
+    "targetAudience": "[from question]",
+    "keyFeatures": []
+  },
+  "terminology": {
+    "glossary": {},
+    "avoidTerms": [],
+    "brandNames": {}
+  },
+  "api": {
+    "style": "[REST/GraphQL if detected]",
+    "baseUrl": "[from spec]",
+    "authentication": { "type": "[from spec]" }
+  },
+  "codebase": {
+    "language": "[detected]",
+    "framework": "[detected]",
+    "sourceLocation": "../"
+  },
+  "documentation": {
+    "voice": "[based on docType]",
+    "perspective": "second_person",
+    "codeExamples": {
+      "primaryLanguage": "[from question]"
+    },
+    "templates": {
+      "guide": ".devdoc/templates/guide.md",
+      "apiReference": ".devdoc/templates/api-reference.md",
+      "tutorial": ".devdoc/templates/tutorial.md",
+      "quickstart": ".devdoc/templates/quickstart.md",
+      "troubleshooting": ".devdoc/templates/troubleshooting.md"
+    }
+  },
+  "learned": { "insights": [], "corrections": [] }
+}
+```
+
+Copy template files to `.devdoc/templates/` if missing.
+
+Tell user: "Created context in `.devdoc/context.json` - Product: {name}, Type: {docType}"
+
+## Step 3: Update docs.json
+
+Add `docType` to docs.json:
+```json
+{ "docType": "api" }
+```
+
+## Step 4: Generate Documentation
+
+**Before generating, always:**
+1. Read `.devdoc/context.json`
+2. Read appropriate template from `.devdoc/templates/`
+3. Apply terminology from context
+4. Use correct product name
+5. Match voice to docType
+
+### docType: "internal"
 ```
 docs/
-├── docs.json           # Navigation config
-├── index.mdx           # Homepage
-├── quickstart.mdx      # Getting started
-├── guides/
-│   └── overview.mdx    # Architecture
-├── api-reference/      # If API exists
-│   ├── introduction.mdx
-│   └── openapi.json
-└── theme.json          # Theme config
+├── .devdoc/context.json
+├── docs.json (docType: "internal")
+├── index.mdx              # Project overview
+├── getting-started/
+│   ├── setup.mdx          # Dev environment
+│   ├── prerequisites.mdx
+│   └── first-contribution.mdx
+├── architecture/
+│   ├── overview.mdx
+│   └── folder-structure.mdx
+├── development/
+│   ├── workflow.mdx
+│   ├── testing.mdx
+│   └── deployment.mdx
+└── contributing.mdx
 ```
+**Voice:** Technical, direct
 
-## Content Extraction
+### docType: "api"
+```
+docs/
+├── .devdoc/context.json
+├── docs.json (docType: "api")
+├── index.mdx              # Product intro
+├── quickstart.mdx         # 5-min start
+├── authentication.mdx
+├── guides/
+│   └── overview.mdx
+├── api-reference/
+│   ├── introduction.mdx
+│   ├── errors.mdx
+│   └── openapi.json
+├── sdks/ (if exist)
+└── changelog.mdx
+```
+**Voice:** Professional, code-focused
 
-| Source | Documentation |
-|--------|---------------|
-| README.md | Homepage, overview |
-| package.json | Name, version, scripts |
-| src/index.ts | Main exports |
-| tests/ | Usage examples |
-| .env.example | Configuration options |
+### docType: "product"
+```
+docs/
+├── .devdoc/context.json
+├── docs.json (docType: "product")
+├── index.mdx              # Product overview
+├── getting-started/
+│   ├── quickstart.mdx
+│   └── key-concepts.mdx
+├── features/
+│   └── {feature}.mdx
+├── tutorials/
+│   └── {workflow}.mdx
+├── troubleshooting/
+│   ├── common-issues.mdx
+│   └── faq.mdx
+└── release-notes.mdx
+```
+**Voice:** Friendly, non-technical
+
+## Content Guidelines
+
+| docType | Focus | Tone | Code |
+|---------|-------|------|------|
+| internal | Setup, architecture | Technical | Heavy |
+| api | Endpoints, auth, examples | Professional | Heavy |
+| product | Features, workflows | Friendly | Minimal |
 
 ## Quality Guidelines
 
+- Use terminology from context.json consistently
+- Read templates before generating each page type
 - Extract real examples, don't fabricate
-- Note areas needing human review
-- Generate SEO-friendly descriptions
-- Include all installation steps
+- Add TODO for sections needing review
+- Update context.json if you learn new info
