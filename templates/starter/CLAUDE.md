@@ -14,7 +14,7 @@ This is a DevDoc documentation project using MDX (Markdown + React components).
 ├── api-reference/      # API documentation
 │   ├── openapi.json    # OpenAPI specification
 │   └── schema.graphql  # GraphQL schema (if applicable)
-└── public/             # Static assets (images, logos)
+└── assets/             # Static assets (images, logos, favicon)
 ```
 
 ## MDX File Format
