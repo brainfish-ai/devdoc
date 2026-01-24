@@ -122,7 +122,7 @@ Does this location work, or would you prefer somewhere else?"
 - `docs/guides/{topic}.mdx` - {description}
 - Updated `docs.json` navigation
 
-Preview with `npx @brainfish-ai/devdoc dev`
+Preview with `npm run dev`
 
 Want me to create another page or make changes to this one?"
 

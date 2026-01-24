@@ -50,6 +50,19 @@ npm run dev
 
 Open [http://localhost:3333](http://localhost:3333) to view your documentation.
 
+## Available Commands
+
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start development server with hot reload |
+| `npm run build` | Build documentation for production |
+| `npm run start` | Start production server |
+| `npm run check` | Validate docs.json and MDX files |
+| `npm run deploy` | Deploy to DevDoc platform |
+| `npm run ai` | Set up AI agent configuration |
+| `npm run whoami` | Show current project info |
+| `npm run upgrade` | Update devdoc to latest version |
+
 ## Project Structure
 
 ```
@@ -92,10 +105,20 @@ See the [Configuration Guide](/guides/configuration) for more details.
 Deploy to DevDoc hosting with a single command:
 
 ```bash
-npx @brainfish-ai/devdoc deploy
+npm run deploy
 ```
 
 Your docs will be live at `https://your-subdomain.devdoc.sh`
+
+## Keeping DevDoc Updated
+
+To update devdoc to the latest version:
+
+```bash
+npm run upgrade
+```
+
+This ensures you always have the latest features and bug fixes.
 
 ## AI Agent Support
 
@@ -104,7 +127,7 @@ This project includes a `CLAUDE.md` file that teaches AI agents (Claude Code, Cu
 **Set up AI skills:**
 
 ```bash
-npx @brainfish-ai/devdoc ai
+npm run ai
 ```
 
 **Available commands in Claude Code:**

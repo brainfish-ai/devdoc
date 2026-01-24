@@ -8,7 +8,13 @@ The `devdoc ai` command sets up AI agent configuration in your DevDoc project, e
 ## Usage
 
 ```bash
-npx @brainfish-ai/devdoc ai [options]
+npm run ai
+```
+
+Or using the CLI directly:
+
+```bash
+devdoc ai [options]
 ```
 
 ## Options
@@ -23,7 +29,7 @@ npx @brainfish-ai/devdoc ai [options]
 Running without options prompts you to select your AI tool:
 
 ```bash
-$ npx @brainfish-ai/devdoc ai
+$ npm run ai
 
 DevDoc AI Agent Setup
 
@@ -50,15 +56,15 @@ AI agent configuration complete!
 Update your skills to the latest version by running the command again:
 
 ```bash
-npx @brainfish-ai/devdoc ai
+npm run ai
 # or explicitly:
-npx @brainfish-ai/devdoc ai --update
+devdoc ai --update
 ```
 
 The command auto-detects existing installations and shows what's updated:
 
 ```bash
-$ npx @brainfish-ai/devdoc ai
+$ npm run ai
 
 DevDoc AI Agent Update
 
@@ -84,16 +90,16 @@ Skip the interactive prompt by specifying the tool:
 
 ```bash
 # Claude Code only
-npx @brainfish-ai/devdoc ai --tool claude
+devdoc ai --tool claude
 
 # Cursor only
-npx @brainfish-ai/devdoc ai --tool cursor
+devdoc ai --tool cursor
 
 # Both tools
-npx @brainfish-ai/devdoc ai --tool both
+devdoc ai --tool both
 
 # Update specific tool
-npx @brainfish-ai/devdoc ai --tool claude --update
+devdoc ai --tool claude --update
 ```
 
 ## Files Created
@@ -191,7 +197,7 @@ Run whisk-theme after bootstrap to make your docs match your product's look and 
 <Steps>
   <Step title="Set up AI agents">
     ```bash
-    npx @brainfish-ai/devdoc ai
+    npm run ai
     ```
   </Step>
   
@@ -207,7 +213,7 @@ Run whisk-theme after bootstrap to make your docs match your product's look and 
   
   <Step title="Preview and refine">
     ```bash
-    npx @brainfish-ai/devdoc dev
+    npm run dev
     ```
     
     Review generated docs and make adjustments.
@@ -215,7 +221,7 @@ Run whisk-theme after bootstrap to make your docs match your product's look and 
   
   <Step title="Update skills periodically">
     ```bash
-    npx @brainfish-ai/devdoc ai --update
+    devdoc ai --update
     ```
     
     Keep skills updated for new features and improvements.

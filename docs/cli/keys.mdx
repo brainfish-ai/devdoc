@@ -21,7 +21,7 @@ API keys are used to authenticate `devdoc deploy` commands. They are:
 View your current API key:
 
 ```bash
-npx @brainfish-ai/devdoc keys list
+devdoc keys list
 ```
 
 Output:
@@ -36,7 +36,7 @@ API Key: sk_live_...789 (created Jan 15, 2026)
 Generate a new API key (invalidates the old one):
 
 ```bash
-npx @brainfish-ai/devdoc keys regenerate
+devdoc keys regenerate
 ```
 
 Output:
@@ -118,7 +118,7 @@ Add `DEVDOC_API_KEY` in Project Settings → Environment Variables.
     Regenerate keys every few months or after team member changes:
     
     ```bash
-    npx @brainfish-ai/devdoc keys regenerate
+    devdoc keys regenerate
     ```
   </Step>
   
@@ -149,7 +149,7 @@ sk_live_<random_string>
 
 ```bash
 # Check current project
-npx @brainfish-ai/devdoc whoami
+npm run whoami
 
 # Verify key exists
 cat .devdoc.json
@@ -160,7 +160,7 @@ cat .devdoc.json
 You may not have deployed yet:
 
 ```bash
-npx @brainfish-ai/devdoc deploy  # Creates project and generates key
+npm run deploy  # Creates project and generates key
 ```
 
 ### Lost API Key
@@ -172,7 +172,7 @@ If you've lost your API key and don't have `.devdoc.json`:
 ```bash
 # Contact support to delete the old project
 # Then deploy fresh:
-npx @brainfish-ai/devdoc deploy
+npm run deploy
 ```
 
 <Tip>

@@ -153,7 +153,7 @@ If pages were added/removed/moved:
 - `docs/quickstart.mdx` - Updated to v2.0.0
 - `docs.json` - Added webhooks page
 
-Changes ready for review. Run `npx @brainfish-ai/devdoc dev` to preview.
+Changes ready for review. Run `npm run dev` to preview.
 
 Want me to commit these changes? Use `/commit` when ready."
 

@@ -8,7 +8,13 @@ DevDoc provides managed hosting for your documentation. Deploy with a single com
 ## Quick Deploy
 
 ```bash
-npx @brainfish-ai/devdoc deploy
+npm run deploy
+```
+
+Or using the CLI directly:
+
+```bash
+devdoc deploy
 ```
 
 Your docs will be live at `https://your-project-xxxxx.devdoc.sh`.
@@ -70,14 +76,14 @@ Each project gets **one free custom domain**. Connect your own domain like `docs
 
 ```bash
 # Add custom domain
-npx @brainfish-ai/devdoc domain add docs.example.com
+devdoc domain add docs.example.com
 
 # Configure DNS records (shown in CLI output)
 # Then verify
-npx @brainfish-ai/devdoc domain verify
+devdoc domain verify
 
 # Check status
-npx @brainfish-ai/devdoc domain status
+devdoc domain status
 ```
 
 Your documentation will be accessible at both:
@@ -95,7 +101,7 @@ Your documentation will be accessible at both:
 Default deployment to your live URL:
 
 ```bash
-npx @brainfish-ai/devdoc deploy
+npm run deploy
 ```
 
 ### Dry Run
@@ -103,7 +109,7 @@ npx @brainfish-ai/devdoc deploy
 Validate without deploying:
 
 ```bash
-npx @brainfish-ai/devdoc deploy --dry-run
+devdoc deploy --dry-run
 ```
 
 ## CI/CD Integration
@@ -116,7 +122,7 @@ Quick example with GitHub Actions:
 - name: Deploy Docs
   env:
     DEVDOC_API_KEY: ${{ secrets.DEVDOC_API_KEY }}
-  run: npx @brainfish-ai/devdoc deploy
+  run: npm run deploy
 ```
 
 ## Rollbacks
@@ -151,7 +157,7 @@ The following files are included in each deployment:
 
 1. Run validation first:
    ```bash
-   npx @brainfish-ai/devdoc check
+   npm run check
    ```
 
 2. Check for common issues:

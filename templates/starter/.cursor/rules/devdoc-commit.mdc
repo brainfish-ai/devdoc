@@ -83,7 +83,7 @@ Branch: `main`
 
 Next steps:
 1. Push: `git push`
-2. Deploy: `npx @brainfish-ai/devdoc deploy`
+2. Deploy: `npm run deploy`
 
 Push changes?"
 

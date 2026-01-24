@@ -8,7 +8,7 @@ The `devdoc domain` command manages custom domains for your DevDoc project. Each
 ## Usage
 
 ```bash
-npx @brainfish-ai/devdoc domain <subcommand> [options]
+devdoc domain <subcommand> [options]
 ```
 
 ## Subcommands
@@ -18,13 +18,13 @@ npx @brainfish-ai/devdoc domain <subcommand> [options]
 Add a custom domain to your project.
 
 ```bash
-npx @brainfish-ai/devdoc domain add <custom-domain>
+devdoc domain add <custom-domain>
 ```
 
 **Example:**
 
 ```bash
-npx @brainfish-ai/devdoc domain add docs.example.com
+devdoc domain add docs.example.com
 ```
 
 **Output:**
@@ -43,7 +43,7 @@ npx @brainfish-ai/devdoc domain add docs.example.com
      Value: devdoc-verify=abc123xyz...
 
 After adding DNS records, run:
-  npx @brainfish-ai/devdoc domain verify
+  devdoc domain verify
 ```
 
 ### domain status
@@ -51,7 +51,7 @@ After adding DNS records, run:
 Check the status of your custom domain.
 
 ```bash
-npx @brainfish-ai/devdoc domain status
+devdoc domain status
 ```
 
 **Output (pending):**
@@ -73,7 +73,7 @@ TXT Record:
   Name:  _devdoc-verify.docs.example.com
   Value: devdoc-verify=abc123xyz...
 
-Next: Add the DNS records above, then run "npx @brainfish-ai/devdoc domain verify"
+Next: Add the DNS records above, then run "devdoc domain verify"
 ```
 
 **Output (active):**
@@ -97,7 +97,7 @@ https://my-project.devdoc.sh
 Verify DNS configuration for your custom domain.
 
 ```bash
-npx @brainfish-ai/devdoc domain verify
+devdoc domain verify
 ```
 
 **Output (success):**
@@ -117,7 +117,7 @@ TXT Verification Record:
 DNS verified!
 SSL certificate will be provisioned automatically (1-24 hours).
 
-Run "npx @brainfish-ai/devdoc domain status" to check SSL provisioning progress.
+Run "devdoc domain status" to check SSL provisioning progress.
 ```
 
 **Output (incomplete):**
@@ -141,7 +141,7 @@ DNS verification incomplete
 DNS records not found. Please add the required CNAME and TXT records.
 
 DNS changes can take 1-24 hours to propagate.
-Run "npx @brainfish-ai/devdoc domain verify" again later.
+Run "devdoc domain verify" again later.
 ```
 
 ### domain remove
@@ -149,7 +149,7 @@ Run "npx @brainfish-ai/devdoc domain verify" again later.
 Remove a custom domain from your project.
 
 ```bash
-npx @brainfish-ai/devdoc domain remove [custom-domain]
+devdoc domain remove [custom-domain]
 ```
 
 If no domain is specified, removes the project's configured domain.
@@ -157,7 +157,7 @@ If no domain is specified, removes the project's configured domain.
 **Example:**
 
 ```bash
-npx @brainfish-ai/devdoc domain remove docs.example.com
+devdoc domain remove docs.example.com
 ```
 
 **Output:**
@@ -168,7 +168,7 @@ npx @brainfish-ai/devdoc domain remove docs.example.com
 Your docs remain accessible at the default subdomain.
 
 You can add a new custom domain anytime with:
-  npx @brainfish-ai/devdoc domain add docs.yourdomain.com
+  devdoc domain add docs.yourdomain.com
 ```
 
 ## Options
@@ -186,38 +186,38 @@ All subcommands support these options:
 
 ```bash
 # Add the domain
-npx @brainfish-ai/devdoc domain add docs.mycompany.com
+devdoc domain add docs.mycompany.com
 
 # Configure DNS records (see output)
 # Wait for DNS propagation (1-24 hours)
 
 # Verify DNS
-npx @brainfish-ai/devdoc domain verify
+devdoc domain verify
 
 # Check status until active
-npx @brainfish-ai/devdoc domain status
+devdoc domain status
 ```
 
 ### Change your custom domain
 
 ```bash
 # Remove existing domain
-npx @brainfish-ai/devdoc domain remove
+devdoc domain remove
 
 # Add new domain
-npx @brainfish-ai/devdoc domain add new-docs.mycompany.com
+devdoc domain add new-docs.mycompany.com
 ```
 
 ### Use in CI/CD
 
 ```bash
 # Check domain status in deployment script
-npx @brainfish-ai/devdoc domain status --api-key $DEVDOC_API_KEY
+devdoc domain status --api-key $DEVDOC_API_KEY
 ```
 
 ## Requirements
 
-- Project must be deployed (`npx @brainfish-ai/devdoc deploy`) before adding a custom domain
+- Project must be deployed (`npm run deploy`) before adding a custom domain
 - API key is required (stored in `.devdoc.json` after first deploy)
 - DNS access to your domain for adding records
 

@@ -62,7 +62,7 @@ Open [http://localhost:3333](http://localhost:3333) to view your documentation.
 DevDoc includes built-in support for AI coding agents. Set up AI skills:
 
 ```bash
-npx @brainfish-ai/devdoc ai
+npm run ai
 ```
 
 **Available commands in Claude Code:**

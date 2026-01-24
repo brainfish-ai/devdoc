@@ -7,72 +7,67 @@ The DevDoc CLI helps you develop, build, and deploy your documentation from the 
 
 ## Usage
 
-Use the CLI with npx (recommended - no installation required):
+**Create a new project** with npx:
 
 ```bash
-npx @brainfish-ai/devdoc <command>
+npx @brainfish-ai/devdoc create my-docs
 ```
 
-Or install globally:
+**Inside your project**, use the CLI directly or npm scripts:
 
 ```bash
-npm install -g @brainfish-ai/devdoc
-devdoc <command>
+# Using devdoc CLI
+devdoc dev
+devdoc deploy
+
+# Or using npm scripts (recommended)
+npm run dev
+npm run deploy
 ```
+
+<Tip>
+When you create a project with `devdoc create`, the CLI is installed as a local dependency. Use `npm run` commands for the best experience.
+</Tip>
 
 ## Checking & Updating Version
 
 Check which version you're running:
 
 ```bash
-npx @brainfish-ai/devdoc --version
+devdoc --version
 ```
 
 ### Update to Latest
 
-If you have an outdated version, use `@latest` to get the newest release:
+Inside your project, update devdoc to the latest version:
 
 ```bash
-npx @brainfish-ai/devdoc@latest <command>
+npm run upgrade
 ```
 
-### Clear Cache
-
-npx caches packages locally. To force a fresh download:
+Or manually:
 
 ```bash
-# Clear the npx cache
-npx clear-npx-cache
-
-# Then run with @latest
-npx @brainfish-ai/devdoc@latest --version
+npm update @brainfish-ai/devdoc
 ```
-
-### Update Global Installation
-
-If you installed globally:
-
-```bash
-npm update -g @brainfish-ai/devdoc
-```
-
-<Tip>
-Use `@latest` when running commands to always get the newest features and fixes.
-</Tip>
 
 ## Commands
 
-| Command | Description |
-|---------|-------------|
-| `npx @brainfish-ai/devdoc create` | Create a new documentation project |
-| `npx @brainfish-ai/devdoc dev` | Start development server with hot reload |
-| `npx @brainfish-ai/devdoc build` | Build static site for production |
-| `npx @brainfish-ai/devdoc deploy` | Deploy to DevDoc hosting |
-| `npx @brainfish-ai/devdoc check` | Validate docs.json and content files |
-| `npx @brainfish-ai/devdoc ai` | Set up AI agent configuration |
-| `npx @brainfish-ai/devdoc keys` | Manage API keys for your project |
-| `npx @brainfish-ai/devdoc domain` | Manage custom domains |
-| `npx @brainfish-ai/devdoc whoami` | Show current project information |
+| Command | npm Script | Description |
+|---------|------------|-------------|
+| `devdoc dev` | `npm run dev` | Start development server with hot reload |
+| `devdoc build` | `npm run build` | Build static site for production |
+| `devdoc start` | `npm run start` | Start production server |
+| `devdoc deploy` | `npm run deploy` | Deploy to DevDoc hosting |
+| `devdoc check` | `npm run check` | Validate docs.json and content files |
+| `devdoc ai` | `npm run ai` | Set up AI agent configuration |
+| `devdoc whoami` | `npm run whoami` | Show current project information |
+| `devdoc keys` | - | Manage API keys for your project |
+| `devdoc domain` | - | Manage custom domains |
+
+<Note>
+Use `npx @brainfish-ai/devdoc create` only for creating new projects. Once inside a project, use `devdoc` or `npm run` commands.
+</Note>
 
 ## Global Options
 
@@ -102,38 +97,40 @@ The CLI looks for configuration in this order:
 ## Quick Reference
 
 ```bash
-# Create a new project
-npx @brainfish-ai/devdoc@latest create my-docs
+# Create a new project (use npx)
+npx @brainfish-ai/devdoc create my-docs
+npx @brainfish-ai/devdoc create my-docs --template openapi --doc-type public
+npx @brainfish-ai/devdoc create my-docs --doc-type internal
 
-# Create with specific template and doc type
-npx @brainfish-ai/devdoc@latest create my-docs --template openapi --doc-type public
-
-# Create internal docs (no subdomain needed)
-npx @brainfish-ai/devdoc@latest create my-docs --doc-type internal
+# Inside your project (use devdoc or npm run)
+cd my-docs
 
 # Start local development
-npx @brainfish-ai/devdoc@latest dev
+npm run dev          # or: devdoc dev
 
 # Deploy to production
-npx @brainfish-ai/devdoc@latest deploy
+npm run deploy       # or: devdoc deploy
 
 # Check for errors
-npx @brainfish-ai/devdoc@latest check
+npm run check        # or: devdoc check
 
 # Set up or update AI agents
-npx @brainfish-ai/devdoc@latest ai
+npm run ai           # or: devdoc ai
 
 # View project info
-npx @brainfish-ai/devdoc@latest whoami
+npm run whoami       # or: devdoc whoami
+
+# Update devdoc to latest
+npm run upgrade
 
 # Regenerate API key
-npx @brainfish-ai/devdoc@latest keys regenerate
+devdoc keys regenerate
 
 # Add custom domain
-npx @brainfish-ai/devdoc@latest domain add docs.example.com
+devdoc domain add docs.example.com
 
 # Check domain status
-npx @brainfish-ai/devdoc@latest domain status
+devdoc domain status
 ```
 
 ## Next Steps

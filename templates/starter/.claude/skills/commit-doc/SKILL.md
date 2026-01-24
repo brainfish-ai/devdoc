@@ -117,7 +117,7 @@ Files: 5 changed
 
 **Next steps:**
 1. **Push changes**: `git push origin main`
-2. **Deploy docs**: `npx @brainfish-ai/devdoc deploy`
+2. **Deploy docs**: `npm run deploy`
 3. **Create PR**: If on a feature branch
 
 Would you like me to push the changes?"
