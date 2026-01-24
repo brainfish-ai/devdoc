@@ -1,137 +1,454 @@
 ---
-description: Rules for bootstrapping documentation with context memory and API spec detection
+description: Expert documentation bootstrap using Diátaxis framework and audience-driven planning
 globs: ["**/README.md", "**/package.json", "**/src/**", "**/lib/**"]
 ---
 
-# Repository Analysis for Documentation
+# Expert Documentation Bootstrap
 
-When asked to bootstrap or generate initial documentation:
+When bootstrapping documentation, follow the **Documentation Planning Pyramid**:
 
-## Step 1: Check Context Memory
+```
+STRATEGY (WHY)  →  AUDIENCE (WHO)  →  IA (WHAT)  →  APPROVAL  →  CONTENT (HOW)
+```
 
-**First, check if `.devdoc/context.json` exists:**
+## Phase 1: Strategy (WHY & WHO)
 
-- **If populated:** Read and use existing context. Tell user: "Using existing product context."
-- **If empty/missing:** Run Discovery Flow below.
+### Step 1: Check Existing Context
 
-## Step 2: Discovery Flow
+**Detect codebase:**
+- Look for: `package.json`, `src/`, `lib/`, `app/`, `*.py`, `*.ts`, `*.go`
 
-### 2a. Locate Project
+**If NO codebase:** "No codebase detected. Creating docs-only project." → Skip to Step 2
 
-- If `docs.json` exists → you're in docs folder, source is in `../`
-- If `package.json` + `src/` exist → you're at repo root
-- Otherwise, ask user for source code path
+**If codebase exists, check:**
+```bash
+git rev-parse HEAD  # Current commit
+```
 
-### 2b. Scan for API Specs
+**If `.devdoc/code-graph.json` exists:**
+- Compare `git.commitHash` vs current HEAD
+- **Same commit** → Skip scanning, go to Step 2
+- **Different** → Ask: "1. Full rescan  2. Incremental  3. Skip"
 
-**Search for OpenAPI:**
-- `openapi.json`, `openapi.yaml`, `swagger.json`, `swagger.yaml`
-- `**/openapi.*`, `**/swagger.*`
+**If `.devdoc/context.json` exists:** Read and use existing preferences.
 
-**Search for GraphQL:**
-- `schema.graphql`, `schema.gql`
-- `**/*.graphql`
+### Step 2: Define Goals & Audience
 
-**Store paths for import prompt.**
+**Don't scan yet. Ask strategic questions first:**
 
-### 2c. Auto-Discover
+#### Question 1: Documentation Purpose
+```
+What is the primary goal of this documentation?
 
-Scan and extract:
-- **README.md:** Product name, description, features
-- **package.json:** Language, framework, dependencies
-- **OpenAPI:** API style, base URL, auth, endpoint count
-- **GraphQL:** Types, queries, mutations count
-- **Source structure:** Key directories, conventions
+1. **Enable team productivity** - Help internal developers work faster
+2. **Onboard new developers** - Get new team members up to speed  
+3. **Support API consumers** - Help external devs integrate your API
+4. **Guide product users** - Help end users accomplish tasks
+5. **Inform stakeholders** - Communicate architecture and decisions
+```
 
-### 2d. Ask Key Questions
+#### Question 2: Primary Audience
+```
+Who is your PRIMARY audience?
 
-1. **Documentation Type:**
-   "What type of documentation?
-   1. **internal** - Team setup, architecture
-   2. **api** - API reference, SDKs for developers
-   3. **product** - Feature guides for end users"
+1. **Internal Developer** - Engineers on your team
+   → Needs: Code flow, architecture, debugging, contribution guides
+   
+2. **External Developer** - API consumers, SDK users
+   → Needs: Quick start, authentication, code examples, reference
+   
+3. **Product User** - End users of your product
+   → Needs: Tutorials, feature guides, troubleshooting
+   
+4. **Content Author** - Technical writers, doc contributors
+   → Needs: MDX syntax, structure guidelines, publishing workflow
+```
 
-2. **Import API Spec (if found):**
+#### Question 3: Documentation Domain
+```
+What type of documentation?
 
-   **For OpenAPI:**
-   "Found OpenAPI spec at `{path}` with {n} endpoints.
-   1. **Import** - Copy to api-reference/openapi.json
-   2. **Reference** - Point to existing location
-   3. **Skip** - Manual docs only"
+1. **API Docs** - REST/GraphQL API reference (Voice: Professional, code-focused)
+2. **Product Docs** - Feature guides for end users (Voice: Friendly, approachable)
+3. **Internal Docs** - Team setup, architecture (Voice: Technical, direct)
+```
 
-   **For GraphQL:**
-   "Found GraphQL schema at `{path}` with {n} types.
-   1. **Import** - Copy to api-reference/schema.graphql
-   2. **Reference** - Point to existing location  
-   3. **Skip** - Manual docs only"
+#### Question 4: API Type (if API Docs)
+```
+What type of API?
 
-   **For Both:**
-   "Found OpenAPI and GraphQL specs.
-   1. **OpenAPI** - REST API playground
-   2. **GraphQL** - GraphQL playground
-   3. **Both** - Separate tabs for each
-   4. **Skip** - Manual only"
+1. **OpenAPI/REST** - I have an OpenAPI/Swagger spec
+2. **GraphQL** - I have a GraphQL schema
+3. **Both** - REST and GraphQL APIs
+4. **Manual** - No spec file
+```
 
-3. **Target Audience:**
-   "Who is your primary audience?"
+#### Question 5: Code Examples Language
+```
+What language for code examples? (TypeScript, Python, curl, etc.)
+```
 
-4. **Terminology (optional):**
-   "Any terms to use/avoid? Brand names? (Enter to skip)"
+---
 
-5. **Code Examples:**
-   "Primary language for code examples?"
+## Phase 2: Information Architecture (WHAT)
 
-### 2e. Create Context Memory
+### Step 3: Import API Specs (if applicable)
 
-Create `.devdoc/context.json`:
+**OpenAPI:** Search for `openapi.json`, `swagger.json`, `**/openapi.*`
+**GraphQL:** Search for `schema.graphql`, `schema.gql`, `**/*.graphql`
+
+1. Copy spec to `api-reference/`
+2. Validate format
+3. Extract metadata (endpoints, auth, types)
+
+### Step 4: Build Code Graph (Optional)
+
+**Skip if:** No codebase, user chose skip, or docs-only project.
+
+**If scanning, create `.devdoc/code-graph.json`:**
 
 ```json
 {
-  "$schema": "https://devdoc.sh/schemas/context.json",
+  "$schema": "https://devdoc.sh/schemas/code-graph.json",
   "version": "1.0",
-  "lastUpdated": "[timestamp]",
+  "generatedAt": "[timestamp]",
+  "git": {
+    "commitHash": "[full hash]",
+    "commitShort": "[7-char]",
+    "branch": "[branch]",
+    "isDirty": false
+  },
+  "project": {
+    "name": "[name]",
+    "language": "[lang]",
+    "framework": "[framework]"
+  },
+  "modules": [
+    {
+      "name": "auth",
+      "path": "src/auth/",
+      "exports": [
+        {
+          "name": "login",
+          "type": "function",
+          "signature": "login(email: string, password: string): Promise<AuthToken>",
+          "params": [...],
+          "returns": { "type": "Promise<AuthToken>" }
+        }
+      ],
+      "docPriority": "high"
+    }
+  ],
+  "types": [...],
+  "examples": [...],
+  "errors": [...]
+}
+```
+
+### Step 5: Plan Content Using Diátaxis Framework
+
+**Classify every page by content type:**
+
+| Type | Purpose | When to Use | Examples |
+|------|---------|-------------|----------|
+| **Tutorial** | Learning-oriented | First-time experience | "Build Your First Doc Site" |
+| **How-To** | Task-oriented | Accomplish specific goals | "Add Custom Domain", "Configure Theme" |
+| **Reference** | Information-oriented | Look up facts | Component props, CLI flags, Config schema |
+| **Explanation** | Understanding-oriented | Deeper comprehension | "How MDX Processing Works", Architecture |
+
+### Step 6: Plan Structure Based on Domain
+
+#### API Docs
+```
+docs/
+├── index.mdx              # [explanation] Overview
+├── quickstart.mdx         # [tutorial] 5-min getting started
+├── authentication.mdx     # [how-to] Auth setup
+├── guides/
+│   ├── overview.mdx       # [explanation] Core concepts
+│   └── {use-cases}.mdx    # [how-to] Common use cases
+├── api-reference/
+│   ├── openapi.json       # Imported spec
+│   ├── introduction.mdx   # [explanation]
+│   └── errors.mdx         # [reference]
+└── sdks/                  # [reference]
+```
+
+#### Product Docs
+```
+docs/
+├── index.mdx              # [explanation]
+├── getting-started/
+│   ├── quickstart.mdx     # [tutorial]
+│   └── key-concepts.mdx   # [explanation]
+├── features/
+│   └── {feature}.mdx      # [how-to]
+├── tutorials/
+│   └── {tutorial}.mdx     # [tutorial]
+└── troubleshooting/       # [how-to]
+```
+
+#### Internal Docs
+```
+docs/
+├── index.mdx              # [explanation]
+├── getting-started/
+│   ├── setup.mdx          # [how-to]
+│   └── prerequisites.mdx  # [reference]
+├── architecture/
+│   ├── overview.mdx       # [explanation]
+│   ├── data-flow.mdx      # [explanation]
+│   └── decisions/         # [explanation] ADRs
+├── development/
+│   ├── workflow.mdx       # [how-to]
+│   └── debugging.mdx      # [how-to]
+└── contributing.mdx       # [how-to]
+```
+
+---
+
+## Phase 3: Approval (REQUIRED)
+
+### Step 7: Present IA for User Approval
+
+**IMPORTANT: Always get user approval before generating documentation.**
+
+Present the **complete Information Architecture** covering:
+1. **Navigation Structure** - Tabs, groups, page ordering (sidebar view)
+2. **File Structure** - Actual files to be created
+3. **Content Summary** - Diátaxis breakdown
+4. **Gaps Analysis** - Suggested missing docs
+
+```
+📋 PROPOSED DOCUMENTATION ARCHITECTURE
+
+Based on your preferences:
+  - Goal: [selected goal]
+  - Audience: [primary audience]  
+  - Domain: [api/product/internal]
+
+═══════════════════════════════════════════════════
+              NAVIGATION STRUCTURE
+        (How docs appear in the sidebar)
+═══════════════════════════════════════════════════
+
+📑 TAB: Guides
+├── 📁 Getting Started
+│   ├── Introduction           # index.mdx [explanation]
+│   ├── Quickstart             # quickstart.mdx [tutorial]
+│   └── Authentication         # authentication.mdx [how-to]
+│
+└── 📁 Core Concepts
+    └── Overview               # guides/overview.mdx [explanation]
+
+📑 TAB: API Reference (OpenAPI)
+└── [Auto-generated from openapi.json]
+
+═══════════════════════════════════════════════════
+                FILE STRUCTURE
+═══════════════════════════════════════════════════
+
+docs/
+├── index.mdx
+├── quickstart.mdx
+├── authentication.mdx
+├── guides/
+│   └── overview.mdx
+└── api-reference/
+    └── openapi.json
+
+═══════════════════════════════════════════════════
+               CONTENT SUMMARY
+═══════════════════════════════════════════════════
+
+📚 Tutorials: 1 page
+📝 How-To Guides: 1 page
+📖 Reference: 0 pages (auto from spec)
+💡 Explanations: 2 pages
+
+Total: 4 pages to generate
+
+═══════════════════════════════════════════════════
+                GAPS ANALYSIS
+═══════════════════════════════════════════════════
+
+⚠️  No troubleshooting guide
+⚠️  No changelog
+
+───────────────────────────────────────────────────
+
+Does this architecture look complete?
+
+1. ✅ **Approve** - Generate with this structure
+2. ✏️  **Modify** - Change pages or navigation
+3. ➕ **Add suggested** - Add missing docs
+4. ❌ **Restart** - Reconsider goals/audience
+```
+
+**If user chooses "Modify":**
+- Ask: Add/remove pages? Change navigation? Rename? Reorder?
+- Update structure and present again
+
+**If user chooses "Add suggested":**
+- Add suggested docs to plan
+- Present updated structure for approval
+
+**If user chooses "Restart":**
+- Go back to Step 2
+
+**If user chooses "Approve":**
+- Proceed to Step 8
+
+**What IA approval covers:**
+
+| Aspect | Description |
+|--------|-------------|
+| **Navigation** | Tabs, groups, page ordering |
+| **Files** | File paths and folders |
+| **Content Types** | Diátaxis classification |
+| **Gaps** | Suggested missing docs |
+| **Scope** | Total page count |
+
+---
+
+## Phase 4: Content (HOW)
+
+### Step 8: Save Context (After Approval)
+
+Create `.devdoc/context.json`:
+```json
+{
+  "strategy": {
+    "goal": "[selected goal]",
+    "audience": {
+      "primary": "[audience type]",
+      "needs": ["need1", "need2"]
+    }
+  },
+  "preferences": {
+    "docType": "[api/product/internal]",
+    "apiType": "[openapi/graphql/both/manual]",
+    "codeLanguage": "[language]"
+  },
   "product": {
-    "name": "[discovered]",
-    "description": "[discovered]",
-    "type": "[api/sdk/platform/cli]",
-    "targetAudience": "[from question]"
+    "name": "[name]",
+    "description": "[desc]"
   },
   "api": {
-    "style": "[REST/GraphQL if detected]",
-    "specPath": "[imported spec path]",
-    "baseUrl": "[from spec]",
-    "authentication": { "type": "[from spec]" }
+    "style": "[REST/GraphQL]",
+    "specPath": "[path if imported]"
   },
-  "codebase": {
-    "language": "[detected]",
-    "framework": "[detected]",
-    "sourceLocation": "../"
-  },
-  "documentation": {
-    "voice": "[based on docType]",
-    "codeExamples": { "primaryLanguage": "[from question]" },
-    "templates": {
-      "guide": ".devdoc/templates/guide.md",
-      "apiReference": ".devdoc/templates/api-reference.md"
-    }
+  "contentPlan": {
+    "approved": true,
+    "approvedAt": "[timestamp]",
+    "pages": [
+      { "path": "index.mdx", "type": "explanation", "priority": "high", "status": "planned" },
+      { "path": "quickstart.mdx", "type": "tutorial", "priority": "high", "status": "planned" }
+    ]
   }
 }
 ```
 
-## Step 3: Import API Spec
+### Step 9: Generate Using Writing Guidelines
 
-**For Import option:**
-1. Copy spec to `api-reference/`
-2. Validate spec format
-3. Update context.json with spec info
+**Only proceed after user has approved the IA structure in Step 7.**
 
-**For Reference option:**
-1. Note relative path for docs.json
-2. Update context.json with spec info
+**Expert Writing Standards:**
 
-## Step 4: Update docs.json
+1. **Second Person** - "You can configure..." not "Users can configure..."
+2. **Active Voice** - "Run the command" not "The command should be run"
+3. **Task-Oriented Headings** - "How to add a custom domain" not "Custom domains"
+4. **Include Examples** - Every concept needs a code example
+5. **Progressive Disclosure** - Basic → Advanced ordering
 
-Add `docType` and API reference:
+**Page Templates by Content Type:**
+
+#### Tutorial
+```mdx
+---
+title: Build [Something] with [Technology]
+description: A complete tutorial to [achieve outcome]
+contentType: tutorial
+---
+
+## What You'll Build
+
+[End result + estimated time]
+
+## Prerequisites
+
+## Steps
+
+<Steps>
+  <Step title="Step 1">Content</Step>
+</Steps>
+
+## Next Steps
+```
+
+#### How-To Guide
+```mdx
+---
+title: How to [Achieve Specific Goal]
+description: Learn how to [specific outcome]
+contentType: how-to
+---
+
+## Overview
+
+[2-3 sentences: What, Who, Why]
+
+## Steps
+
+<Steps>
+  <Step title="[Action verb] [object]">Content</Step>
+</Steps>
+
+## Example
+
+## Next Steps
+```
+
+#### Reference
+```mdx
+---
+title: [Component/API] Reference
+description: Complete reference for [topic]
+contentType: reference
+---
+
+## Overview
+
+| Property | Type | Description | Default |
+|----------|------|-------------|---------|
+
+## Examples
+
+## Related
+```
+
+#### Explanation
+```mdx
+---
+title: Understanding [Concept]
+description: Deep dive into [topic]
+contentType: explanation
+---
+
+## Overview
+
+[Why this matters]
+
+## How It Works
+
+[Conceptual explanation with diagrams]
+
+## Key Concepts
+
+## Related
+```
+
+### Step 10: Update docs.json
 
 **OpenAPI:**
 ```json
@@ -149,84 +466,61 @@ Add `docType` and API reference:
 **GraphQL:**
 ```json
 {
-  "docType": "api",
   "navigation": {
     "tabs": [
       { "tab": "Guides", "groups": [...] },
-      { "tab": "GraphQL API", "type": "graphql", "schema": "api-reference/schema.graphql", "endpoint": "https://..." }
+      { "tab": "GraphQL API", "type": "graphql", "schema": "api-reference/schema.graphql" }
     ]
   }
 }
 ```
 
-## Step 5: Generate Documentation
+### Step 11: Summary
 
-**Before generating, always:**
-1. Read `.devdoc/context.json`
-2. Read appropriate template from `.devdoc/templates/`
-3. Apply terminology from context
-4. Use correct product name
-5. Match voice to docType
-6. Reference imported API spec
-
-### docType: "internal"
 ```
-docs/
-├── .devdoc/context.json
-├── docs.json (docType: "internal")
-├── index.mdx
-├── getting-started/
-├── architecture/
-├── development/
-└── contributing.mdx
+✅ Documentation Generated!
+
+Strategy:
+  - Goal: [selected goal]
+  - Audience: [primary audience]
+  - Domain: [api/product/internal]
+
+Content Plan (Diátaxis):
+  - Tutorials: X pages
+  - How-To Guides: X pages
+  - Reference: X pages
+  - Explanations: X pages
+
+Files created:
+  - .devdoc/context.json (strategy)
+  - .devdoc/code-graph.json (code analysis)
+  - docs.json
+  - [list of mdx files with content types]
+
+Next: Run `devdoc dev` to preview, then "whisk theme" for branding.
 ```
-**Voice:** Technical, direct
 
-### docType: "api"
-```
-docs/
-├── .devdoc/context.json
-├── docs.json (docType: "api")
-├── index.mdx
-├── quickstart.mdx
-├── authentication.mdx
-├── guides/
-├── api-reference/
-│   ├── openapi.json    # If imported
-│   └── schema.graphql  # If imported
-├── sdks/
-└── changelog.mdx
-```
-**Voice:** Professional, code-focused
+---
 
-### docType: "product"
-```
-docs/
-├── .devdoc/context.json
-├── docs.json (docType: "product")
-├── index.mdx
-├── getting-started/
-├── features/
-├── tutorials/
-├── troubleshooting/
-└── release-notes.mdx
-```
-**Voice:** Friendly, non-technical
+## Key Principles
 
-## Content Guidelines
+| Principle | Description |
+|-----------|-------------|
+| **Strategy first** | Define goals and audience before structure |
+| **Audience-driven** | Match content to user needs |
+| **Diátaxis types** | Classify every page by content type |
+| **IA approval required** | Always get user approval before generating content |
+| **Build code graph** | Extract all signatures for accuracy |
+| **Real code only** | Use exact signatures, never fabricate |
+| **Expert writing** | Second person, active voice, task-oriented |
+| **Mark unknowns** | Add TODO for sections needing review |
 
-| docType | Focus | Tone | Code |
-|---------|-------|------|------|
-| internal | Setup, architecture | Technical | Heavy |
-| api | Endpoints, auth, examples | Professional | Heavy |
-| product | Features, workflows | Friendly | Minimal |
+## Quality Checklist
 
-## Quality Guidelines
-
-- Use terminology from context.json consistently
-- Read templates before generating each page type
-- Extract real examples, don't fabricate
-- Add TODO for sections needing review
-- **Import existing API specs** instead of manual docs
-- **Validate specs** before importing
-- Update context.json if you learn new info
+- [ ] Title is clear and specific
+- [ ] Introduction explains the "why"  
+- [ ] Content type matches page purpose
+- [ ] Code examples are complete and tested
+- [ ] Links to related docs included
+- [ ] Follows writing guidelines
+- [ ] Progressive disclosure (basic → advanced)
