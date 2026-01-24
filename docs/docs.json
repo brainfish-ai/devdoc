@@ -18,7 +18,8 @@
             "pages": [
               "index",
               "quickstart",
-              "deployment"
+              "deployment",
+              "custom-domains"
             ]
           },
           {
@@ -29,6 +30,7 @@
               "cli/create",
               "cli/dev",
               "cli/deploy",
+              "cli/domain",
               "cli/keys",
               "cli/ai"
             ]

@@ -66,18 +66,27 @@ Enter a new subdomain (my-docs-a1b2): _
 
 ## Custom Domains
 
-<Note>
-  Custom domains require a DevDoc account. Coming soon!
-</Note>
+Each project gets **one free custom domain**. Connect your own domain like `docs.example.com`:
 
-Connect your own domain:
+```bash
+# Add custom domain
+devdoc domain add docs.example.com
 
-1. Add your domain in the DevDoc dashboard
-2. Add DNS records:
-   ```
-   CNAME docs.yourdomain.com → devdoc.sh
-   ```
-3. Wait for SSL certificate provisioning
+# Configure DNS records (shown in CLI output)
+# Then verify
+devdoc domain verify
+
+# Check status
+devdoc domain status
+```
+
+Your documentation will be accessible at both:
+- `https://your-project.devdoc.sh` (default)
+- `https://docs.example.com` (custom domain)
+
+<Card title="Custom Domains Guide" icon="globe" href="/custom-domains">
+  Complete guide to setting up custom domains, DNS configuration, and troubleshooting.
+</Card>
 
 ## Deployment Options
 

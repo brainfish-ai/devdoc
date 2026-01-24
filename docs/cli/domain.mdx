@@ -1,0 +1,240 @@
+---
+title: devdoc domain
+description: Manage custom domains for your documentation
+---
+
+The `devdoc domain` command manages custom domains for your DevDoc project. Each project gets **one free custom domain**.
+
+## Usage
+
+```bash
+devdoc domain <subcommand> [options]
+```
+
+## Subcommands
+
+### domain add
+
+Add a custom domain to your project.
+
+```bash
+devdoc domain add <custom-domain>
+```
+
+**Example:**
+
+```bash
+devdoc domain add docs.example.com
+```
+
+**Output:**
+
+```
+✓ Domain docs.example.com added!
+
+  Next, add these DNS records to your domain provider:
+
+  1. CNAME Record:
+     Name:  docs
+     Value: cname.devdoc-dns.com
+
+  2. TXT Record (for verification):
+     Name:  _devdoc-verify.docs.example.com
+     Value: devdoc-verify=abc123xyz...
+
+After adding DNS records, run:
+  devdoc domain verify
+```
+
+### domain status
+
+Check the status of your custom domain.
+
+```bash
+devdoc domain status
+```
+
+**Output (pending):**
+
+```
+Custom Domain Status
+--------------------
+
+Domain:  docs.example.com
+Status:  ⏳ Pending DNS configuration
+
+Add these DNS records to your domain:
+
+CNAME Record:
+  Name:  docs
+  Value: cname.devdoc-dns.com
+
+TXT Record:
+  Name:  _devdoc-verify.docs.example.com
+  Value: devdoc-verify=abc123xyz...
+
+Next: Add the DNS records above, then run "devdoc domain verify"
+```
+
+**Output (active):**
+
+```
+Custom Domain Status
+--------------------
+
+Domain:  docs.example.com
+Status:  ✓ Active
+
+Your docs are available at:
+https://docs.example.com
+
+Also accessible at:
+https://my-project.devdoc.sh
+```
+
+### domain verify
+
+Verify DNS configuration for your custom domain.
+
+```bash
+devdoc domain verify
+```
+
+**Output (success):**
+
+```
+DNS Verification Results
+------------------------
+
+Domain: docs.example.com
+
+CNAME Record:
+  ✓ Found: cname.devdoc-dns.com
+
+TXT Verification Record:
+  ✓ Verified
+
+DNS verified!
+SSL certificate will be provisioned automatically (1-24 hours).
+
+Run "devdoc domain status" to check SSL provisioning progress.
+```
+
+**Output (incomplete):**
+
+```
+DNS Verification Results
+------------------------
+
+Domain: docs.example.com
+
+CNAME Record:
+  ✗ Not found
+    Expected: cname.devdoc-dns.com
+
+TXT Verification Record:
+  ✗ Not found
+    Expected: devdoc-verify=abc123xyz...
+
+DNS verification incomplete
+
+DNS records not found. Please add the required CNAME and TXT records.
+
+DNS changes can take 1-24 hours to propagate.
+Run "devdoc domain verify" again later.
+```
+
+### domain remove
+
+Remove a custom domain from your project.
+
+```bash
+devdoc domain remove [custom-domain]
+```
+
+If no domain is specified, removes the project's configured domain.
+
+**Example:**
+
+```bash
+devdoc domain remove docs.example.com
+```
+
+**Output:**
+
+```
+✓ Domain docs.example.com removed
+
+Your docs remain accessible at the default subdomain.
+
+You can add a new custom domain anytime with:
+  devdoc domain add docs.yourdomain.com
+```
+
+## Options
+
+All subcommands support these options:
+
+| Option | Description |
+|--------|-------------|
+| `-u, --url <url>` | API URL (default: https://devdoc.sh) |
+| `-k, --api-key <key>` | API key for authentication |
+
+## Examples
+
+### Add and verify a custom domain
+
+```bash
+# Add the domain
+devdoc domain add docs.mycompany.com
+
+# Configure DNS records (see output)
+# Wait for DNS propagation (1-24 hours)
+
+# Verify DNS
+devdoc domain verify
+
+# Check status until active
+devdoc domain status
+```
+
+### Change your custom domain
+
+```bash
+# Remove existing domain
+devdoc domain remove
+
+# Add new domain
+devdoc domain add new-docs.mycompany.com
+```
+
+### Use in CI/CD
+
+```bash
+# Check domain status in deployment script
+devdoc domain status --api-key $DEVDOC_API_KEY
+```
+
+## Requirements
+
+- Project must be deployed (`devdoc deploy`) before adding a custom domain
+- API key is required (stored in `.devdoc.json` after first deploy)
+- DNS access to your domain for adding records
+
+## Limits
+
+| Limit | Value |
+|-------|-------|
+| Custom domains per project | 1 |
+| Cost | Free |
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Custom Domains Guide" icon="globe" href="/custom-domains">
+    Complete guide to DNS setup and troubleshooting.
+  </Card>
+  <Card title="devdoc deploy" icon="cloud-arrow-up" href="/cli/deploy">
+    Deploy your documentation first.
+  </Card>
+</CardGroup>

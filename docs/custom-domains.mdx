@@ -1,0 +1,300 @@
+---
+title: Custom Domains
+description: Host your documentation on your own domain
+---
+
+Connect your own domain to your DevDoc documentation. Each project gets **one free custom domain**.
+
+## Overview
+
+Your documentation is always available at `your-project.devdoc.sh`. With a custom domain, you can also serve it from your own domain like `docs.example.com`.
+
+| Feature | Details |
+|---------|---------|
+| **Cost** | Free |
+| **Limit** | 1 custom domain per project |
+| **SSL** | Automatic via Let's Encrypt |
+| **Propagation** | DNS: 1-24 hours, SSL: 1-24 hours |
+
+## Quick Start
+
+<Steps>
+  <Step title="Add your domain">
+    ```bash
+    devdoc domain add docs.example.com
+    ```
+  </Step>
+  <Step title="Configure DNS">
+    Add the CNAME and TXT records shown in the CLI output to your DNS provider.
+  </Step>
+  <Step title="Verify DNS">
+    ```bash
+    devdoc domain verify
+    ```
+  </Step>
+  <Step title="Wait for SSL">
+    SSL certificates are automatically provisioned (1-24 hours).
+  </Step>
+</Steps>
+
+## Add a Custom Domain
+
+Run the `domain add` command with your desired domain:
+
+```bash
+devdoc domain add docs.example.com
+```
+
+You'll receive DNS records to configure:
+
+```
+✓ Domain docs.example.com added!
+
+  Next, add these DNS records to your domain provider:
+
+  1. CNAME Record:
+     Name:  docs
+     Value: cname.devdoc-dns.com
+
+  2. TXT Record (for verification):
+     Name:  _devdoc-verify.docs.example.com
+     Value: devdoc-verify=abc123xyz...
+```
+
+## Configure DNS
+
+Add the DNS records to your domain provider. The exact steps vary by provider:
+
+### CNAME Record
+
+| Field | Value |
+|-------|-------|
+| Type | CNAME |
+| Name | `docs` (or your subdomain) |
+| Value | `cname.devdoc-dns.com` |
+| TTL | 300 (or Auto) |
+
+### TXT Record (Verification)
+
+| Field | Value |
+|-------|-------|
+| Type | TXT |
+| Name | `_devdoc-verify.docs.example.com` |
+| Value | `devdoc-verify=...` (from CLI output) |
+| TTL | 300 (or Auto) |
+
+<Note>
+  The TXT record verifies domain ownership. Keep it in your DNS settings - it doesn't affect your domain's operation.
+</Note>
+
+## Verify DNS Configuration
+
+After adding DNS records, verify the configuration:
+
+```bash
+devdoc domain verify
+```
+
+If successful:
+
+```
+DNS Verification Results
+------------------------
+
+Domain: docs.example.com
+
+CNAME Record:
+  ✓ Found: cname.devdoc-dns.com
+
+TXT Verification Record:
+  ✓ Verified
+
+DNS verified!
+SSL certificate will be provisioned automatically (1-24 hours).
+```
+
+## Check Domain Status
+
+View your domain's current status anytime:
+
+```bash
+devdoc domain status
+```
+
+### Status Values
+
+| Status | Description |
+|--------|-------------|
+| **Pending** | Waiting for DNS configuration |
+| **DNS Verified** | DNS configured, SSL provisioning |
+| **SSL Provisioning** | Certificate being issued |
+| **Active** | Domain is live and working |
+| **Error** | Configuration issue (check DNS) |
+
+## Remove a Custom Domain
+
+To remove your custom domain:
+
+```bash
+devdoc domain remove
+```
+
+Or specify the domain explicitly:
+
+```bash
+devdoc domain remove docs.example.com
+```
+
+Your documentation remains accessible at the default `*.devdoc.sh` subdomain.
+
+## Using domain.json
+
+You can also configure your custom domain in a `domain.json` file:
+
+```json
+{
+  "$schema": "https://devdoc.sh/schemas/domain.json",
+  "customDomain": "docs.example.com",
+  "seo": {
+    "canonical": "https://docs.example.com"
+  }
+}
+```
+
+The CLI will detect this file during deployment and show the domain status.
+
+## DNS Provider Guides
+
+### Cloudflare
+
+1. Go to your domain's DNS settings
+2. Add CNAME record:
+   - Name: `docs`
+   - Target: `cname.devdoc-dns.com`
+   - Proxy status: **DNS only** (gray cloud)
+3. Add TXT record with verification value
+4. Set SSL/TLS encryption mode to **Full (strict)**
+
+<Warning>
+  If using Cloudflare, disable "Always Use HTTPS" in Edge Certificates settings during SSL provisioning.
+</Warning>
+
+### GoDaddy
+
+1. Go to DNS Management for your domain
+2. Add CNAME record:
+   - Name: `docs`
+   - Value: `cname.devdoc-dns.com`
+3. Add TXT record with verification value
+
+### Namecheap
+
+1. Go to Advanced DNS settings
+2. Add CNAME record:
+   - Host: `docs`
+   - Value: `cname.devdoc-dns.com`
+3. Add TXT record with verification value
+
+### Route 53 (AWS)
+
+1. Go to Hosted Zones for your domain
+2. Create CNAME record set:
+   - Name: `docs.example.com`
+   - Value: `cname.devdoc-dns.com`
+3. Create TXT record set with verification value
+
+## SSL Certificates
+
+SSL certificates are automatically provisioned via Let's Encrypt after DNS verification. The process typically takes:
+
+- **DNS Propagation**: 1-24 hours (sometimes up to 48 hours)
+- **SSL Provisioning**: A few minutes to 24 hours
+
+### CAA Records
+
+If your domain uses CAA (Certificate Authority Authorization) records, add:
+
+```
+0 issue "letsencrypt.org"
+```
+
+This authorizes Let's Encrypt to issue certificates for your domain.
+
+### Reserved Paths
+
+The path `/.well-known/acme-challenge` is reserved for SSL certificate validation. Don't configure redirects or rewrites for this path.
+
+## SEO Considerations
+
+After setting up your custom domain, update your canonical URL for better SEO:
+
+```json
+// In docs.json
+{
+  "seo": {
+    "metatags": {
+      "canonical": "https://docs.example.com"
+    }
+  }
+}
+```
+
+Or in `domain.json`:
+
+```json
+{
+  "customDomain": "docs.example.com",
+  "seo": {
+    "canonical": "https://docs.example.com"
+  }
+}
+```
+
+## Troubleshooting
+
+### DNS Records Not Found
+
+- DNS changes can take 1-24 hours to propagate globally
+- Use [DNSChecker.org](https://dnschecker.org) to verify propagation
+- Ensure there are no typos in the record values
+
+### SSL Certificate Not Provisioning
+
+- Verify DNS is fully propagated
+- Check CAA records if configured
+- Ensure `/.well-known/acme-challenge` path is not blocked
+- For Cloudflare: Ensure proxy is disabled (gray cloud)
+
+### Domain Shows Wrong Content
+
+- Clear browser cache or use incognito mode
+- Verify the domain points to the correct project
+- Check `devdoc domain status` for the domain status
+
+### Changing Your Custom Domain
+
+To change your custom domain:
+
+```bash
+# Remove existing domain
+devdoc domain remove
+
+# Add new domain
+devdoc domain add new-docs.example.com
+```
+
+## CLI Reference
+
+| Command | Description |
+|---------|-------------|
+| `devdoc domain add <domain>` | Add a custom domain |
+| `devdoc domain status` | Check domain status |
+| `devdoc domain verify` | Verify DNS configuration |
+| `devdoc domain remove [domain]` | Remove custom domain |
+
+All commands support these options:
+
+| Option | Description |
+|--------|-------------|
+| `-u, --url <url>` | API URL (default: https://devdoc.sh) |
+| `-k, --api-key <key>` | API key for authentication |

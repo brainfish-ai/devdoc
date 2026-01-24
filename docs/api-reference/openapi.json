@@ -30,6 +30,10 @@
       "description": "Manage documentation projects"
     },
     {
+      "name": "Domains",
+      "description": "Manage custom domains (one free per project)"
+    },
+    {
       "name": "Keys",
       "description": "Manage API keys"
     }
