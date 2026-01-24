@@ -10,7 +10,7 @@
 </p>
 
 <p align="center">
-  <strong>Beautiful API documentation, instantly.</strong>
+  <strong>Beautiful documentation powered by AI agents</strong>
 </p>
 
 <p align="center">
@@ -21,16 +21,20 @@
 
 ---
 
-## ✨ Features
+## Features
 
-- 📝 **Write in MDX** — Markdown with React components
-- 🎨 **Beautiful by Default** — Modern UI with dark mode
-- 🔍 **AI-Powered Search** — Semantic search & chat assistant
-- ⚡ **Fast Setup** — Deploy in under 5 minutes
-- 🔌 **OpenAPI Support** — Auto-generate API reference
-- 📊 **GraphQL Playground** — Interactive query explorer
+| Feature | Description |
+|---------|-------------|
+| Write in MDX | Markdown with React components for rich documentation |
+| Beautiful Design | Modern UI with dark mode out of the box |
+| Agentic Search | AI-powered search with agentic UX and sandbox |
+| API Playground | Postman/Hoppscotch-like client for testing API endpoints |
+| AI Agent Support | Use Claude Code or Cursor to write docs faster |
+| OpenAPI Support | Auto-generate API reference from OpenAPI specs |
+| GraphQL Playground | Interactive query explorer for GraphQL APIs |
+| Fast Setup | Deploy in under 5 minutes |
 
-## 🚀 Quick Start
+## Quick Start
 
 Create a new documentation project in seconds:
 
@@ -51,15 +55,39 @@ npm install
 npm run dev
 ```
 
-## 📁 What's Inside
+Open [http://localhost:3333](http://localhost:3333) to view your documentation.
+
+## AI Agent Support
+
+DevDoc includes built-in support for AI coding agents. Set up AI skills:
+
+```bash
+npx @brainfish-ai/devdoc ai
+```
+
+**Available commands in Claude Code:**
+
+| Command | Description |
+|---------|-------------|
+| `/bootstrap-docs` | Generate docs from your codebase |
+| `/migrate-docs` | Migrate from Mintlify, Docusaurus, etc. |
+| `/sync-docs` | Find and fix outdated documentation |
+| `/create-doc-page` | Create a new documentation page |
+
+**In Cursor**, just ask in Agent mode:
+- "Create a new guide about authentication"
+- "Check my docs for outdated content"
+- "Add this page to the navigation"
+
+## Repository Structure
 
 | Directory | Description |
 |-----------|-------------|
-| 📚 [`/docs`](./docs) | Official DevDoc documentation ([devdoc.sh](https://devdoc.sh)) |
-| 🎨 [`/templates`](./templates) | Starter template for new projects |
-| 🖌️ [`/themes`](./themes) | Theme presets for customization |
+| [`/docs`](./docs) | Official DevDoc documentation ([devdoc.sh](https://devdoc.sh)) |
+| [`/templates`](./templates) | Starter template for new projects |
+| [`/themes`](./themes) | Theme presets for customization |
 
-## 🎨 Themes
+## Themes
 
 | Theme | Description |
 |-------|-------------|
@@ -78,25 +106,26 @@ Add to your `theme.json`:
 }
 ```
 
-## 📚 Documentation
+## Documentation
 
 Visit [devdoc.sh](https://devdoc.sh) for full documentation:
 
 - [Getting Started](https://devdoc.sh/quickstart)
 - [CLI Reference](https://devdoc.sh/cli/overview)
+- [AI Agents](https://devdoc.sh/ai-agents/overview)
 - [Configuration](https://devdoc.sh/essentials/configuration)
 - [Components](https://devdoc.sh/essentials/components)
 
-## 🤝 Contributing
+## Contributing
 
 We welcome contributions! See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
 
-- 🐛 [Report bugs](https://github.com/brainfish-ai/devdoc/issues/new?template=bug_report.md)
-- 💡 [Request features](https://github.com/brainfish-ai/devdoc/issues/new?template=feature_request.md)
-- 📝 Improve documentation
-- 🎨 Create new themes
-- 💻 Submit pull requests
+- [Report bugs](https://github.com/brainfish-ai/devdoc/issues/new?template=bug_report.md)
+- [Request features](https://github.com/brainfish-ai/devdoc/issues/new?template=feature_request.md)
+- Improve documentation
+- Create new themes
+- Submit pull requests
 
-## 📄 License
+## License
 
 MIT © [Brainfish AI](https://brainfi.sh)
