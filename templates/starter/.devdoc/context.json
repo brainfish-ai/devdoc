@@ -1,0 +1,64 @@
+{
+  "$schema": "https://devdoc.sh/schemas/context.json",
+  "version": "1.0",
+  "lastUpdated": null,
+  "product": {
+    "name": "",
+    "description": "",
+    "type": null,
+    "domain": "",
+    "targetAudience": "",
+    "keyFeatures": []
+  },
+  "terminology": {
+    "glossary": {},
+    "avoidTerms": [],
+    "brandNames": {}
+  },
+  "api": {
+    "style": null,
+    "baseUrl": "",
+    "authentication": {
+      "type": null,
+      "headerName": "",
+      "description": ""
+    },
+    "conventions": {
+      "pagination": "",
+      "errorFormat": "",
+      "dateFormat": "",
+      "idFormat": ""
+    },
+    "commonPatterns": []
+  },
+  "codebase": {
+    "language": "",
+    "framework": "",
+    "sourceLocation": "../",
+    "keyDirectories": {},
+    "namingConventions": {
+      "files": "",
+      "functions": "",
+      "classes": "",
+      "variables": ""
+    }
+  },
+  "documentation": {
+    "voice": "",
+    "perspective": null,
+    "codeExamples": {
+      "primaryLanguage": "",
+      "additionalLanguages": [],
+      "style": ""
+    },
+    "structure": {
+      "guideFormat": "",
+      "apiRefFormat": "",
+      "tutorialFormat": ""
+    }
+  },
+  "learned": {
+    "insights": [],
+    "corrections": []
+  }
+}

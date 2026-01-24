@@ -31,5 +31,8 @@ yarn-error.log*
 .DS_Store
 Thumbs.db
 
-# DevDoc
-.devdoc/
+# DevDoc secrets (API keys) - NEVER commit
+.devdoc.json
+
+# Note: .devdoc/ folder (context memory) IS committed
+# This allows team members to share product context
