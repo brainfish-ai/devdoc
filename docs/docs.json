@@ -1,7 +1,7 @@
 {
   "$schema": "https://devdoc.sh/docs.json",
   "name": "DevDoc Documentation",
-  "favicon": "/favicon.svg",
+  "favicon": "/assets/favicon.svg",
   "notice": {
     "content": "🚀 DevDoc is in beta! [Get started](/quickstart) in under 5 minutes.",
     "dismissible": true

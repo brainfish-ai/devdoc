@@ -69,7 +69,7 @@ Open [http://localhost:3333](http://localhost:3333) to view your documentation.
 │   ├── openapi.json       # OpenAPI spec (REST)
 │   └── schema.graphql     # GraphQL schema
 │
-└── public/                # Static assets
+└── assets/                # Static assets
     ├── logo.svg           # Your logo
     └── favicon.svg        # Browser favicon
 ```

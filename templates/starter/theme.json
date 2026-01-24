@@ -1,8 +1,8 @@
 {
   "$schema": "https://devdoc.sh/theme.json",
   "logo": {
-    "light": "/logo.svg",
-    "dark": "/logo.svg",
+    "light": "/assets/logo.svg",
+    "dark": "/assets/logo.svg",
     "alt": "Documentation",
     "width": 120,
     "height": 24
