@@ -302,19 +302,48 @@ Create `.devdoc/context.json`:
 6. **Second Person** - "You can configure..."
 7. **Include REAL Examples** - From tests/examples
 
-### Step 8: Update docs.json
+### Step 8: Create docs.json and theme.json
 
-```json
+**CRITICAL: Read schema files before creating config files.**
+
+```
+📋 SCHEMA REFERENCES (Read before writing)
+
+1. .devdoc/schemas/docs.schema.json → docs.json structure
+2. .devdoc/schemas/theme.schema.json → theme.json structure
+```
+
+**Review config with user before writing:**
+
+```
+═══════════════════════════════════════════════════
+CONFIG REVIEW: docs.json
+═══════════════════════════════════════════════════
+
 {
-  "docType": "api",
+  "$schema": "https://devdoc.sh/docs.json",
+  "name": "[Product Name]",
+  "docType": "[api|product|internal]",
   "navigation": {
     "tabs": [
-      { "tab": "Guides", "groups": [...] },
-      { "tab": "API Reference", "type": "openapi", "spec": "api-reference/openapi.json" }
+      { "tab": "Guides", "type": "docs", "groups": [...] },
+      { "tab": "API Reference", "type": "openapi" }
     ]
   }
 }
+
+Validated against: schemas/docs.schema.json ✓
+
+OPTIONS:
+1. ✅ Approve
+2. ✏️ Edit
+3. ❌ Cancel
 ```
+
+**Quick Reference:**
+- Tab types: `docs`, `openapi`, `graphql`, `changelog`
+- Icons: `rocket-launch`, `book-open`, `code`, `gear`, `terminal`, `star`
+- Colors: indigo (#6366f1), blue (#3b82f6), green (#10b981)
 
 ### Step 9: Summary
 
