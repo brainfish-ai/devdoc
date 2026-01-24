@@ -10,7 +10,7 @@
 </p>
 
 <p align="center">
-  <strong>Beautiful documentation for your project</strong>
+  <strong>Beautiful documentation powered by AI agents</strong>
 </p>
 
 <p align="center">
@@ -22,15 +22,19 @@
 
 ---
 
-## ✨ Features
+## Features
 
-- 📝 **Write in MDX** — Markdown with React components for rich documentation
-- 🎨 **Beautiful Design** — Modern UI with dark mode out of the box
-- 🔍 **AI-Powered Search** — Help users find answers instantly
-- ⚡ **Fast Setup** — Get started in under 5 minutes
-- 📱 **Responsive** — Looks great on all devices
+| Feature | Description |
+|---------|-------------|
+| Write in MDX | Markdown with React components for rich documentation |
+| Beautiful Design | Modern UI with dark mode out of the box |
+| Agentic Search | AI-powered search with agentic UX and sandbox |
+| API Playground | Postman/Hoppscotch-like client for testing API endpoints |
+| AI Agent Support | Use Claude Code or Cursor to write docs faster |
+| Fast Setup | Get started in under 5 minutes |
+| Responsive | Looks great on all devices |
 
-## 🚀 Getting Started
+## Getting Started
 
 Install dependencies:
 
@@ -44,9 +48,9 @@ Start the development server:
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) to view your documentation.
+Open [http://localhost:3333](http://localhost:3333) to view your documentation.
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 ├── docs.json              # Navigation & site configuration
@@ -70,7 +74,7 @@ Open [http://localhost:3000](http://localhost:3000) to view your documentation.
     └── favicon.svg        # Browser favicon
 ```
 
-## ⚙️ Configuration
+## Configuration
 
 Edit `docs.json` to customize your documentation:
 
@@ -83,7 +87,7 @@ Edit `docs.json` to customize your documentation:
 
 See the [Configuration Guide](/guides/configuration) for more details.
 
-## 🚢 Deployment
+## Deployment
 
 Deploy to DevDoc hosting with a single command:
 
@@ -93,14 +97,39 @@ npx @brainfish-ai/devdoc deploy
 
 Your docs will be live at `https://your-subdomain.devdoc.sh`
 
-## 📚 Learn More
+## AI Agent Support
+
+This project includes a `CLAUDE.md` file that teaches AI agents (Claude Code, Cursor) about DevDoc's format and conventions.
+
+**Set up AI skills:**
+
+```bash
+npx @brainfish-ai/devdoc ai
+```
+
+**Available commands in Claude Code:**
+
+| Command | Description |
+|---------|-------------|
+| `/bootstrap-docs` | Generate docs from your codebase |
+| `/migrate-docs` | Migrate from Mintlify, Docusaurus, etc. |
+| `/sync-docs` | Find and fix outdated documentation |
+| `/create-doc-page` | Create a new documentation page |
+
+**In Cursor**, just ask in Agent mode:
+- "Create a new guide about authentication"
+- "Check my docs for outdated content"
+- "Add this page to the navigation"
+
+## Learn More
 
 - [DevDoc Documentation](https://devdoc.sh/docs) — Full platform docs
 - [Components](https://devdoc.sh/components) — Available MDX components
 - [CLI Reference](https://devdoc.sh/cli) — Command line tools
+- [AI Agents](https://devdoc.sh/ai) — Using AI agents to write docs
 
 ---
 
 <p align="center">
-  Built with <a href="https://devdoc.sh">DevDoc</a> 🐟
+  Built with <a href="https://devdoc.sh">DevDoc</a>
 </p>

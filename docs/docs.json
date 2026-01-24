@@ -22,6 +22,16 @@
             ]
           },
           {
+            "group": "AI Agents",
+            "icon": "robot",
+            "pages": [
+              "ai-agents/overview",
+              "ai-agents/bootstrap",
+              "ai-agents/migrate",
+              "ai-agents/sync-docs"
+            ]
+          },
+          {
             "group": "CLI Reference",
             "icon": "terminal",
             "pages": [
@@ -29,7 +39,8 @@
               "cli/create",
               "cli/dev",
               "cli/deploy",
-              "cli/keys"
+              "cli/keys",
+              "cli/ai"
             ]
           },
           {
@@ -66,6 +77,7 @@
             "pages": [
               "config/docs-json",
               "config/theme",
+              "essentials/agentic-search",
               "essentials/notice",
               "essentials/404-page",
               "essentials/seo",

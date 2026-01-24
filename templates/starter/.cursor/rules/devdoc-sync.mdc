@@ -1,0 +1,70 @@
+---
+description: Rules for syncing and updating documentation with codebase changes
+globs: ["**/*.mdx", "**/docs.json"]
+---
+
+# Documentation Sync Rules
+
+When asked to sync, update, or check documentation:
+
+## Analysis Process
+
+1. Compare documented APIs against source code exports
+2. Verify code examples compile/run correctly
+3. Check version numbers match package.json
+4. Validate all internal links resolve
+5. Identify new features needing documentation
+
+## Common Outdated Patterns
+
+- Function signatures that changed
+- Removed or renamed exports
+- Changed configuration options
+- Updated CLI commands
+- New required parameters
+- Deprecated features still documented
+
+## Update Guidelines
+
+- Preserve existing explanations and prose
+- Only update technical details (code, signatures, versions)
+- Add TODO comments for sections needing human review
+- Create stubs for undocumented new features
+- Mark deprecated features with Warning callout
+
+## Detection Checklist
+
+| Check | How to Verify |
+|-------|---------------|
+| Function exists | Search source for export |
+| Signature matches | Compare params and return type |
+| Version current | Check package.json |
+| Route exists | Search API routes |
+| Component props | Check TypeScript interface |
+
+## Update Patterns
+
+### Changed Signature
+Update the documented signature to match source.
+
+### Removed Feature
+Add deprecation warning:
+```mdx
+<Warning>
+This feature was removed in vX.X.
+</Warning>
+```
+
+### New Feature
+Create stub with TODO:
+```mdx
+{/* TODO: Document this feature */}
+```
+
+## Report Format
+
+When checking docs, report:
+- Outdated items (with specific file:line)
+- Missing documentation
+- Broken links
+- Up-to-date items (summary)

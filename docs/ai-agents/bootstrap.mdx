@@ -1,0 +1,203 @@
+---
+title: "Bootstrap Documentation"
+description: "Generate complete documentation from your existing codebase"
+---
+
+Starting documentation from scratch can be daunting. DevDoc AI agents can analyze your repository and generate a complete documentation structure automatically, extracting real content from your codebase.
+
+## How It Works
+
+The bootstrap process:
+
+1. **Analyzes your repo** - README, package.json, source code, API specs
+2. **Identifies structure** - Functions, components, API endpoints, configs
+3. **Generates pages** - Homepage, quickstart, guides, API reference
+4. **Creates navigation** - Complete docs.json with proper grouping
+
+## Running Bootstrap
+
+<Tabs>
+  <Tab title="Claude Code">
+    ```
+    /bootstrap-docs
+    ```
+  </Tab>
+  <Tab title="Cursor">
+    In Agent mode:
+    
+    "Analyze this repo and generate initial DevDoc documentation"
+  </Tab>
+</Tabs>
+
+## What Gets Analyzed
+
+| Source | Documentation Generated |
+|--------|------------------------|
+| README.md | Homepage content, project overview |
+| package.json | Project name, version, CLI commands |
+| src/index.ts | Main exports, API reference |
+| components/ | Component documentation |
+| api/ or routes/ | API endpoint reference |
+| openapi.json | Full API documentation |
+| schema.graphql | GraphQL type documentation |
+| tests/ | Usage examples |
+| .env.example | Configuration options |
+
+## Generated Structure
+
+After bootstrapping, you'll have:
+
+```
+docs/
+├── docs.json              # Navigation config
+├── theme.json             # Theme settings
+├── index.mdx              # Homepage (from README)
+├── quickstart.mdx         # Getting started guide
+├── installation.mdx       # Installation instructions
+├── configuration.mdx      # Config options
+├── guides/
+│   ├── overview.mdx       # Architecture overview
+│   └── {feature}.mdx      # Feature-specific guides
+├── api-reference/         # (if API found)
+│   ├── introduction.mdx   # API overview
+│   ├── authentication.mdx # Auth guide
+│   └── openapi.json       # OpenAPI spec
+└── components/            # (if UI library)
+    └── {component}.mdx    # Component docs
+```
+
+## Bootstrap Output
+
+You'll see progress as the AI analyzes your repo:
+
+```
+Analyzing repository...
+
+Found:
+   README.md - Project overview
+   package.json - Node.js project (my-awesome-lib)
+   src/index.ts - Main entry point with 5 exports
+   src/components/ - 12 React components
+   src/api/ - 8 API endpoints
+   openapi.json - OpenAPI 3.0 specification
+
+Generating documentation...
+
+Created:
+   docs/index.mdx - Homepage
+   docs/quickstart.mdx - Getting started
+   docs/installation.mdx - Installation guide
+   docs/guides/overview.mdx - Architecture overview
+   docs/api-reference/introduction.mdx - API intro
+   docs/api-reference/authentication.mdx - Auth guide
+   docs/components/button.mdx - Button component
+   ... (12 more files)
+   docs/docs.json - Navigation config
+
+Documentation bootstrapped! Run `devdoc dev` to preview.
+
+Review TODOs in generated files for sections needing attention.
+```
+
+## Quality Guidelines
+
+The AI follows these principles when generating docs:
+
+<AccordionGroup>
+  <Accordion title="Real code examples">
+    Code examples are extracted from your actual codebase, not fabricated. This ensures accuracy and helps users find working code.
+  </Accordion>
+  
+  <Accordion title="TODOs for review">
+    Sections that need human input are marked with TODO comments. Search for `{/* TODO:` to find them.
+  </Accordion>
+  
+  <Accordion title="Preserve existing content">
+    If you already have documentation, the AI preserves it and only adds missing sections.
+  </Accordion>
+  
+  <Accordion title="SEO-friendly descriptions">
+    Page descriptions are generated to be concise and search-friendly.
+  </Accordion>
+</AccordionGroup>
+
+## Customizing Output
+
+After bootstrapping, you'll want to:
+
+<Steps>
+  <Step title="Preview the docs">
+    ```bash
+    devdoc dev
+    ```
+    
+    Open http://localhost:3333 to see your generated docs.
+  </Step>
+  
+  <Step title="Review TODOs">
+    Search for `TODO` comments and fill in missing information:
+    
+    ```mdx
+    {/* TODO: Add authentication details */}
+    ```
+  </Step>
+  
+  <Step title="Customize navigation">
+    Edit `docs.json` to reorder pages or rename groups.
+  </Step>
+  
+  <Step title="Add your branding">
+    Update `theme.json` with your colors and add your logo to `public/`.
+  </Step>
+  
+  <Step title="Expand guides">
+    Add more detailed guides for complex features.
+  </Step>
+</Steps>
+
+## Import API Specs
+
+If you have an OpenAPI or GraphQL spec, you can import it separately:
+
+<Tabs>
+  <Tab title="Claude Code">
+    ```
+    /import-api-spec
+    ```
+  </Tab>
+  <Tab title="Cursor">
+    "Import the OpenAPI spec and set up API reference"
+  </Tab>
+</Tabs>
+
+This creates:
+- API reference tab in navigation
+- Introduction and authentication pages
+- Proper docs.json configuration for the playground
+
+## Best Practices
+
+<Note>
+**Start with bootstrap, then refine.** The generated docs are a great starting point, but you'll get the best results by reviewing and expanding them with your domain knowledge.
+</Note>
+
+<Tip>
+**Run bootstrap early.** Even if your codebase is small, bootstrapping early means documentation grows with your code.
+</Tip>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Sync Documentation" icon="arrows-clockwise" href="/ai-agents/sync-docs">
+    Keep docs up to date as code changes
+  </Card>
+  <Card title="Writing Content" icon="pencil-simple" href="/essentials/markdown">
+    Learn MDX and components
+  </Card>
+  <Card title="Configuration" icon="gear" href="/config/docs-json">
+    Customize your docs.json
+  </Card>
+  <Card title="Deploy" icon="cloud-arrow-up" href="/deployment">
+    Publish your documentation
+  </Card>
+</CardGroup>

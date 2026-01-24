@@ -1,0 +1,116 @@
+---
+title: "AI Agents"
+description: "Use Claude Code or Cursor to write, migrate, and maintain documentation"
+---
+
+DevDoc includes built-in support for AI agents to help you write documentation faster. Whether you're starting from scratch, migrating from another platform, or keeping docs in sync with code changes, AI agents can accelerate your workflow.
+
+## Supported Tools
+
+<CardGroup cols={2}>
+  <Card title="Claude Code" icon="robot">
+    Custom skills with slash commands like `/bootstrap-docs`
+  </Card>
+  <Card title="Cursor" icon="cursor-click">
+    Rules and agent mode for documentation tasks
+  </Card>
+</CardGroup>
+
+## Quick Setup
+
+Run the AI setup command in your DevDoc project:
+
+```bash
+devdoc ai
+```
+
+This creates:
+- `CLAUDE.md` - Project context for Claude Code
+- `.claude/skills/` - Custom slash commands
+- `.cursor/rules/` - Cursor agent rules
+
+## Key Capabilities
+
+### Bootstrap Documentation
+
+Generate complete documentation from your existing codebase:
+
+<Tabs>
+  <Tab title="Claude Code">
+    ```
+    /bootstrap-docs
+    ```
+  </Tab>
+  <Tab title="Cursor">
+    In Agent mode, ask:
+    
+    "Analyze this repo and generate initial DevDoc documentation"
+  </Tab>
+</Tabs>
+
+The AI analyzes your README, package.json, source code, and API specs to create a complete documentation structure.
+
+### Migrate from Other Platforms
+
+Switch to DevDoc from Mintlify, Docusaurus, GitBook, and more:
+
+<Tabs>
+  <Tab title="Claude Code">
+    ```
+    /migrate-docs
+    ```
+  </Tab>
+  <Tab title="Cursor">
+    "Migrate my Mintlify docs to DevDoc format"
+  </Tab>
+</Tabs>
+
+See the [Migration Guide](/ai-agents/migrate) for supported platforms.
+
+### Keep Docs in Sync
+
+Find and fix outdated documentation automatically:
+
+<Tabs>
+  <Tab title="Claude Code">
+    ```
+    /sync-docs
+    ```
+  </Tab>
+  <Tab title="Cursor">
+    "Check my docs for outdated content"
+  </Tab>
+</Tabs>
+
+See [Sync Documentation](/ai-agents/sync-docs) for details.
+
+## Available Commands
+
+| Command | Description |
+|---------|-------------|
+| `/bootstrap-docs` | Generate docs from codebase |
+| `/migrate-docs` | Migrate from other platforms |
+| `/import-api-spec` | Import OpenAPI/GraphQL specs |
+| `/sync-docs` | Find and fix outdated docs |
+| `/check-docs` | Quick health check |
+| `/create-doc-page` | Create new MDX page |
+| `/update-docs-json` | Update navigation |
+| `/generate-api-docs` | Generate API reference |
+| `/docs-from-code` | Generate docs from code files |
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Migration Guide" icon="arrows-left-right" href="/ai-agents/migrate">
+    Migrate from Mintlify, Docusaurus, GitBook
+  </Card>
+  <Card title="Sync Documentation" icon="arrows-clockwise" href="/ai-agents/sync-docs">
+    Keep docs up to date with code
+  </Card>
+  <Card title="Bootstrap Docs" icon="rocket-launch" href="/ai-agents/bootstrap">
+    Generate docs from your codebase
+  </Card>
+  <Card title="CLI Reference" icon="terminal" href="/cli/overview">
+    All DevDoc CLI commands
+  </Card>
+</CardGroup>

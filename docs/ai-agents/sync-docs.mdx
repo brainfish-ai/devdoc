@@ -1,0 +1,207 @@
+---
+title: "Sync Documentation"
+description: "Keep documentation in sync with your codebase automatically"
+---
+
+Documentation gets outdated as code evolves. DevDoc AI agents can analyze your codebase and documentation to find inconsistencies, then fix them automatically or flag them for review.
+
+## How It Works
+
+The sync process:
+
+1. **Scans documentation** - Extracts documented functions, code examples, versions, and API endpoints
+2. **Analyzes codebase** - Checks current source code against what's documented
+3. **Generates report** - Categorizes issues by severity
+4. **Applies fixes** - Updates docs automatically or flags for review
+
+## Running Sync
+
+<Tabs>
+  <Tab title="Claude Code">
+    ```
+    /sync-docs
+    ```
+    
+    For a quick check without changes:
+    ```
+    /check-docs
+    ```
+  </Tab>
+  <Tab title="Cursor">
+    In Agent mode:
+    
+    "Check my docs for outdated content"
+    
+    Or to fix issues:
+    
+    "Sync documentation with the current codebase"
+  </Tab>
+</Tabs>
+
+## Sync Report
+
+After running sync, you'll see a report like this:
+
+```
+Documentation Sync Report
+=========================
+
+Outdated (Breaking Changes)
+   docs/api/users.mdx: createUser() signature changed
+     Documented: createUser(name: string)
+     Current: createUser(data: UserInput)
+
+Outdated (Minor Changes)  
+   docs/quickstart.mdx: Package version outdated
+     Documented: v1.2.0
+     Current: v1.5.0
+
+Missing Documentation
+   src/utils/validator.ts - New export, not documented
+   POST /api/v2/webhooks - New endpoint, not documented
+
+Up to Date
+   docs/guides/authentication.mdx
+   docs/components/button.mdx
+   ... (15 more files)
+```
+
+## What Gets Checked
+
+| Check | What It Looks For |
+|-------|-------------------|
+| Function signatures | Parameters, return types changed |
+| Code examples | Imports that no longer exist |
+| Version numbers | Package versions in docs vs package.json |
+| API endpoints | Routes that were added/removed |
+| Component props | TypeScript interface changes |
+| CLI commands | Script changes in package.json |
+
+## Update Options
+
+When issues are found, you can choose:
+
+1. **Auto-fix all** - Update all outdated docs automatically
+2. **Interactive** - Review each change before applying
+3. **Report only** - Just show the report, don't change anything
+
+## How Updates Are Applied
+
+### Changed Function Signatures
+
+The documented signature is updated to match the current code:
+
+```mdx
+// Before (outdated)
+createUser(name: string, email: string)
+
+// After (updated)
+createUser(data: UserInput)
+// Where UserInput = { name: string, email: string, role?: string }
+```
+
+### Removed Features
+
+A deprecation warning is added:
+
+```mdx
+<Warning>
+**Deprecated**: This feature was removed in v2.0. 
+See [migration guide](/guides/v2-migration) for alternatives.
+</Warning>
+```
+
+### New Features
+
+A stub is created for documentation:
+
+```mdx
+---
+title: "Webhooks"
+description: "Configure webhook integrations"
+---
+
+{/* TODO: Document webhook functionality added in v1.5 */}
+
+## Overview
+
+Coming soon...
+```
+
+## Health Check
+
+For a quick audit without making changes, use the check command:
+
+<Tabs>
+  <Tab title="Claude Code">
+    ```
+    /check-docs
+    ```
+  </Tab>
+  <Tab title="Cursor">
+    "Run a health check on my documentation"
+  </Tab>
+</Tabs>
+
+This checks for:
+- Broken internal links
+- Missing pages in navigation
+- Orphan pages not in navigation
+- Code syntax errors
+- Outdated imports
+- Stale version numbers
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Run sync regularly">
+    Run `/sync-docs` after major code changes or before releases to catch outdated content early.
+  </Accordion>
+  
+  <Accordion title="Review before auto-fixing">
+    For critical documentation, use interactive mode to review each change before applying.
+  </Accordion>
+  
+  <Accordion title="Keep code examples minimal">
+    Smaller code examples are easier to keep in sync. Link to full examples in your repo instead.
+  </Accordion>
+  
+  <Accordion title="Use version variables">
+    Reference versions from a single source (like package.json) rather than hardcoding throughout docs.
+  </Accordion>
+</AccordionGroup>
+
+## CI/CD Integration
+
+You can run documentation checks in your CI pipeline:
+
+```yaml
+# .github/workflows/docs-check.yml
+name: Docs Check
+
+on: [pull_request]
+
+jobs:
+  check-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+      - run: npm install
+      - run: npx devdoc check
+```
+
+<Note>
+The `/check-docs` AI command provides more thorough analysis than `devdoc check`, but the CLI command works in CI without AI tools.
+</Note>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Migration Guide" icon="arrows-left-right" href="/ai-agents/migrate">
+    Migrate from other platforms
+  </Card>
+  <Card title="CI/CD Setup" icon="git-branch" href="/ci-cd">
+    Automate documentation builds
+  </Card>
+</CardGroup>

@@ -1,0 +1,181 @@
+---
+title: "Agentic Search"
+description: "Intelligent search that understands context, executes code, and delivers precise answers"
+---
+
+DevDoc features Agentic Search — not just a search box, but an intelligent agent that understands your documentation, executes code, and delivers precise answers to user questions.
+
+## What Makes It Different
+
+Traditional documentation search matches keywords. Agentic Search goes further:
+
+| Traditional Search | Agentic Search |
+|-------------------|----------------|
+| Keyword matching | Semantic understanding |
+| Returns document links | Delivers direct answers |
+| Static results | Context-aware responses |
+| Manual code copying | Live code sandbox |
+| Single query | Follow-up conversation |
+
+## Key Capabilities
+
+### Contextual Understanding
+
+Agentic Search understands the meaning behind questions, not just keywords. Ask "how do I authenticate?" and it finds authentication docs even if they use terms like "API keys" or "bearer tokens".
+
+### Code Execution Sandbox
+
+Users can run code examples directly in the search interface. The agent:
+- Executes code snippets in a secure sandbox
+- Shows real output and results
+- Allows modification and re-execution
+- Supports multiple languages
+
+### Conversational Follow-ups
+
+Unlike traditional search, users can ask follow-up questions:
+
+```
+User: How do I create a user?
+Agent: [Shows createUser API with example]
+
+User: What if I need to add custom fields?
+Agent: [Shows customFields parameter with example]
+
+User: Can you show me the TypeScript types?
+Agent: [Shows UserInput interface]
+```
+
+### Source Attribution
+
+Every answer includes links to the source documentation, so users can dive deeper when needed.
+
+## How It Works
+
+<Steps>
+  <Step title="User asks a question">
+    Natural language query like "How do I set up webhooks?"
+  </Step>
+  
+  <Step title="Agent analyzes documentation">
+    Searches across all your docs using semantic understanding, not just keywords.
+  </Step>
+  
+  <Step title="Agent synthesizes answer">
+    Combines relevant information into a clear, direct response with code examples.
+  </Step>
+  
+  <Step title="User can interact">
+    Run code in sandbox, ask follow-ups, or click through to full documentation.
+  </Step>
+</Steps>
+
+## Benefits for Users
+
+<CardGroup cols={2}>
+  <Card title="Faster Answers" icon="lightning">
+    Get direct answers instead of scanning through pages of docs.
+  </Card>
+  <Card title="Try Before Implementing" icon="play-circle">
+    Run code examples in the sandbox before copying to your project.
+  </Card>
+  <Card title="Natural Questions" icon="chat-circle">
+    Ask questions in plain English, not search keywords.
+  </Card>
+  <Card title="Context Preserved" icon="brain">
+    Follow-up questions understand the conversation context.
+  </Card>
+</CardGroup>
+
+## Benefits for Documentation Authors
+
+<CardGroup cols={2}>
+  <Card title="Reduced Support Load" icon="headset">
+    Users find answers themselves without filing tickets.
+  </Card>
+  <Card title="Analytics Insights" icon="chart-line">
+    See what users are asking to improve your docs.
+  </Card>
+  <Card title="No Extra Work" icon="check-circle">
+    Works automatically with your existing documentation.
+  </Card>
+  <Card title="Always Current" icon="arrows-clockwise">
+    Agent uses latest docs — no manual training needed.
+  </Card>
+</CardGroup>
+
+## Example Interactions
+
+### API Usage Question
+
+```
+User: How do I paginate through users?
+
+Agent: To paginate through users, use the `limit` and `offset` parameters:
+
+    GET /api/users?limit=20&offset=40
+
+This returns users 41-60. You can also use cursor-based pagination 
+with the `cursor` parameter for better performance on large datasets.
+
+[Run in Sandbox] [View Full Docs]
+```
+
+### Error Troubleshooting
+
+```
+User: I'm getting a 401 error on the create endpoint
+
+Agent: A 401 error indicates authentication issues. Check that:
+
+1. Your API key is included in the Authorization header
+2. The key has write permissions (not read-only)
+3. The key hasn't expired
+
+Here's the correct header format:
+
+    Authorization: Bearer sk_live_xxx
+
+[View Authentication Docs]
+```
+
+### Code Generation
+
+```
+User: Show me how to upload a file with progress tracking
+
+Agent: Here's a complete example with progress tracking:
+
+    const uploadWithProgress = async (file, onProgress) => {
+      const formData = new FormData();
+      formData.append('file', file);
+      
+      return axios.post('/api/upload', formData, {
+        onUploadProgress: (e) => {
+          const percent = Math.round((e.loaded * 100) / e.total);
+          onProgress(percent);
+        }
+      });
+    };
+
+[Run in Sandbox] [Copy Code]
+```
+
+## Configuration
+
+Agentic Search works automatically with your DevDoc site. No additional configuration is required — the agent indexes your documentation and starts helping users immediately.
+
+<Note>
+Agentic Search is available on all DevDoc plans. Usage is included in your plan limits.
+</Note>
+
+## See Also
+
+<CardGroup cols={2}>
+  <Card title="AI Agents" icon="robot" href="/ai-agents/overview">
+    Use AI to write and maintain documentation
+  </Card>
+  <Card title="SEO Settings" icon="magnifying-glass" href="/essentials/seo">
+    Optimize your docs for traditional search engines
+  </Card>
+</CardGroup>

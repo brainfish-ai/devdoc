@@ -1,0 +1,66 @@
+---
+description: Rules for bootstrapping documentation from repository analysis
+globs: ["**/README.md", "**/package.json", "**/src/**", "**/lib/**"]
+---
+
+# Repository Analysis for Documentation
+
+When asked to bootstrap or generate initial documentation:
+
+## Analysis Checklist
+
+1. Read README.md for project overview
+2. Check package.json for:
+   - Project name and description
+   - Dependencies (to understand tech stack)
+   - Scripts (for CLI documentation)
+3. Scan source directory structure
+4. Identify API endpoints or exported functions
+5. Look for existing OpenAPI/GraphQL specs
+6. Check for example files or tests
+
+## Documentation Generation Order
+
+1. index.mdx (homepage) - from README
+2. quickstart.mdx - installation + basic usage
+3. API reference - from specs or code analysis
+4. Feature guides - from major modules
+
+## Always Include
+
+- Real code examples from the codebase
+- Accurate installation commands
+- Links between related pages
+- TODO comments for sections needing review
+
+## File Structure to Generate
+
+```
+docs/
+├── docs.json           # Navigation config
+├── index.mdx           # Homepage
+├── quickstart.mdx      # Getting started
+├── guides/
+│   └── overview.mdx    # Architecture
+├── api-reference/      # If API exists
+│   ├── introduction.mdx
+│   └── openapi.json
+└── theme.json          # Theme config
+```
+
+## Content Extraction
+
+| Source | Documentation |
+|--------|---------------|
+| README.md | Homepage, overview |
+| package.json | Name, version, scripts |
+| src/index.ts | Main exports |
+| tests/ | Usage examples |
+| .env.example | Configuration options |
+
+## Quality Guidelines
+
+- Extract real examples, don't fabricate
+- Note areas needing human review
+- Generate SEO-friendly descriptions
+- Include all installation steps

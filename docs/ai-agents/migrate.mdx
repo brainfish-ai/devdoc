@@ -1,0 +1,208 @@
+---
+title: "Migration Guide"
+description: "Migrate documentation from Mintlify, Docusaurus, GitBook, and other platforms"
+---
+
+DevDoc AI agents can automatically migrate your existing documentation from popular platforms. The migration process converts configuration files, MDX content, and components to DevDoc format.
+
+## Supported Platforms
+
+| Platform | Config File | Component Support |
+|----------|-------------|-------------------|
+| Mintlify | `mint.json` | Full |
+| Docusaurus | `docusaurus.config.js` | Full |
+| GitBook | `SUMMARY.md` | Full |
+| ReadMe | `.readme/` | Partial |
+| MkDocs | `mkdocs.yml` | Full |
+| VuePress | `.vuepress/` | Full |
+
+## How to Migrate
+
+<Steps>
+  <Step title="Set up AI agents">
+    Run the AI setup command in your DevDoc project:
+    
+    ```bash
+    devdoc ai
+    ```
+  </Step>
+  
+  <Step title="Run migration">
+    <Tabs>
+      <Tab title="Claude Code">
+        ```
+        /migrate-docs
+        ```
+      </Tab>
+      <Tab title="Cursor">
+        In Agent mode:
+        
+        "Migrate my Mintlify docs to DevDoc format"
+      </Tab>
+    </Tabs>
+  </Step>
+  
+  <Step title="Review and preview">
+    ```bash
+    devdoc dev
+    ```
+    
+    Check the generated files and fix any issues flagged for manual review.
+  </Step>
+</Steps>
+
+## Component Mappings
+
+### Mintlify to DevDoc
+
+| Mintlify | DevDoc |
+|----------|--------|
+| `<CodeGroup>` | `<Tabs>` with code blocks |
+| `<Frame>` | `<img>` (wrapper removed) |
+| `<ResponseField>` | Markdown table |
+| `<ParamField>` | Markdown table |
+| `<Accordion>` | `<Accordion>` |
+| `<Card>` | `<Card>` |
+| `<CardGroup>` | `<CardGroup>` |
+| `<Tabs>` | `<Tabs>` |
+| `<Steps>` | `<Steps>` |
+| `<Note>` | `<Note>` |
+| `<Tip>` | `<Tip>` |
+| `<Warning>` | `<Warning>` |
+
+### Docusaurus to DevDoc
+
+| Docusaurus | DevDoc |
+|------------|--------|
+| `:::note` | `<Note>` |
+| `:::tip` | `<Tip>` |
+| `:::info` | `<Info>` |
+| `:::caution` | `<Warning>` |
+| `:::danger` | `<Warning>` |
+| `<Tabs>` | `<Tabs>` |
+| `<TabItem>` | `<Tab>` |
+
+### GitBook to DevDoc
+
+| GitBook | DevDoc |
+|---------|--------|
+| `{% hint style="info" %}` | `<Info>` |
+| `{% hint style="warning" %}` | `<Warning>` |
+| `{% hint style="success" %}` | `<Tip>` |
+| `{% tabs %}` | `<Tabs>` |
+| `{% tab title="X" %}` | `<Tab title="X">` |
+| `{% code title="X" %}` | Code block with title |
+
+## Configuration Migration
+
+### Mintlify (mint.json)
+
+```
+mint.json → docs.json
+├── name → name
+├── logo → (extract to public/)
+├── favicon → favicon
+├── colors → theme.json
+├── navigation → navigation.tabs + groups
+├── topbarLinks → navbar
+├── anchors → navigation.global.anchors
+└── api → api
+```
+
+### Docusaurus
+
+```
+docusaurus.config.js → docs.json
+├── title → name
+├── favicon → favicon
+├── themeConfig.navbar → navbar
+└── docs.sidebarPath → navigation
+
+sidebars.js → navigation.tabs[].groups
+```
+
+### GitBook
+
+```
+SUMMARY.md → docs.json navigation
+├── # Group → groups[].group
+├── * [Page](path.md) → groups[].pages[]
+└── Nested items → nested groups
+```
+
+## Migration Report
+
+After migration, you'll see a report like this:
+
+```
+Migration Report
+================
+
+Source: Mintlify (detected mint.json)
+Files to migrate: 24 MDX files
+
+Configuration
+   mint.json → docs.json
+   Colors → theme.json
+   Logo files → public/
+
+Content (24 files)
+   introduction.mdx → index.mdx
+   quickstart.mdx → quickstart.mdx
+   ... (22 more files)
+
+Component Conversions
+   12 <CodeGroup> → <Tabs>
+   8 <Frame> → <img>
+   5 <ResponseField> → tables
+   
+Manual Review Needed
+   - docs/advanced/custom-component.mdx (custom React component)
+
+Migration complete! Run `devdoc dev` to preview.
+```
+
+## Post-Migration Checklist
+
+<AccordionGroup>
+  <Accordion title="Verify navigation structure">
+    Check that `docs.json` has the correct page order and groupings.
+  </Accordion>
+  
+  <Accordion title="Test internal links">
+    Run `/check-docs` to find any broken links.
+  </Accordion>
+  
+  <Accordion title="Review component rendering">
+    Preview with `devdoc dev` and check all components render correctly.
+  </Accordion>
+  
+  <Accordion title="Check API playground">
+    If you have API docs, verify the playground works with your spec.
+  </Accordion>
+  
+  <Accordion title="Update custom components">
+    Any custom React components will need manual conversion.
+  </Accordion>
+</AccordionGroup>
+
+## Troubleshooting
+
+<Warning>
+**Components not converting?** Some platforms have custom components that don't have direct DevDoc equivalents. These are flagged for manual review.
+</Warning>
+
+<Note>
+**Missing content?** Check if your source files use a non-standard location. The migration looks for docs in common directories.
+</Note>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Sync Documentation" icon="arrows-clockwise" href="/ai-agents/sync-docs">
+    Keep migrated docs up to date
+  </Card>
+  <Card title="Components Reference" icon="puzzle-piece" href="/essentials/components">
+    Learn DevDoc components
+  </Card>
+</CardGroup>
