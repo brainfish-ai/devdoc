@@ -43,7 +43,7 @@ Templates live in `/templates`. To create a new template:
    - `theme.json` - Theme settings
    - `index.mdx` - Home page
    - `quickstart.mdx` - Getting started guide
-   - `public/` - Static assets (favicon, logo)
+   - `assets/` - Static assets (favicon, logo, images)
    - `README.md` - Template documentation
 4. Test thoroughly with `npx devdoc dev`
 5. Submit a pull request
