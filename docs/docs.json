@@ -22,16 +22,6 @@
             ]
           },
           {
-            "group": "AI Agents",
-            "icon": "robot",
-            "pages": [
-              "ai-agents/overview",
-              "ai-agents/bootstrap",
-              "ai-agents/migrate",
-              "ai-agents/sync-docs"
-            ]
-          },
-          {
             "group": "CLI Reference",
             "icon": "terminal",
             "pages": [
@@ -69,6 +59,16 @@
               },
               "essentials/navigation",
               "essentials/files"
+            ]
+          },
+          {
+            "group": "AI Agents",
+            "icon": "robot",
+            "pages": [
+              "ai-agents/overview",
+              "ai-agents/bootstrap",
+              "ai-agents/migrate",
+              "ai-agents/sync-docs"
             ]
           },
           {
