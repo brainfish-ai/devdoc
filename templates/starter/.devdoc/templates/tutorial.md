@@ -18,6 +18,23 @@ Brief description of the end result and why it's useful.
 
 **Time to complete:** ~X minutes
 
+## Architecture Overview
+
+Show the system architecture with a mermaid diagram:
+
+```mermaid
+flowchart TB
+    subgraph Frontend
+        A[React App]
+    end
+    subgraph Backend
+        B[API Server]
+        C[Database]
+    end
+    A -->|REST API| B
+    B --> C
+```
+
 ## Prerequisites
 
 - [Prerequisite 1 with link]
@@ -60,6 +77,25 @@ Pro tip or best practice related to this step.
 Continue building on the previous step.
 
 ## Part 2: [Second Major Section]
+
+### Data Flow
+
+Visualize the data flow:
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant Frontend
+    participant API
+    participant DB
+    
+    User->>Frontend: Click button
+    Frontend->>API: POST /action
+    API->>DB: Query
+    DB-->>API: Result
+    API-->>Frontend: Response
+    Frontend-->>User: Update UI
+```
 
 ### Step 2.1: [Task]
 
@@ -105,6 +141,65 @@ Now that you've built [X], you can:
 </Accordion>
 ```
 
+## Mermaid Diagram Guidelines
+
+### Architecture Diagrams
+
+Use subgraphs to group related components:
+
+```mermaid
+flowchart TB
+    subgraph Client["Client Layer"]
+        A[Web App]
+        B[Mobile App]
+    end
+    subgraph Services["Service Layer"]
+        C[Auth Service]
+        D[API Gateway]
+    end
+    subgraph Data["Data Layer"]
+        E[(Database)]
+        F[(Cache)]
+    end
+    A --> D
+    B --> D
+    D --> C
+    D --> E
+    D --> F
+```
+
+### Process Flow
+
+Show the build/deploy process:
+
+```mermaid
+flowchart LR
+    A[Code] --> B[Build]
+    B --> C[Test]
+    C --> D{Pass?}
+    D -->|Yes| E[Deploy]
+    D -->|No| F[Fix]
+    F --> B
+```
+
+### Class/Component Diagram
+
+```mermaid
+classDiagram
+    class User {
+        +String id
+        +String email
+        +create()
+        +update()
+    }
+    class Order {
+        +String id
+        +String userId
+        +submit()
+    }
+    User "1" --> "*" Order
+```
+
 ## Guidelines
 
 - Show the end result first to motivate readers
@@ -112,3 +207,6 @@ Now that you've built [X], you can:
 - Include checkpoints where readers can verify progress
 - Provide complete code at the end for reference
 - Add troubleshooting for common issues
+- **Use architecture diagrams** at the start
+- **Use sequence diagrams** for API interactions
+- **Use flowcharts** for decision logic

@@ -14,6 +14,15 @@ description: Get up and running with [Product] in 5 minutes
 
 [Product] helps you [main value proposition]. This guide gets you from zero to [first success metric] in under 5 minutes.
 
+## How It Works
+
+```mermaid
+flowchart LR
+    A[Install] --> B[Configure]
+    B --> C[First Request]
+    C --> D[Success!]
+```
+
 ## 1. Install
 
 <CodeGroup>
@@ -75,6 +84,20 @@ Expected output:
 }
 ```
 
+## What Happens Behind the Scenes
+
+```mermaid
+sequenceDiagram
+    participant You
+    participant SDK
+    participant API
+    
+    You->>SDK: client.doSomething()
+    SDK->>API: POST /v1/action
+    API-->>SDK: Response
+    SDK-->>You: Result object
+```
+
 ## Next Steps
 
 <CardGroup cols={2}>
@@ -93,6 +116,58 @@ Expected output:
 </CardGroup>
 ```
 
+## Mermaid Diagram Guidelines
+
+### Simple Flow for Quickstart
+
+Keep it simple - show the journey:
+
+```mermaid
+flowchart LR
+    A["📦 Install"] --> B["⚙️ Configure"]
+    B --> C["🚀 Use"]
+    C --> D["✅ Done!"]
+```
+
+### SDK Architecture
+
+```mermaid
+flowchart TB
+    subgraph "Your App"
+        A[Your Code]
+    end
+    subgraph "SDK"
+        B[Client]
+        C[Auth]
+        D[Retry Logic]
+    end
+    subgraph "Cloud"
+        E[API]
+    end
+    A --> B
+    B --> C
+    B --> D
+    B --> E
+```
+
+### Authentication Flow
+
+```mermaid
+sequenceDiagram
+    participant App
+    participant SDK
+    participant Auth
+    participant API
+    
+    App->>SDK: Initialize with API key
+    SDK->>Auth: Validate key
+    Auth-->>SDK: Valid
+    App->>SDK: Make request
+    SDK->>API: Authenticated request
+    API-->>SDK: Response
+    SDK-->>App: Data
+```
+
 ## Guidelines
 
 - Keep it under 5 minutes to complete
@@ -100,3 +175,5 @@ Expected output:
 - Show expected output at each step
 - Link to deeper documentation at the end
 - Include multiple installation methods
+- **Use simple flowcharts** to show the process
+- **Use sequence diagrams** to explain what happens
