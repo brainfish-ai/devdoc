@@ -1,11 +1,19 @@
 ---
 name: docs-from-code
-description: Generate documentation from specific code files, functions, or modules
+description: Generate documentation from specific code files, functions, or modules. Can reference parent directory for source code.
 ---
 
 ## Instructions
 
 When generating docs from specific code:
+
+### Step 0: Locate Source Code
+
+If running from a docs folder (has `docs.json`), look for source code in:
+- Parent directory: `../src/`, `../lib/`, `../app/`
+- Or ask the user to specify the path
+
+### Step 1: Analyze Code
 
 1. Analyze the code structure and purpose
 2. Identify:

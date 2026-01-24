@@ -1,5 +1,5 @@
 ---
-description: Rules for syncing and updating documentation with codebase changes
+description: Rules for syncing documentation with context memory
 globs: ["**/*.mdx", "**/docs.json"]
 ---
 
@@ -7,13 +7,104 @@ globs: ["**/*.mdx", "**/docs.json"]
 
 When asked to sync, update, or check documentation:
 
-## Analysis Process
+## Step 0: Read Context Memory
+
+**First, read `.devdoc/context.json` if it exists:**
+
+```json
+{
+  "product": { "name": "...", "type": "..." },
+  "terminology": { "glossary": {}, "avoidTerms": [] },
+  "documentation": { "voice": "...", "codeExamples": { "primaryLanguage": "..." } }
+}
+```
+
+**Apply context throughout:**
+- Use `product.name` for product references
+- Apply `terminology.glossary` - use correct terms
+- Avoid `terminology.avoidTerms` - flag these words
+- Match `documentation.voice` when writing updates
+- Use `documentation.codeExamples.primaryLanguage` for code
+
+## Step 1: Locate Source Code
+
+- If `docs.json` exists here → source code is in `../`
+- If `package.json` + `src/` exist → you're at repo root
+- Check `codebase.sourceLocation` in context.json if set
+
+## Step 2: Get Documentation Type
+
+**Read `docs.json` for `docType` field:**
+
+```json
+{ "docType": "api" }  // "internal" | "api" | "product"
+```
+
+**If `docType` is set:** Use that value automatically.
+
+**If `docType` is NOT set, detect from structure:**
+- Has `architecture/`, `development/` → "internal"
+- Has `api-reference/`, `sdks/` → "api"
+- Has `features/`, `tutorials/` → "product"
+
+**If still unclear, ask and save to docs.json.**
+
+## Step 3: Analysis Process
 
 1. Compare documented APIs against source code exports
 2. Verify code examples compile/run correctly
 3. Check version numbers match package.json
 4. Validate all internal links resolve
 5. Identify new features needing documentation
+6. **Check terminology** against context.json
+
+## Step 4: Generate Report
+
+```
+## Documentation Sync Report
+
+### Terminology Issues
+- file.mdx:line → Uses "charge" instead of "payment"
+
+### Outdated (Breaking)
+- file.mdx → function signature changed
+
+### Outdated (Minor)
+- file.mdx → version outdated
+
+### Missing Documentation
+- New exports not documented
+
+### Up to Date
+- List of current files
+```
+
+## Step 5: Apply Updates
+
+When updating:
+- **Read template** from `.devdoc/templates/` for structure
+- Use terminology from context.json
+- Preserve existing explanations
+- Add TODO markers for human review
+- Update context.json with new learnings
+
+## Type-Specific Checks
+
+### For docType: "internal"
+- Dev setup instructions still work
+- Architecture diagrams match current code
+- Internal tool versions are current
+
+### For docType: "api"
+- API endpoints match OpenAPI spec
+- Auth examples are correct
+- SDK versions are current
+- Error codes are complete
+
+### For docType: "product"
+- Screenshots match current UI
+- Feature descriptions are accurate
+- Tutorials still work
 
 ## Common Outdated Patterns
 
@@ -23,24 +114,6 @@ When asked to sync, update, or check documentation:
 - Updated CLI commands
 - New required parameters
 - Deprecated features still documented
-
-## Update Guidelines
-
-- Preserve existing explanations and prose
-- Only update technical details (code, signatures, versions)
-- Add TODO comments for sections needing human review
-- Create stubs for undocumented new features
-- Mark deprecated features with Warning callout
-
-## Detection Checklist
-
-| Check | How to Verify |
-|-------|---------------|
-| Function exists | Search source for export |
-| Signature matches | Compare params and return type |
-| Version current | Check package.json |
-| Route exists | Search API routes |
-| Component props | Check TypeScript interface |
 
 ## Update Patterns
 
@@ -61,10 +134,5 @@ Create stub with TODO:
 {/* TODO: Document this feature */}
 ```
 
-## Report Format
-
-When checking docs, report:
-- Outdated items (with specific file:line)
-- Missing documentation
-- Broken links
-- Up-to-date items (summary)
+### Wrong Terminology
+Replace with correct term from context.json glossary.
