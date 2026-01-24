@@ -91,22 +91,37 @@ Switch to DevDoc from Mintlify, Docusaurus, GitBook, and more:
 
 See the [Migration Guide](/ai-agents/migrate) for supported platforms.
 
-### Keep Docs in Sync
+### Create Documentation
 
-Find and fix outdated documentation automatically:
+Create new documentation pages interactively:
 
 <Tabs>
   <Tab title="Claude Code">
     ```
-    /sync-docs
+    /create-doc
     ```
   </Tab>
   <Tab title="Cursor">
-    "Check my docs for outdated content"
+    "Create a new documentation page for the authentication feature"
   </Tab>
 </Tabs>
 
-See [Sync Documentation](/ai-agents/sync-docs) for details.
+### Update & Sync Docs
+
+Keep documentation in sync with your codebase:
+
+<Tabs>
+  <Tab title="Claude Code">
+    ```
+    /update-doc
+    ```
+  </Tab>
+  <Tab title="Cursor">
+    "Sync my docs with the current codebase"
+  </Tab>
+</Tabs>
+
+See [Update Documentation](/ai-agents/update-docs) for details.
 
 ## Updating Skills
 
@@ -122,17 +137,23 @@ After updating, restart Claude Code or Cursor to load the new skills/rules.
 
 ## Available Commands
 
+### Core Commands
+
 | Command | Description |
 |---------|-------------|
-| `/bootstrap-docs` | Generate docs from codebase |
+| `/create-doc` | Create new documentation pages interactively |
+| `/update-doc` | Update docs by analyzing codebase changes |
+| `/delete-doc` | Delete documentation pages with confirmation |
+| `/commit-doc` | Commit documentation changes to git |
+
+### Setup & Migration
+
+| Command | Description |
+|---------|-------------|
+| `/bootstrap-docs` | Generate initial docs from codebase |
 | `/migrate-docs` | Migrate from other platforms |
 | `/import-api-spec` | Import OpenAPI/GraphQL specs |
-| `/sync-docs` | Find and fix outdated docs |
 | `/check-docs` | Quick health check |
-| `/create-doc-page` | Create new MDX page |
-| `/update-docs-json` | Update navigation |
-| `/generate-api-docs` | Generate API reference |
-| `/docs-from-code` | Generate docs from code files |
 
 ## Working with Parent Directories
 
@@ -152,14 +173,14 @@ If this docs folder is inside a larger repository:
 ## Next Steps
 
 <CardGroup cols={2}>
-  <Card title="Migration Guide" icon="arrows-left-right" href="/ai-agents/migrate">
-    Migrate from Mintlify, Docusaurus, GitBook
-  </Card>
-  <Card title="Sync Documentation" icon="arrows-clockwise" href="/ai-agents/sync-docs">
-    Keep docs up to date with code
-  </Card>
   <Card title="Bootstrap Docs" icon="rocket-launch" href="/ai-agents/bootstrap">
     Generate docs from your codebase
+  </Card>
+  <Card title="Update Documentation" icon="arrows-clockwise" href="/ai-agents/update-docs">
+    Keep docs up to date with code
+  </Card>
+  <Card title="Migration Guide" icon="arrows-left-right" href="/ai-agents/migrate">
+    Migrate from Mintlify, Docusaurus, GitBook
   </Card>
   <Card title="CLI Reference" icon="terminal" href="/cli/ai">
     AI command options

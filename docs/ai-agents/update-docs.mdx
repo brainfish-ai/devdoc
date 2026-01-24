@@ -1,5 +1,5 @@
 ---
-title: "Sync Documentation"
+title: "Update Documentation"
 description: "Keep documentation in sync with your codebase automatically"
 ---
 
@@ -7,19 +7,21 @@ Documentation gets outdated as code evolves. DevDoc AI agents can analyze your c
 
 ## How It Works
 
-The sync process:
+The update process:
 
-1. **Scans documentation** - Extracts documented functions, code examples, versions, and API endpoints
-2. **Analyzes codebase** - Checks current source code against what's documented
-3. **Generates report** - Categorizes issues by severity
-4. **Applies fixes** - Updates docs automatically or flags for review
+1. **Understands your intent** - Asks what you want to update (specific page, sync with code, navigation, etc.)
+2. **Analyzes documentation** - Extracts documented functions, code examples, versions, and API endpoints
+3. **Compares with codebase** - Checks current source code against what's documented
+4. **Generates report** - Shows what's outdated, missing, or up to date
+5. **Proposes changes** - Shows exactly what will change before applying
+6. **Applies fixes** - Updates docs automatically after confirmation
 
-## Running Sync
+## Running Update
 
 <Tabs>
   <Tab title="Claude Code">
     ```
-    /sync-docs
+    /update-doc
     ```
     
     For a quick check without changes:
@@ -30,21 +32,33 @@ The sync process:
   <Tab title="Cursor">
     In Agent mode:
     
-    "Check my docs for outdated content"
+    "Update my documentation to match the current codebase"
     
-    Or to fix issues:
+    Or for specific pages:
     
-    "Sync documentation with the current codebase"
+    "Update the authentication guide with the new API changes"
   </Tab>
 </Tabs>
 
-## Sync Report
+## What Can You Update?
 
-After running sync, you'll see a report like this:
+When you run `/update-doc`, you'll be asked what to update:
+
+| Option | Description |
+|--------|-------------|
+| **Specific page** | Update a single documentation page |
+| **Sync with codebase** | Find and fix all outdated docs |
+| **Navigation** | Update docs.json structure |
+| **Multiple pages** | Batch update related pages |
+| **Fix issues** | Address specific problems |
+
+## Update Report
+
+After running update, you'll see a report like this:
 
 ```
-Documentation Sync Report
-=========================
+Documentation Update Report
+===========================
 
 Outdated (Breaking Changes)
    docs/api/users.mdx: createUser() signature changed
@@ -154,12 +168,12 @@ This checks for:
 ## Best Practices
 
 <AccordionGroup>
-  <Accordion title="Run sync regularly">
-    Run `/sync-docs` after major code changes or before releases to catch outdated content early.
+  <Accordion title="Run updates regularly">
+    Run `/update-doc` after major code changes or before releases to catch outdated content early.
   </Accordion>
   
-  <Accordion title="Review before auto-fixing">
-    For critical documentation, use interactive mode to review each change before applying.
+  <Accordion title="Review before applying">
+    The update command always shows proposed changes before applying. Review carefully for critical docs.
   </Accordion>
   
   <Accordion title="Keep code examples minimal">
@@ -168,6 +182,10 @@ This checks for:
   
   <Accordion title="Use version variables">
     Reference versions from a single source (like package.json) rather than hardcoding throughout docs.
+  </Accordion>
+  
+  <Accordion title="Commit after updates">
+    After updating, use `/commit-doc` to commit changes with a descriptive message.
   </Accordion>
 </AccordionGroup>
 
@@ -188,20 +206,47 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
       - run: npm install
-      - run: npx devdoc check
+      - run: npx @brainfish-ai/devdoc check
 ```
 
 <Note>
 The `/check-docs` AI command provides more thorough analysis than `devdoc check`, but the CLI command works in CI without AI tools.
 </Note>
 
+## Committing Changes
+
+After updating documentation, commit your changes:
+
+<Tabs>
+  <Tab title="Claude Code">
+    ```
+    /commit-doc
+    ```
+  </Tab>
+  <Tab title="Cursor">
+    "Commit the documentation changes"
+  </Tab>
+</Tabs>
+
+This will:
+1. Show a summary of all changes
+2. Generate a commit message based on what changed
+3. Let you review before committing
+4. Optionally push to remote
+
 ## Next Steps
 
 <CardGroup cols={2}>
+  <Card title="Create Documentation" icon="plus" href="/ai-agents/create-docs">
+    Create new documentation pages
+  </Card>
   <Card title="Migration Guide" icon="arrows-left-right" href="/ai-agents/migrate">
     Migrate from other platforms
   </Card>
   <Card title="CI/CD Setup" icon="git-branch" href="/ci-cd">
     Automate documentation builds
+  </Card>
+  <Card title="Bootstrap Docs" icon="rocket-launch" href="/ai-agents/bootstrap">
+    Generate initial documentation
   </Card>
 </CardGroup>

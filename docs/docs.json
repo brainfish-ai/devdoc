@@ -69,8 +69,9 @@
             "pages": [
               "ai-agents/overview",
               "ai-agents/bootstrap",
-              "ai-agents/migrate",
-              "ai-agents/sync-docs"
+              "ai-agents/create-docs",
+              "ai-agents/update-docs",
+              "ai-agents/migrate"
             ]
           },
           {

@@ -23,7 +23,7 @@ DevDoc AI agents can automatically migrate your existing documentation from popu
     Run the AI setup command in your DevDoc project:
     
     ```bash
-    devdoc ai
+    npx @brainfish-ai/devdoc ai
     ```
   </Step>
   
@@ -44,7 +44,7 @@ DevDoc AI agents can automatically migrate your existing documentation from popu
   
   <Step title="Review and preview">
     ```bash
-    devdoc dev
+    npx @brainfish-ai/devdoc dev
     ```
     
     Check the generated files and fix any issues flagged for manual review.
@@ -159,7 +159,7 @@ Component Conversions
 Manual Review Needed
    - docs/advanced/custom-component.mdx (custom React component)
 
-Migration complete! Run `devdoc dev` to preview.
+Migration complete! Run `npx @brainfish-ai/devdoc dev` to preview.
 ```
 
 ## Post-Migration Checklist
@@ -174,7 +174,7 @@ Migration complete! Run `devdoc dev` to preview.
   </Accordion>
   
   <Accordion title="Review component rendering">
-    Preview with `devdoc dev` and check all components render correctly.
+    Preview with `npx @brainfish-ai/devdoc dev` and check all components render correctly.
   </Accordion>
   
   <Accordion title="Check API playground">
@@ -199,10 +199,16 @@ Migration complete! Run `devdoc dev` to preview.
 ## Next Steps
 
 <CardGroup cols={2}>
-  <Card title="Sync Documentation" icon="arrows-clockwise" href="/ai-agents/sync-docs">
+  <Card title="Create Documentation" icon="plus" href="/ai-agents/create-docs">
+    Create new pages to expand your docs
+  </Card>
+  <Card title="Update Documentation" icon="arrows-clockwise" href="/ai-agents/update-docs">
     Keep migrated docs up to date
   </Card>
   <Card title="Components Reference" icon="puzzle-piece" href="/essentials/components">
     Learn DevDoc components
+  </Card>
+  <Card title="Deploy" icon="cloud-arrow-up" href="/deployment">
+    Publish your documentation
   </Card>
 </CardGroup>
