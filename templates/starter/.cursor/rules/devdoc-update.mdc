@@ -1,11 +1,22 @@
 ---
-description: Update existing documentation by analyzing codebase
+description: Update documentation by searching actual source files
 globs: ["**/*.mdx", "**/docs.json"]
 ---
 
 # Update Documentation
 
 When asked to update documentation:
+
+## Key Principles
+
+| Principle | Description |
+|-----------|-------------|
+| **Search before update** | ALWAYS read source files before changing |
+| **No hallucination** | Only update based on actual files |
+| **Review before write** | ALWAYS show before/after for approval |
+| **Flag feature flags** | Detect conditional features |
+| **Flag duplicates** | Identify similar features |
+| **Flag unclear sections** | Offer options if source not found |
 
 ## Step 0: Read Context
 
@@ -17,79 +28,108 @@ Ask: "What would you like to update?
 1. **A specific page** - Tell me which page
 2. **Sync with codebase** - I'll find outdated docs
 3. **Navigation** - Update docs.json
-4. **Multiple pages** - Describe changes
-5. **Fix issues** - Point me to problems"
+4. **Multiple pages** - Describe changes"
 
-## Step 2: Analyze
+## Step 2: Search Source Files (CRITICAL)
 
 **For Specific Page:**
-- Read current content
-- Ask what changes needed
+- Read the doc file
+- Search for corresponding source file
+- Compare documented vs actual
 
 **For Codebase Sync:**
-Compare docs vs code:
-- Function signatures changed?
-- New exports undocumented?
-- Removed features still documented?
-- Versions outdated?
+
+```bash
+# Find all exports
+rg "export (function|class|const)" --type ts -l
+
+# Search for specific features
+git ls-files | grep -iE "(auth|user|api)"
+```
+
+Read both doc files AND source files, then compare:
+
+```
+DOCUMENTED (from docs/api/users.mdx):
+  - createUser(name, email)
+
+ACTUAL (from src/lib/users.ts):
+  - createUser(options: CreateUserInput)
+
+→ SIGNATURE MISMATCH
+```
 
 Generate sync report:
 ```
-## Sync Report
+## Sync Report (from source files)
 
-### Outdated
-- `api/users.mdx`: signature changed
-- `quickstart.mdx`: version outdated
+### Signatures Changed
+- `docs/api/users.mdx` vs `src/lib/users.ts`:
+  - Documented: createUser(name, email)
+  - Source: createUser(options: CreateUserInput)
 
-### Missing
-- New endpoint not documented
+### New Exports (in source, not docs)
+- src/lib/auth.ts: refreshToken()
 
-### Up to Date ✓
-- `guides/auth.mdx`
+### Unable to Verify (source not found)
+⚠️ docs/legacy/old-api.mdx - No matching source
+   Options:
+   1. 🔄 Remove doc
+   2. ❓ Ask for path
+   3. 📝 Mark as needs-review
+
+### Feature Flags Detected
+⚠️ src/lib/auth/index.ts - newAuthFlow
+   Current docs: OLD implementation
+   Question: Update to which version?
+
+### Duplicates Detected
+🔄 authenticate() in v2/ similar to login()
+   Question: How to handle?
 ```
 
-**For Navigation:**
-- Read docs.json
-- Ask what to change
+## Step 3: Review Each Change (MANDATORY)
 
-## Step 3: Propose Changes
+**Show before/after for EACH file:**
 
-Show what will change before applying:
+```
+═══════════════════════════════════
+CHANGE REVIEW: docs/api/users.mdx
+═══════════════════════════════════
 
-"I'll make these changes:
-- `api/users.mdx`: Update signature
-- `quickstart.mdx`: Update version
-- `docs.json`: Add new page
+BEFORE:
+## createUser(name, email)
 
-Proceed?"
+AFTER:
+## createUser(options)
+| Property | Type |
+|----------|------|
+| options | CreateUserInput |
 
-## Step 4: Apply Updates
+NOTICES:
+⚠️ Feature flag: None
+🔄 Duplicate: None
 
+OPTIONS:
+1. ✅ Approve - Apply change
+2. ✏️ Edit - Modify
+3. ⏭️ Skip - Don't update
+4. ❌ Cancel all
+```
+
+## Step 4: Apply Updates (After Approval)
+
+- **Only after user approves each change**
 - Preserve prose, update technical details
-- Fix terminology per context.json
+- Add feature flag notices where applicable
 - Add deprecation notices for removed features
 - Create stubs for new features
 
-## Update Patterns
+## Guidelines
 
-**Changed Signature:**
-Update code and parameters table.
-
-**Removed Feature:**
-```mdx
-<Warning>
-**Deprecated in v2.0**: Use `newMethod()` instead.
-</Warning>
-```
-
-**New Feature:**
-```mdx
-{/* TODO: Document this */}
-## New Feature
-Coming soon...
-```
-
-## Summary
-
-Show what was updated and suggest:
-"Use `/commit-doc` when ready to commit changes."
+- **SEARCH FIRST** - Read source files before any update
+- **REVIEW WITH USER** - Show before/after for each change
+- **FLAG FEATURE FLAGS** - Detect and ask which version
+- **FLAG DUPLICATES** - Let user decide how to handle
+- Preserve existing prose
+- Add TODO for unverified sections

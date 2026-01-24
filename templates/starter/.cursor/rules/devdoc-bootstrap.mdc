@@ -241,16 +241,66 @@ Create `.devdoc/context.json`:
 }
 ```
 
-### Step 7: Generate Using Writing Guidelines
+### Step 7: Generate WITH File Search (CRITICAL)
 
 **Only after user approval in Step 5.**
 
+**For EACH page in the content plan:**
+
+```
+1. SEARCH for relevant files
+   git ls-files | grep -iE "(auth|login|token)"
+   rg -l "authentication" --type ts
+
+2. READ the files found
+   - Extract real signatures, types, examples
+   - Note the source files
+
+3. DETECT feature flags & duplicates
+   rg -l "featureFlag|isEnabled|FF_" --type ts
+   rg "export.*(login|authenticate)" --type ts -l
+   
+   ⚠️ FEATURE FLAG: newAuthFlow
+      OLD vs NEW implementation
+      → Ask user which to document
+   
+   🔄 DUPLICATE: authenticate() in v2/
+      → Ask user how to handle
+
+4. ASSESS if enough info exists
+   ✅ Sufficient → Draft content
+   ⚠️ Partial → Draft with TODOs
+   ❌ Insufficient → Flag and offer options
+
+5. REVIEW DRAFT with user (MANDATORY)
+   ═══════════════════════════════════
+   CONTENT REVIEW: authentication.mdx
+   ═══════════════════════════════════
+   
+   [Show full draft content]
+   
+   NOTICES:
+   ⚠️ Feature flag: newAuthFlow
+   🔄 Duplicate: authenticate() in v2/
+   
+   OPTIONS:
+   1. ✅ Approve - Create file
+   2. ✏️ Edit - Make changes
+   3. 🔄 Switch version - Use flagged version
+   4. ➕ Add duplicate - Include related
+   5. ⏭️ Skip - Don't create
+   
+6. WRITE only after user approves
+```
+
 **Expert Writing Standards:**
-1. **Second Person** - "You can configure..."
-2. **Active Voice** - "Run the command"
-3. **Task-Oriented Headings** - "How to add..."
-4. **Include Examples** - Every concept
-5. **Progressive Disclosure** - Basic → Advanced
+1. **Search before write** - ALWAYS find source files first
+2. **No hallucination** - Only real data from files
+3. **Review with user** - Show draft before creating
+4. **Flag feature flags** - Ask which version
+5. **Flag duplicates** - Let user choose
+6. **Second Person** - "You can configure..."
+7. **Include REAL Examples** - From tests/examples
 
 ### Step 8: Update docs.json
 
@@ -301,6 +351,12 @@ Next: `devdoc dev` to preview
 | **Audience-driven** | Match content to user needs |
 | **Diátaxis types** | Classify every page |
 | **IA approval required** | User confirms before generating |
+| **Search before generate** | ALWAYS search/read files before each page |
+| **No hallucination** | Only use real data from source files |
+| **Review before write** | ALWAYS show draft for user approval |
+| **Flag feature flags** | Detect conditional features, ask which version |
+| **Flag duplicates** | Find similar features, let user choose |
+| **Flag unclear sections** | Offer auto-correct IA if info not found |
 | **Expert writing** | 2nd person, active voice |
 | **Mark unknowns** | Add TODO for review |
 
