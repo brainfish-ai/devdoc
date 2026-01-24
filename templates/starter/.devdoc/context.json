@@ -51,10 +51,12 @@
       "additionalLanguages": [],
       "style": ""
     },
-    "structure": {
-      "guideFormat": "",
-      "apiRefFormat": "",
-      "tutorialFormat": ""
+    "templates": {
+      "guide": ".devdoc/templates/guide.md",
+      "apiReference": ".devdoc/templates/api-reference.md",
+      "tutorial": ".devdoc/templates/tutorial.md",
+      "quickstart": ".devdoc/templates/quickstart.md",
+      "troubleshooting": ".devdoc/templates/troubleshooting.md"
     }
   },
   "learned": {
