@@ -67,6 +67,7 @@
               "config/docs-json",
               "config/theme",
               "essentials/notice",
+              "essentials/404-page",
               "essentials/seo",
               "essentials/redirects"
             ]
