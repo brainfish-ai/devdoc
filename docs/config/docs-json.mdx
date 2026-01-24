@@ -33,6 +33,7 @@ The `docs.json` file is the main configuration file for your DevDoc documentatio
 | Field | Type | Description |
 |-------|------|-------------|
 | `name` | string | Your documentation site name |
+| `docType` | string | Documentation type for AI agents: `internal`, `api`, or `product` |
 | `favicon` | string | Path to favicon file |
 | `notice` | object | Optional announcement banner |
 | `navigation` | object | Navigation structure |
@@ -40,6 +41,27 @@ The `docs.json` file is the main configuration file for your DevDoc documentatio
 | `api` | object | API configuration |
 | `seo` | object | SEO settings |
 | `redirects` | array | URL redirects |
+
+## Documentation Type (docType)
+
+The `docType` field tells AI agents what kind of documentation structure to generate:
+
+```json
+{
+  "name": "My Project",
+  "docType": "api"
+}
+```
+
+| Value | Audience | Content Focus |
+|-------|----------|---------------|
+| `internal` | Your team | Setup guides, architecture, contributing |
+| `api` | External developers | API reference, authentication, SDKs |
+| `product` | End users | Features, tutorials, FAQs |
+
+<Tip>
+If not set, AI agents will ask and then save your choice automatically when you run `/bootstrap-docs` or `/sync-docs`.
+</Tip>
 
 ## Navigation
 
@@ -236,6 +258,7 @@ Add external links to the header:
 ```json
 {
   "name": "Acme Docs",
+  "docType": "api",
   "favicon": "/favicon.svg",
   "notice": {
     "content": "📚 New tutorials available!",

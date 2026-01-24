@@ -9,10 +9,94 @@ Starting documentation from scratch can be daunting. DevDoc AI agents can analyz
 
 The bootstrap process:
 
-1. **Analyzes your repo** - README, package.json, source code, API specs
-2. **Identifies structure** - Functions, components, API endpoints, configs
-3. **Generates pages** - Homepage, quickstart, guides, API reference
+1. **Asks your doc type** - Internal, API, or product docs
+2. **Analyzes your repo** - README, package.json, source code, API specs
+3. **Generates structure** - Pages tailored to your audience
 4. **Creates navigation** - Complete docs.json with proper grouping
+5. **Saves config** - Remembers your doc type for future runs
+
+## Documentation Types
+
+When you run bootstrap, you'll be asked what type of docs you're creating:
+
+<Tabs>
+  <Tab title="Internal Docs">
+    **For your team** - Developer setup, architecture, contributing guides
+    
+    ```
+    docs/
+    ├── index.mdx              # Project overview
+    ├── getting-started/
+    │   ├── setup.mdx          # Dev environment setup
+    │   ├── prerequisites.mdx
+    │   └── first-contribution.mdx
+    ├── architecture/
+    │   ├── overview.mdx       # System design
+    │   └── folder-structure.mdx
+    ├── development/
+    │   ├── workflow.mdx       # Git workflow, PR process
+    │   ├── testing.mdx
+    │   └── deployment.mdx
+    └── contributing.mdx
+    ```
+  </Tab>
+  <Tab title="API Docs">
+    **For external developers** - API reference, authentication, SDKs
+    
+    ```
+    docs/
+    ├── index.mdx              # Product intro
+    ├── quickstart.mdx         # 5-minute getting started
+    ├── authentication.mdx     # API keys, OAuth
+    ├── guides/
+    │   └── overview.mdx
+    ├── api-reference/
+    │   ├── introduction.mdx
+    │   ├── errors.mdx
+    │   └── openapi.json
+    ├── sdks/
+    │   └── ...
+    └── changelog.mdx
+    ```
+  </Tab>
+  <Tab title="Product Docs">
+    **For end users** - Feature guides, tutorials, FAQs
+    
+    ```
+    docs/
+    ├── index.mdx              # Product overview
+    ├── getting-started/
+    │   ├── quickstart.mdx
+    │   └── key-concepts.mdx
+    ├── features/
+    │   └── {feature}.mdx
+    ├── tutorials/
+    │   └── {workflow}.mdx
+    ├── troubleshooting/
+    │   ├── common-issues.mdx
+    │   └── faq.mdx
+    └── release-notes.mdx
+    ```
+  </Tab>
+</Tabs>
+
+## Configure Doc Type
+
+You can pre-configure your doc type in `docs.json` to skip the question:
+
+```json
+{
+  "name": "My Project",
+  "docType": "api",
+  "navigation": { ... }
+}
+```
+
+Valid values: `"internal"`, `"api"`, `"product"`
+
+<Tip>
+If you don't set `docType`, the AI will ask you once and then save your choice to `docs.json` automatically.
+</Tip>
 
 ## Running Bootstrap
 
@@ -43,27 +127,16 @@ The bootstrap process:
 | tests/ | Usage examples |
 | .env.example | Configuration options |
 
-## Generated Structure
+## Working from Docs Folder
 
-After bootstrapping, you'll have:
+If your docs are in a subfolder (e.g., `my-project/docs/`), the AI automatically looks for source code in the parent directory (`../`).
 
 ```
-docs/
-├── docs.json              # Navigation config
-├── theme.json             # Theme settings
-├── index.mdx              # Homepage (from README)
-├── quickstart.mdx         # Getting started guide
-├── installation.mdx       # Installation instructions
-├── configuration.mdx      # Config options
-├── guides/
-│   ├── overview.mdx       # Architecture overview
-│   └── {feature}.mdx      # Feature-specific guides
-├── api-reference/         # (if API found)
-│   ├── introduction.mdx   # API overview
-│   ├── authentication.mdx # Auth guide
-│   └── openapi.json       # OpenAPI spec
-└── components/            # (if UI library)
-    └── {component}.mdx    # Component docs
+my-project/
+├── src/           # Source code here
+├── package.json
+└── docs/          # You run bootstrap from here
+    └── docs.json
 ```
 
 ## Bootstrap Output
@@ -71,32 +144,34 @@ docs/
 You'll see progress as the AI analyzes your repo:
 
 ```
+What type of documentation are you creating?
+  1. internal - For your team
+  2. api - For developers using your product
+  3. product - For end users
+
+Enter number: 2
+
+Saved docType: api to docs.json
+
 Analyzing repository...
 
 Found:
-   README.md - Project overview
-   package.json - Node.js project (my-awesome-lib)
-   src/index.ts - Main entry point with 5 exports
-   src/components/ - 12 React components
-   src/api/ - 8 API endpoints
-   openapi.json - OpenAPI 3.0 specification
+✓ README.md - Project overview
+✓ package.json - Node.js project (my-awesome-api)
+✓ src/routes/ - 8 API endpoints
+✓ openapi.json - OpenAPI 3.0 specification
 
-Generating documentation...
+Generating API documentation...
 
 Created:
-   docs/index.mdx - Homepage
-   docs/quickstart.mdx - Getting started
-   docs/installation.mdx - Installation guide
-   docs/guides/overview.mdx - Architecture overview
-   docs/api-reference/introduction.mdx - API intro
-   docs/api-reference/authentication.mdx - Auth guide
-   docs/components/button.mdx - Button component
-   ... (12 more files)
-   docs/docs.json - Navigation config
+✓ docs/index.mdx - Homepage
+✓ docs/quickstart.mdx - Getting started
+✓ docs/authentication.mdx - Auth guide
+✓ docs/api-reference/introduction.mdx - API intro
+✓ docs/api-reference/errors.mdx - Error codes
+✓ docs/docs.json - Navigation config
 
 Documentation bootstrapped! Run `devdoc dev` to preview.
-
-Review TODOs in generated files for sections needing attention.
 ```
 
 ## Quality Guidelines
@@ -112,8 +187,8 @@ The AI follows these principles when generating docs:
     Sections that need human input are marked with TODO comments. Search for `{/* TODO:` to find them.
   </Accordion>
   
-  <Accordion title="Preserve existing content">
-    If you already have documentation, the AI preserves it and only adds missing sections.
+  <Accordion title="Audience-appropriate tone">
+    Internal docs are technical; product docs are friendly. The AI matches tone to your doc type.
   </Accordion>
   
   <Accordion title="SEO-friendly descriptions">
@@ -182,7 +257,7 @@ This creates:
 </Note>
 
 <Tip>
-**Run bootstrap early.** Even if your codebase is small, bootstrapping early means documentation grows with your code.
+**Set docType early.** Adding `"docType": "api"` to your `docs.json` ensures consistent generation across all team members.
 </Tip>
 
 ## Next Steps

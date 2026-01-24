@@ -29,6 +29,30 @@ This creates:
 - `.claude/skills/` - Custom slash commands
 - `.cursor/rules/` - Cursor agent rules
 
+## Documentation Types
+
+The AI agents support three documentation types, generating appropriate structure for each:
+
+| Type | Audience | Content Focus |
+|------|----------|---------------|
+| **internal** | Your team | Setup guides, architecture, contributing |
+| **api** | External developers | API reference, authentication, SDKs |
+| **product** | End users | Features, tutorials, FAQs |
+
+### Configure via docs.json
+
+Set your documentation type in `docs.json` to skip being asked each time:
+
+```json
+{
+  "name": "My Project",
+  "docType": "api",
+  "navigation": { ... }
+}
+```
+
+If not set, the AI will ask and then save your choice automatically.
+
 ## Key Capabilities
 
 ### Bootstrap Documentation
@@ -48,7 +72,7 @@ Generate complete documentation from your existing codebase:
   </Tab>
 </Tabs>
 
-The AI analyzes your README, package.json, source code, and API specs to create a complete documentation structure.
+The AI analyzes your README, package.json, source code, and API specs to create a complete documentation structure tailored to your doc type.
 
 ### Migrate from Other Platforms
 
@@ -84,6 +108,18 @@ Find and fix outdated documentation automatically:
 
 See [Sync Documentation](/ai-agents/sync-docs) for details.
 
+## Updating Skills
+
+Keep your AI skills up to date with new features:
+
+```bash
+devdoc ai --update
+```
+
+<Tip>
+After updating, restart Claude Code or Cursor to load the new skills/rules.
+</Tip>
+
 ## Available Commands
 
 | Command | Description |
@@ -98,6 +134,21 @@ See [Sync Documentation](/ai-agents/sync-docs) for details.
 | `/generate-api-docs` | Generate API reference |
 | `/docs-from-code` | Generate docs from code files |
 
+## Working with Parent Directories
+
+If your docs are in a subfolder (e.g., `my-project/docs/`), the AI automatically looks for source code in the parent directory.
+
+The `CLAUDE.md` includes context about where to find source code:
+
+```markdown
+## Source Code Location
+
+If this docs folder is inside a larger repository:
+- Source code: `../src/` or `../lib/`
+- Package config: `../package.json`
+- README: `../README.md`
+```
+
 ## Next Steps
 
 <CardGroup cols={2}>
@@ -110,7 +161,7 @@ See [Sync Documentation](/ai-agents/sync-docs) for details.
   <Card title="Bootstrap Docs" icon="rocket-launch" href="/ai-agents/bootstrap">
     Generate docs from your codebase
   </Card>
-  <Card title="CLI Reference" icon="terminal" href="/cli/overview">
-    All DevDoc CLI commands
+  <Card title="CLI Reference" icon="terminal" href="/cli/ai">
+    AI command options
   </Card>
 </CardGroup>

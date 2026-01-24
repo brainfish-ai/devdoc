@@ -16,8 +16,9 @@ devdoc ai [options]
 | Option | Description |
 |--------|-------------|
 | `-t, --tool <tool>` | AI tool to configure: `claude`, `cursor`, or `both` |
+| `--update` | Update existing skills/rules to latest version |
 
-## Interactive Mode
+## Installing Skills
 
 Running without options prompts you to select your AI tool:
 
@@ -36,23 +37,48 @@ Enter number: 1
 
 Setting up AI agent configuration...
 
-Created CLAUDE.md
-Created .claude/skills/bootstrap-docs/SKILL.md
-Created .claude/skills/migrate-docs/SKILL.md
-Created .claude/skills/import-api-spec/SKILL.md
-Created .claude/skills/sync-docs/SKILL.md
-Created .claude/skills/check-docs/SKILL.md
-Created .claude/skills/create-doc-page/SKILL.md
-Created .claude/skills/update-docs-json/SKILL.md
-Created .claude/skills/generate-api-docs/SKILL.md
-Created .claude/skills/docs-from-code/SKILL.md
-Created .cursor/rules/devdoc.mdc
-Created .cursor/rules/devdoc-bootstrap.mdc
-Created .cursor/rules/devdoc-migrate.mdc
-Created .cursor/rules/devdoc-sync.mdc
+✓ Created CLAUDE.md
+✓ Created .claude/skills/bootstrap-docs/SKILL.md
+✓ Created .claude/skills/migrate-docs/SKILL.md
+✓ Created .claude/skills/sync-docs/SKILL.md
+...
 
 AI agent configuration complete!
 ```
+
+## Updating Skills
+
+Update your skills to the latest version by running the command again:
+
+```bash
+devdoc ai
+# or explicitly:
+devdoc ai --update
+```
+
+The command auto-detects existing installations and shows what's updated:
+
+```bash
+$ devdoc ai
+
+DevDoc AI Agent Update
+
+Updating AI agent configuration...
+
+✓ Updated CLAUDE.md
+✓ Updated .claude/skills/bootstrap-docs/SKILL.md
+✓ Updated .claude/skills/sync-docs/SKILL.md
+✓ Updated .cursor/rules/devdoc-bootstrap.mdc
+...
+
+AI agent configuration updated! (10 files)
+
+Tip: Restart Claude Code or Cursor to load the updated skills/rules.
+```
+
+<Warning>
+After updating, restart Claude Code or Cursor to load the new skills/rules.
+</Warning>
 
 ## With Flags
 
@@ -67,6 +93,9 @@ devdoc ai --tool cursor
 
 # Both tools
 devdoc ai --tool both
+
+# Update specific tool
+devdoc ai --tool claude --update
 ```
 
 ## Files Created
@@ -153,6 +182,14 @@ In Agent mode, try these prompts:
     ```
     /sync-docs
     ```
+  </Step>
+  
+  <Step title="Update skills periodically">
+    ```bash
+    devdoc ai --update
+    ```
+    
+    Keep skills updated for new features and improvements.
   </Step>
 </Steps>
 
