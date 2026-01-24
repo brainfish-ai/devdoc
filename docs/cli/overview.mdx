@@ -20,6 +20,46 @@ npm install -g @brainfish-ai/devdoc
 devdoc <command>
 ```
 
+## Checking & Updating Version
+
+Check which version you're running:
+
+```bash
+npx @brainfish-ai/devdoc --version
+```
+
+### Update to Latest
+
+If you have an outdated version, use `@latest` to get the newest release:
+
+```bash
+npx @brainfish-ai/devdoc@latest <command>
+```
+
+### Clear Cache
+
+npx caches packages locally. To force a fresh download:
+
+```bash
+# Clear the npx cache
+npx clear-npx-cache
+
+# Then run with @latest
+npx @brainfish-ai/devdoc@latest --version
+```
+
+### Update Global Installation
+
+If you installed globally:
+
+```bash
+npm update -g @brainfish-ai/devdoc
+```
+
+<Tip>
+Use `@latest` when running commands to always get the newest features and fixes.
+</Tip>
+
 ## Commands
 
 | Command | Description |
@@ -63,34 +103,37 @@ The CLI looks for configuration in this order:
 
 ```bash
 # Create a new project
-npx @brainfish-ai/devdoc create my-docs
+npx @brainfish-ai/devdoc@latest create my-docs
 
-# Create with specific template
-npx @brainfish-ai/devdoc create my-docs --template openapi
+# Create with specific template and doc type
+npx @brainfish-ai/devdoc@latest create my-docs --template openapi --doc-type public
+
+# Create internal docs (no subdomain needed)
+npx @brainfish-ai/devdoc@latest create my-docs --doc-type internal
 
 # Start local development
-npx @brainfish-ai/devdoc dev
+npx @brainfish-ai/devdoc@latest dev
 
 # Deploy to production
-npx @brainfish-ai/devdoc deploy
+npx @brainfish-ai/devdoc@latest deploy
 
 # Check for errors
-npx @brainfish-ai/devdoc check
+npx @brainfish-ai/devdoc@latest check
 
-# Set up AI agents
-npx @brainfish-ai/devdoc ai
+# Set up or update AI agents
+npx @brainfish-ai/devdoc@latest ai
 
 # View project info
-npx @brainfish-ai/devdoc whoami
+npx @brainfish-ai/devdoc@latest whoami
 
 # Regenerate API key
-npx @brainfish-ai/devdoc keys regenerate
+npx @brainfish-ai/devdoc@latest keys regenerate
 
 # Add custom domain
-npx @brainfish-ai/devdoc domain add docs.example.com
+npx @brainfish-ai/devdoc@latest domain add docs.example.com
 
 # Check domain status
-npx @brainfish-ai/devdoc domain status
+npx @brainfish-ai/devdoc@latest domain status
 ```
 
 ## Next Steps
