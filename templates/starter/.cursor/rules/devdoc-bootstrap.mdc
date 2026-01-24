@@ -1,5 +1,5 @@
 ---
-description: Rules for bootstrapping documentation with context memory
+description: Rules for bootstrapping documentation with context memory and API spec detection
 globs: ["**/README.md", "**/package.json", "**/src/**", "**/lib/**"]
 ---
 
@@ -11,7 +11,7 @@ When asked to bootstrap or generate initial documentation:
 
 **First, check if `.devdoc/context.json` exists:**
 
-- **If populated:** Read it and use saved context. Tell user: "Using existing product context."
+- **If populated:** Read and use existing context. Tell user: "Using existing product context."
 - **If empty/missing:** Run Discovery Flow below.
 
 ## Step 2: Discovery Flow
@@ -22,15 +22,28 @@ When asked to bootstrap or generate initial documentation:
 - If `package.json` + `src/` exist → you're at repo root
 - Otherwise, ask user for source code path
 
-### 2b. Auto-Discover
+### 2b. Scan for API Specs
+
+**Search for OpenAPI:**
+- `openapi.json`, `openapi.yaml`, `swagger.json`, `swagger.yaml`
+- `**/openapi.*`, `**/swagger.*`
+
+**Search for GraphQL:**
+- `schema.graphql`, `schema.gql`
+- `**/*.graphql`
+
+**Store paths for import prompt.**
+
+### 2c. Auto-Discover
 
 Scan and extract:
 - **README.md:** Product name, description, features
 - **package.json:** Language, framework, dependencies
-- **OpenAPI/GraphQL:** API style, auth, patterns
+- **OpenAPI:** API style, base URL, auth, endpoint count
+- **GraphQL:** Types, queries, mutations count
 - **Source structure:** Key directories, conventions
 
-### 2c. Ask Key Questions
+### 2d. Ask Key Questions
 
 1. **Documentation Type:**
    "What type of documentation?
@@ -38,16 +51,37 @@ Scan and extract:
    2. **api** - API reference, SDKs for developers
    3. **product** - Feature guides for end users"
 
-2. **Target Audience:**
+2. **Import API Spec (if found):**
+
+   **For OpenAPI:**
+   "Found OpenAPI spec at `{path}` with {n} endpoints.
+   1. **Import** - Copy to api-reference/openapi.json
+   2. **Reference** - Point to existing location
+   3. **Skip** - Manual docs only"
+
+   **For GraphQL:**
+   "Found GraphQL schema at `{path}` with {n} types.
+   1. **Import** - Copy to api-reference/schema.graphql
+   2. **Reference** - Point to existing location  
+   3. **Skip** - Manual docs only"
+
+   **For Both:**
+   "Found OpenAPI and GraphQL specs.
+   1. **OpenAPI** - REST API playground
+   2. **GraphQL** - GraphQL playground
+   3. **Both** - Separate tabs for each
+   4. **Skip** - Manual only"
+
+3. **Target Audience:**
    "Who is your primary audience?"
 
-3. **Terminology (optional):**
+4. **Terminology (optional):**
    "Any terms to use/avoid? Brand names? (Enter to skip)"
 
-4. **Code Examples:**
+5. **Code Examples:**
    "Primary language for code examples?"
 
-### 2d. Create Context Memory
+### 2e. Create Context Memory
 
 Create `.devdoc/context.json`:
 
@@ -60,16 +94,11 @@ Create `.devdoc/context.json`:
     "name": "[discovered]",
     "description": "[discovered]",
     "type": "[api/sdk/platform/cli]",
-    "targetAudience": "[from question]",
-    "keyFeatures": []
-  },
-  "terminology": {
-    "glossary": {},
-    "avoidTerms": [],
-    "brandNames": {}
+    "targetAudience": "[from question]"
   },
   "api": {
     "style": "[REST/GraphQL if detected]",
+    "specPath": "[imported spec path]",
     "baseUrl": "[from spec]",
     "authentication": { "type": "[from spec]" }
   },
@@ -80,34 +109,57 @@ Create `.devdoc/context.json`:
   },
   "documentation": {
     "voice": "[based on docType]",
-    "perspective": "second_person",
-    "codeExamples": {
-      "primaryLanguage": "[from question]"
-    },
+    "codeExamples": { "primaryLanguage": "[from question]" },
     "templates": {
       "guide": ".devdoc/templates/guide.md",
-      "apiReference": ".devdoc/templates/api-reference.md",
-      "tutorial": ".devdoc/templates/tutorial.md",
-      "quickstart": ".devdoc/templates/quickstart.md",
-      "troubleshooting": ".devdoc/templates/troubleshooting.md"
+      "apiReference": ".devdoc/templates/api-reference.md"
     }
-  },
-  "learned": { "insights": [], "corrections": [] }
+  }
 }
 ```
 
-Copy template files to `.devdoc/templates/` if missing.
+## Step 3: Import API Spec
 
-Tell user: "Created context in `.devdoc/context.json` - Product: {name}, Type: {docType}"
+**For Import option:**
+1. Copy spec to `api-reference/`
+2. Validate spec format
+3. Update context.json with spec info
 
-## Step 3: Update docs.json
+**For Reference option:**
+1. Note relative path for docs.json
+2. Update context.json with spec info
 
-Add `docType` to docs.json:
+## Step 4: Update docs.json
+
+Add `docType` and API reference:
+
+**OpenAPI:**
 ```json
-{ "docType": "api" }
+{
+  "docType": "api",
+  "navigation": {
+    "tabs": [
+      { "tab": "Guides", "groups": [...] },
+      { "tab": "API Reference", "type": "openapi", "spec": "api-reference/openapi.json" }
+    ]
+  }
+}
 ```
 
-## Step 4: Generate Documentation
+**GraphQL:**
+```json
+{
+  "docType": "api",
+  "navigation": {
+    "tabs": [
+      { "tab": "Guides", "groups": [...] },
+      { "tab": "GraphQL API", "type": "graphql", "schema": "api-reference/schema.graphql", "endpoint": "https://..." }
+    ]
+  }
+}
+```
+
+## Step 5: Generate Documentation
 
 **Before generating, always:**
 1. Read `.devdoc/context.json`
@@ -115,24 +167,17 @@ Add `docType` to docs.json:
 3. Apply terminology from context
 4. Use correct product name
 5. Match voice to docType
+6. Reference imported API spec
 
 ### docType: "internal"
 ```
 docs/
 ├── .devdoc/context.json
 ├── docs.json (docType: "internal")
-├── index.mdx              # Project overview
+├── index.mdx
 ├── getting-started/
-│   ├── setup.mdx          # Dev environment
-│   ├── prerequisites.mdx
-│   └── first-contribution.mdx
 ├── architecture/
-│   ├── overview.mdx
-│   └── folder-structure.mdx
 ├── development/
-│   ├── workflow.mdx
-│   ├── testing.mdx
-│   └── deployment.mdx
 └── contributing.mdx
 ```
 **Voice:** Technical, direct
@@ -142,16 +187,14 @@ docs/
 docs/
 ├── .devdoc/context.json
 ├── docs.json (docType: "api")
-├── index.mdx              # Product intro
-├── quickstart.mdx         # 5-min start
+├── index.mdx
+├── quickstart.mdx
 ├── authentication.mdx
 ├── guides/
-│   └── overview.mdx
 ├── api-reference/
-│   ├── introduction.mdx
-│   ├── errors.mdx
-│   └── openapi.json
-├── sdks/ (if exist)
+│   ├── openapi.json    # If imported
+│   └── schema.graphql  # If imported
+├── sdks/
 └── changelog.mdx
 ```
 **Voice:** Professional, code-focused
@@ -161,17 +204,11 @@ docs/
 docs/
 ├── .devdoc/context.json
 ├── docs.json (docType: "product")
-├── index.mdx              # Product overview
+├── index.mdx
 ├── getting-started/
-│   ├── quickstart.mdx
-│   └── key-concepts.mdx
 ├── features/
-│   └── {feature}.mdx
 ├── tutorials/
-│   └── {workflow}.mdx
 ├── troubleshooting/
-│   ├── common-issues.mdx
-│   └── faq.mdx
 └── release-notes.mdx
 ```
 **Voice:** Friendly, non-technical
@@ -190,4 +227,6 @@ docs/
 - Read templates before generating each page type
 - Extract real examples, don't fabricate
 - Add TODO for sections needing review
+- **Import existing API specs** instead of manual docs
+- **Validate specs** before importing
 - Update context.json if you learn new info

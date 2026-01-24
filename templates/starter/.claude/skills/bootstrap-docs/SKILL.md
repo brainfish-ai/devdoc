@@ -14,7 +14,7 @@ When bootstrapping documentation from a repository:
 **If context.json exists and is populated:**
 - Read the context file
 - Tell user: "Found existing product context. Using saved configuration."
-- Skip to Step 4 (Generate Documentation)
+- Skip to Step 5 (Generate Documentation)
 
 **If context.json is empty or doesn't exist:**
 - Proceed to Step 2 (Discovery Flow)
@@ -34,7 +34,26 @@ When bootstrapping documentation from a repository:
 **If neither matches:**
 - Ask user for the source code path
 
-#### 2b. Auto-Discover Information
+#### 2b. Scan for Existing API Specs
+
+**Search for OpenAPI specs:**
+```
+openapi.json, openapi.yaml, openapi.yml
+swagger.json, swagger.yaml, swagger.yml
+api-spec.json, api-spec.yaml
+**/openapi.*, **/swagger.*
+```
+
+**Search for GraphQL schemas:**
+```
+schema.graphql, schema.gql
+*.graphql, *.gql
+**/schema.graphql
+```
+
+**If found, store the paths for later use.**
+
+#### 2c. Auto-Discover Information
 
 Scan the repository and extract:
 
@@ -53,18 +72,20 @@ From OpenAPI spec (if exists):
 - API style: REST
 - Base URL
 - Authentication type
+- Endpoints count
 - Common patterns
 
 From GraphQL schema (if exists):
 - API style: GraphQL
-- Schema patterns
+- Types count
+- Queries/Mutations
 
 From source code structure:
 - Key directories
 - Naming conventions
 ```
 
-#### 2c. Ask Key Questions
+#### 2d. Ask Key Questions
 
 After auto-discovery, ask the user to confirm/provide:
 
@@ -74,11 +95,50 @@ After auto-discovery, ask the user to confirm/provide:
 2. **api** - For developers using your product: API reference, SDKs, integration guides  
 3. **product** - For end users: feature guides, tutorials, FAQs"
 
-**Question 2: Target Audience**
+---
+
+**Question 2: Import Existing API Spec (if detected)**
+
+**If OpenAPI spec found:**
+"I found an OpenAPI specification at `{path}`:
+- {endpoint_count} endpoints
+- Base URL: {base_url}
+- Auth: {auth_type}
+
+Would you like me to:
+1. **Import it** - Copy to `api-reference/openapi.json` and generate API Reference tab
+2. **Reference it** - Point docs.json to existing location: `{path}`
+3. **Skip** - Don't include API reference (I'll create manual docs instead)"
+
+**If GraphQL schema found:**
+"I found a GraphQL schema at `{path}`:
+- {types_count} types
+- {queries_count} queries
+- {mutations_count} mutations
+
+Would you like me to:
+1. **Import it** - Copy to `api-reference/schema.graphql` and generate GraphQL tab
+2. **Reference it** - Point docs.json to existing location: `{path}`
+3. **Skip** - Don't include GraphQL playground"
+
+**If multiple specs found:**
+"I found multiple API specifications:
+- OpenAPI: `{openapi_path}`
+- GraphQL: `{graphql_path}`
+
+Which would you like to use for the API Reference?
+1. **OpenAPI (REST)** - Interactive REST API playground
+2. **GraphQL** - GraphQL playground with schema explorer
+3. **Both** - Create separate tabs for each
+4. **Skip** - Manual documentation only"
+
+---
+
+**Question 3: Target Audience**
 "Who is your primary audience?
 (e.g., 'Backend developers integrating our payment API', 'Internal engineering team', 'Non-technical business users')"
 
-**Question 3: Terminology (optional)**
+**Question 4: Terminology (optional)**
 "Any specific terminology I should know? For example:
 - Brand names with specific capitalization
 - Terms to avoid or prefer
@@ -86,11 +146,11 @@ After auto-discovery, ask the user to confirm/provide:
 
 (Press Enter to skip)"
 
-**Question 4: Code Examples**
+**Question 5: Code Examples**
 "What language should I use for code examples?
 (e.g., TypeScript, Python, curl)"
 
-#### 2d. Create Context Memory
+#### 2e. Create Context Memory
 
 Create `.devdoc/` folder and `context.json` with discovered + user info:
 
@@ -104,7 +164,7 @@ Create `.devdoc/` folder and `context.json` with discovered + user info:
     "description": "[from README]",
     "type": "[api/sdk/platform/cli/library]",
     "domain": "[inferred or asked]",
-    "targetAudience": "[from Question 2]",
+    "targetAudience": "[from Question 3]",
     "keyFeatures": ["[from README]"]
   },
   "terminology": {
@@ -114,12 +174,15 @@ Create `.devdoc/` folder and `context.json` with discovered + user info:
   },
   "api": {
     "style": "[REST/GraphQL/etc if detected]",
+    "specPath": "[path to imported/referenced spec]",
     "baseUrl": "[from OpenAPI if found]",
     "authentication": {
       "type": "[from OpenAPI if found]",
       "headerName": "",
       "description": ""
-    }
+    },
+    "conventions": {},
+    "commonPatterns": []
   },
   "codebase": {
     "language": "[from package.json]",
@@ -130,7 +193,7 @@ Create `.devdoc/` folder and `context.json` with discovered + user info:
     "voice": "[based on docType]",
     "perspective": "second_person",
     "codeExamples": {
-      "primaryLanguage": "[from Question 4]",
+      "primaryLanguage": "[from Question 5]",
       "additionalLanguages": []
     },
     "templates": {
@@ -154,28 +217,97 @@ Tell user:
 "Created product context in `.devdoc/context.json`
 - Product: {name}
 - Type: {docType}
+- API: {REST/GraphQL} (imported from {spec_path})
 - Audience: {targetAudience}
 - Code examples: {primaryLanguage}
 
 This context will be used for consistent documentation generation."
 
-### Step 3: Update docs.json with docType
+### Step 3: Import API Spec (if selected)
+
+**For OpenAPI (Import option):**
+1. Copy spec to `api-reference/openapi.json` (or `.yaml`)
+2. Validate the spec is valid OpenAPI 3.x
+3. Extract key info for context.json
+
+**For OpenAPI (Reference option):**
+1. Note the relative path for docs.json
+2. Extract key info for context.json
+
+**For GraphQL (Import option):**
+1. Copy schema to `api-reference/schema.graphql`
+2. Validate the schema
+3. Extract types/queries/mutations for context
+
+**For GraphQL (Reference option):**
+1. Note the relative path for docs.json
+2. Extract schema info for context
+
+### Step 4: Update docs.json with API Reference
 
 **Read existing `docs.json` or create new one.**
 
-Add the `docType` field:
+Add the `docType` field and API reference tab:
 
+**For OpenAPI:**
 ```json
 {
   "name": "Project Name",
-  "docType": "api",  // from Question 1
-  "navigation": { ... }
+  "docType": "api",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Guides",
+        "groups": [...]
+      },
+      {
+        "tab": "API Reference",
+        "type": "openapi",
+        "spec": "api-reference/openapi.json"
+      }
+    ]
+  }
 }
 ```
 
-Tell user: "Saved docType: {type} to docs.json"
+**For GraphQL:**
+```json
+{
+  "name": "Project Name",
+  "docType": "api",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Guides",
+        "groups": [...]
+      },
+      {
+        "tab": "GraphQL API",
+        "type": "graphql",
+        "schema": "api-reference/schema.graphql",
+        "endpoint": "https://api.example.com/graphql"
+      }
+    ]
+  }
+}
+```
 
-### Step 4: Generate Documentation
+**For Both:**
+```json
+{
+  "navigation": {
+    "tabs": [
+      { "tab": "Guides", "groups": [...] },
+      { "tab": "REST API", "type": "openapi", "spec": "api-reference/openapi.json" },
+      { "tab": "GraphQL API", "type": "graphql", "schema": "api-reference/schema.graphql" }
+    ]
+  }
+}
+```
+
+Tell user: "Configured API Reference with {spec_type} from {path}"
+
+### Step 5: Generate Documentation
 
 **Read context from `.devdoc/context.json` before generating.**
 
@@ -191,6 +323,7 @@ Tell user: "Saved docType: {type} to docs.json"
 - Avoid terms from `terminology.avoidTerms`
 - Use code language from `documentation.codeExamples.primaryLanguage`
 - Match voice from `documentation.voice`
+- Reference API spec path from `api.specPath`
 
 ---
 
@@ -254,7 +387,8 @@ docs/
 │   ├── introduction.mdx   # API overview, base URL, versioning
 │   ├── authentication.mdx # Auth details
 │   ├── errors.mdx         # Error codes and handling
-│   └── openapi.json       # Full API spec
+│   ├── openapi.json       # Full API spec (if imported)
+│   └── schema.graphql     # GraphQL schema (if imported)
 ├── sdks/                  # If SDKs exist
 │   ├── javascript.mdx
 │   ├── python.mdx
@@ -340,7 +474,7 @@ docs/
 }
 ```
 
-### Customer API Docs
+### Customer API Docs (with OpenAPI)
 ```json
 {
   "name": "{Product Name}",
@@ -358,6 +492,31 @@ docs/
         "tab": "API Reference",
         "type": "openapi",
         "spec": "api-reference/openapi.json"
+      }
+    ]
+  }
+}
+```
+
+### Customer API Docs (with GraphQL)
+```json
+{
+  "name": "{Product Name}",
+  "docType": "api",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Guides",
+        "groups": [
+          { "group": "Getting Started", "pages": ["index", "quickstart", "authentication"] },
+          { "group": "Guides", "pages": ["guides/overview"] }
+        ]
+      },
+      {
+        "tab": "GraphQL API",
+        "type": "graphql",
+        "schema": "api-reference/schema.graphql",
+        "endpoint": "https://api.example.com/graphql"
       }
     ]
   }
@@ -394,3 +553,5 @@ docs/
 - Test all code examples work
 - Always use terminology from context.json
 - Update context.json if you learn new information
+- **Import existing API specs** rather than creating manual docs
+- **Validate specs** before importing
