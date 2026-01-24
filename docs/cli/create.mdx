@@ -16,9 +16,24 @@ npx @brainfish-ai/devdoc create [project-directory] [options]
 | Option | Description |
 |--------|-------------|
 | `-t, --template <type>` | Template to use: `basic`, `openapi`, or `graphql` |
+| `-d, --doc-type <type>` | Documentation type: `public` or `internal` |
+| `-s, --subdomain <name>` | Subdomain for your docs (public only) |
 | `--no-git` | Skip git initialization |
 | `--no-install` | Skip dependency installation |
 | `-h, --help` | Show help |
+
+## Documentation Types
+
+Choose the type that matches your use case:
+
+| Type | Description | Subdomain | Deploy |
+|------|-------------|-----------|--------|
+| `public` | User-facing docs with custom subdomain and hosting | Yes | Yes |
+| `internal` | Developer docs for local/private use | No | No |
+
+<Tip>
+Choose **internal** for team documentation, READMEs, or private wikis that don't need public hosting.
+</Tip>
 
 ## Templates
 
@@ -146,7 +161,7 @@ The `docs.json` includes a GraphQL API tab:
 
 ### Interactive Mode
 
-Run without arguments to be prompted for project name and template:
+Run without arguments to be guided through the setup:
 
 ```bash
 npx @brainfish-ai/devdoc create
@@ -157,6 +172,13 @@ npx @brainfish-ai/devdoc create
 
 What is your project named? (my-docs): my-api-docs
 
+What type of documentation are you creating?
+
+  1. Public - User-facing docs with custom subdomain and deployment
+  2. Internal - Developer docs for local/private use (no subdomain needed)
+
+Enter number: 1
+
 Which template would you like to use?
 
   1. Basic - Simple documentation site with guides and pages
@@ -165,11 +187,25 @@ Which template would you like to use?
 
 Enter number: 2
 
-Enter subdomain for your-project.devdoc.sh (my-api-docs): my-api-docs
+Enter subdomain for your docs (my-api-docs.devdoc.sh): my-api-docs
 Checking if my-api-docs.devdoc.sh is available...
 ✓ my-api-docs.devdoc.sh is available!
 
 Creating a new OpenAPI DevDoc documentation site in /path/to/my-api-docs
+...
+
+Which AI coding assistant do you use?
+
+  1. Both - Claude Code and Cursor (recommended)
+  2. Cursor - Rules for Cursor IDE
+  3. Claude Code - Skills and CLAUDE.md
+
+Enter number: 1
+
+Setting up AI agent configuration...
+✓ Created CLAUDE.md
+✓ Created .claude/skills/bootstrap-docs/SKILL.md
+✓ Created .cursor/rules/devdoc-bootstrap.mdc
 ...
 
 ✓ Created my-api-docs at /path/to/my-api-docs
@@ -178,11 +214,51 @@ Your docs will be available at:
   https://my-api-docs.devdoc.sh
 
 ○ Note: The subdomain will be reserved when you run "devdoc deploy"
+
+AI Agent Quick Start:
+  Claude Code: /bootstrap-docs
+  Cursor: Ask "generate initial documentation from this repo"
+
+  ____              ____             
+ |  _ \  _____   __|  _ \  ___   ___ 
+ | | | |/ _ \ \ / /| | | |/ _ \ / __|
+ | |_| |  __/\ V / | |_| | (_) | (__ 
+ |____/ \___| \_/  |____/ \___/ \___|
+                                      
+Happy documenting!
 ```
 
 <Note>
   The subdomain is checked for availability but **not reserved until you deploy**. This prevents subdomain squatting.
 </Note>
+
+### Internal Documentation
+
+For team/developer docs that don't need public hosting:
+
+```bash
+npx @brainfish-ai/devdoc create my-internal-docs --doc-type internal
+```
+
+```
+🐟 Create DevDoc Doc
+
+What is your project named? (my-docs): my-internal-docs
+
+What type of documentation are you creating?
+  → Internal - Developer docs for local/private use
+
+Which template would you like to use?
+  ...
+
+✓ Created my-internal-docs at /path/to/my-internal-docs
+
+This is an internal documentation project for local development.
+
+Inside that directory, you can run:
+  npm run dev
+    Starts the development server at http://localhost:3000
+```
 
 ### With Project Name
 

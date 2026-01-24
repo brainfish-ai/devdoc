@@ -104,6 +104,7 @@ npx @brainfish-ai/devdoc ai --tool claude --update
 |------|---------|
 | `CLAUDE.md` | Project context loaded into every conversation |
 | `.claude/skills/bootstrap-docs/SKILL.md` | Generate docs from codebase |
+| `.claude/skills/whisk-theme/SKILL.md` | Analyze branding and customize theme |
 | `.claude/skills/migrate-docs/SKILL.md` | Migrate from other platforms |
 | `.claude/skills/import-api-spec/SKILL.md` | Import OpenAPI/GraphQL specs |
 | `.claude/skills/check-docs/SKILL.md` | Quick health check |
@@ -119,6 +120,7 @@ npx @brainfish-ai/devdoc ai --tool claude --update
 |------|---------|
 | `.cursor/rules/devdoc.mdc` | Core DevDoc writing rules |
 | `.cursor/rules/devdoc-bootstrap.mdc` | Repository analysis rules |
+| `.cursor/rules/devdoc-whisk-theme.mdc` | Brand analysis and theme generation |
 | `.cursor/rules/devdoc-migrate.mdc` | Migration rules |
 | `.cursor/rules/devdoc-blame.mdc` | Documentation analysis rules |
 | `.cursor/rules/devdoc-create.mdc` | Page creation rules |
@@ -133,6 +135,7 @@ npx @brainfish-ai/devdoc ai --tool claude --update
 | Command | Description |
 |---------|-------------|
 | `/bootstrap-docs` | Analyze repo and generate initial documentation |
+| `/whisk-theme` | Analyze branding and generate custom theme |
 | `/migrate-docs` | Migrate from Mintlify, Docusaurus, GitBook, etc. |
 | `/import-api-spec` | Import OpenAPI, GraphQL, or AsyncAPI specs |
 | `/check-docs` | Quick health check without changes |
@@ -147,12 +150,41 @@ npx @brainfish-ai/devdoc ai --tool claude --update
 In Agent mode, try these prompts:
 
 - "Analyze this repo and generate initial documentation"
+- "Whisk theme - match my documentation to my brand colors"
 - "Migrate my Mintlify docs to DevDoc format"
 - "Check my docs for outdated content"
 - "Blame docs - find duplicates and discrepancies"
 - "Create a new guide about authentication"
 - "Update the quickstart guide"
 - "Delete the deprecated API page"
+
+## Whisk Theme
+
+The `whisk-theme` skill analyzes your codebase to extract brand colors, fonts, and logos, then generates a custom theme for your documentation.
+
+**What it scans:**
+- Tailwind config (`theme.colors.primary`)
+- CSS variables (`--primary`, `--brand-color`)
+- UI frameworks (Chakra, MUI, shadcn)
+- Logo files (SVG, PNG)
+- Font configurations
+
+**What it generates:**
+- `theme.json` with brand colors
+- `custom.css` with branded component styles
+- Copies logo to docs folder
+
+```bash
+# In Claude Code
+/whisk-theme
+
+# In Cursor
+"Whisk theme" or "Match my branding"
+```
+
+<Tip>
+Run whisk-theme after bootstrap to make your docs match your product's look and feel.
+</Tip>
 
 ## Example Workflow
 
