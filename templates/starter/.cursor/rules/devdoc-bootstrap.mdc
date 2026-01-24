@@ -349,6 +349,7 @@ Next: `devdoc dev` to preview
 | **Project overview first** | Quick git scan to understand structure |
 | **Strategy first** | Goals and audience before structure |
 | **Audience-driven** | Match content to user needs |
+| **Support multi-role** | Handle products with multiple user roles |
 | **Diátaxis types** | Classify every page |
 | **IA approval required** | User confirms before generating |
 | **Search before generate** | ALWAYS search/read files before each page |
