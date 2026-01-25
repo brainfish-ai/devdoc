@@ -135,7 +135,18 @@ OPTIONS:
 ## Guidelines
 
 - **SEARCH FIRST** - Never generate without reading files
+- **USE MERMAID DIAGRAMS** - For architecture, flows, sequences
 - Flag insufficient info with auto-correct options
 - Include error handling from source code
 - Add TODO for sections needing review
 - Cite source files in frontmatter
+
+## Mermaid Diagrams (Required)
+
+| Content | Diagram Type |
+|---------|--------------|
+| Architecture | `flowchart TB` |
+| Data flow | `flowchart LR` |
+| API calls | `sequenceDiagram` |
+| State machine | `stateDiagram-v2` |
+| Data models | `erDiagram` |

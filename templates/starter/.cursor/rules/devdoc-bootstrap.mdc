@@ -301,6 +301,25 @@ Create `.devdoc/context.json`:
 5. **Flag duplicates** - Let user choose
 6. **Second Person** - "You can configure..."
 7. **Include REAL Examples** - From tests/examples
+8. **Use Mermaid Diagrams** - For architecture, flows, sequences
+
+**Mermaid Diagram Requirements:**
+| Content | Diagram Type |
+|---------|--------------|
+| Architecture | `flowchart TB` |
+| Data flow | `flowchart LR` |
+| API calls | `sequenceDiagram` |
+| State machine | `stateDiagram-v2` |
+| Data models | `erDiagram` |
+
+Example:
+```mermaid
+sequenceDiagram
+    User->>API: Request
+    API->>Service: Process
+    Service-->>API: Response
+    API-->>User: Result
+```
 
 ### Step 8: Create docs.json and theme.json
 
