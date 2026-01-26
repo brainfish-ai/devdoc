@@ -122,15 +122,14 @@
         "tab": "GraphQL API",
         "type": "graphql",
         "path": "/graphql-api",
-        "schema": "api-reference/schema.graphql",
-        "endpoint": "https://api.example.com/graphql",
+        "schema": "graphql/schema.graphql",
+        "endpoint": "https://countries.trevorblades.com/graphql",
         "groups": [
           {
             "group": "Overview",
             "icon": "book-open",
             "pages": [
-              "api-reference/introduction",
-              "api-reference/authentication"
+              "graphql/introduction"
             ]
           }
         ]

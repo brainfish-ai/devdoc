@@ -1,0 +1,80 @@
+---
+title: Introduction
+description: Getting started with the Countries GraphQL API
+---
+
+The Countries GraphQL API provides information about countries, continents, and languages around the world.
+
+## Endpoint
+
+All GraphQL queries should be sent to:
+
+```
+https://countries.trevorblades.com/graphql
+```
+
+## Making Requests
+
+Send a POST request with your GraphQL query in the request body:
+
+```bash
+curl -X POST https://countries.trevorblades.com/graphql \
+  -H "Content-Type: application/json" \
+  -d '{"query": "{ countries { name code } }"}'
+```
+
+## Available Queries
+
+The API provides the following root queries:
+
+| Query | Description |
+|-------|-------------|
+| `continents` | Get all continents or filter by code |
+| `continent` | Get a single continent by code |
+| `countries` | Get all countries or filter by various criteria |
+| `country` | Get a single country by code |
+| `languages` | Get all languages or filter by code |
+| `language` | Get a single language by code |
+
+## Example Query
+
+```graphql
+query {
+  country(code: "US") {
+    name
+    capital
+    currency
+    languages {
+      name
+      native
+    }
+  }
+}
+```
+
+## Response Format
+
+All responses follow the standard GraphQL response format:
+
+```json
+{
+  "data": {
+    "country": {
+      "name": "United States",
+      "capital": "Washington D.C.",
+      "currency": "USD,USN,USS",
+      "languages": [
+        {
+          "name": "English",
+          "native": "English"
+        }
+      ]
+    }
+  }
+}
+```
+
+## Next Steps
+
+- Explore the schema to see all available types and fields
+- Try queries in the interactive playground above
