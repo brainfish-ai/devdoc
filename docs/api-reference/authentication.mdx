@@ -1,84 +1,65 @@
 ---
 title: Authentication
-description: How to authenticate with the DevDoc API
+description: Authentication for the Countries GraphQL API
 ---
 
-All requests to the DevDoc API require authentication using an API key.
+The Countries GraphQL API is a **public API** that does not require authentication.
 
-## Getting an API Key
+## Public Access
 
-### Using the CLI
-
-The easiest way to create an API key is using the DevDoc CLI:
+You can make requests to the API without any API keys or tokens:
 
 ```bash
-devdoc keys create --name "My API Key"
+curl -X POST https://countries.trevorblades.com/graphql \
+  -H "Content-Type: application/json" \
+  -d '{"query": "{ countries { name code } }"}'
 ```
 
-### Using the Dashboard
+## Rate Limiting
 
-1. Log in to your [DevDoc Dashboard](https://app.brainfi.sh)
-2. Navigate to **Settings** → **API Keys**
-3. Click **Create New Key**
-4. Copy and store your key securely
+While the API is public, please be mindful of usage:
 
-<Warning>
-  API keys are only shown once. Store them securely and never commit them to version control.
-</Warning>
+- Avoid making excessive requests in short periods
+- Cache responses when possible
+- Use specific queries instead of fetching all data
 
-## Using Your API Key
+## CORS
 
-Include your API key in the `Authorization` header of every request:
+The API supports Cross-Origin Resource Sharing (CORS), allowing you to make requests directly from web browsers.
 
-```bash
-curl https://api.devdoc.sh/v1/projects \
-  -H "Authorization: Bearer your_api_key"
+## Using with JavaScript
+
+```javascript
+const response = await fetch('https://countries.trevorblades.com/graphql', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    query: `
+      query {
+        countries {
+          name
+          code
+          capital
+        }
+      }
+    `
+  }),
+});
+
+const { data } = await response.json();
+console.log(data.countries);
 ```
 
-## Environment Variables
+## GraphQL Clients
 
-We recommend storing your API key in an environment variable:
+For production applications, consider using a GraphQL client library:
 
-```bash
-export DEVDOC_API_KEY="your_api_key"
-```
-
-Then use it in your requests:
-
-```bash
-curl https://api.devdoc.sh/v1/projects \
-  -H "Authorization: Bearer $DEVDOC_API_KEY"
-```
-
-## Error Responses
-
-If authentication fails, you'll receive a `401 Unauthorized` response:
-
-```json
-{
-  "error": {
-    "code": "unauthorized",
-    "message": "Invalid or missing API key"
-  }
-}
-```
-
-## Key Management
-
-### Listing Keys
-
-```bash
-devdoc keys list
-```
-
-### Revoking Keys
-
-If a key is compromised, revoke it immediately:
-
-```bash
-devdoc keys revoke <key_id>
-```
+- **Apollo Client** - Full-featured GraphQL client for React, Vue, and more
+- **urql** - Lightweight and flexible GraphQL client
+- **graphql-request** - Minimal GraphQL client for simple requests
 
 <Tip>
-  Create separate API keys for different environments (development, staging, production) to limit the impact of a compromised key.
+  Use the interactive playground above to test queries before integrating them into your application.
 </Tip>

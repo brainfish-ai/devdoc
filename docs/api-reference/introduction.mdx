@@ -1,51 +1,80 @@
 ---
 title: Introduction
-description: Getting started with the DevDoc API
+description: Getting started with the Countries GraphQL API
 ---
 
-The DevDoc API allows you to programmatically manage your documentation projects, deployments, and API keys.
+The Countries GraphQL API provides information about countries, continents, and languages around the world.
 
-## Base URL
+## Endpoint
 
-All API requests should be made to:
+All GraphQL queries should be sent to:
 
 ```
-https://api.devdoc.sh/v1
+https://countries.trevorblades.com/graphql
 ```
 
-## Authentication
+## Making Requests
 
-All API requests require authentication using an API key. Include your key in the `Authorization` header:
+Send a POST request with your GraphQL query in the request body:
 
 ```bash
-curl https://api.devdoc.sh/v1/projects \
-  -H "Authorization: Bearer your_api_key"
+curl -X POST https://countries.trevorblades.com/graphql \
+  -H "Content-Type: application/json" \
+  -d '{"query": "{ countries { name code } }"}'
 ```
 
-<Note>
-  Generate API keys from your [DevDoc Dashboard](https://app.brainfi.sh) or using the CLI with `devdoc keys create`.
-</Note>
+## Available Queries
 
-## Response Format
+The API provides the following root queries:
 
-All responses are returned as JSON:
+| Query | Description |
+|-------|-------------|
+| `continents` | Get all continents or filter by code |
+| `continent` | Get a single continent by code |
+| `countries` | Get all countries or filter by various criteria |
+| `country` | Get a single country by code |
+| `languages` | Get all languages or filter by code |
+| `language` | Get a single language by code |
 
-```json
-{
-  "data": {
-    // Response data
-  },
-  "meta": {
-    "request_id": "req_abc123"
+## Example Query
+
+```graphql
+query {
+  country(code: "US") {
+    name
+    capital
+    currency
+    languages {
+      name
+      native
+    }
   }
 }
 ```
 
-## Rate Limits
+## Response Format
 
-The API is rate limited to **100 requests per minute** per API key. If you exceed this limit, you'll receive a `429 Too Many Requests` response.
+All responses follow the standard GraphQL response format:
+
+```json
+{
+  "data": {
+    "country": {
+      "name": "United States",
+      "capital": "Washington D.C.",
+      "currency": "USD,USN,USS",
+      "languages": [
+        {
+          "name": "English",
+          "native": "English"
+        }
+      ]
+    }
+  }
+}
+```
 
 ## Next Steps
 
-- Learn about [Authentication](/api-reference/authentication) methods
-- Explore the API endpoints in the sidebar
+- Explore the [Schema](/graphql-api/schema) to see all available types and fields
+- Try queries in the interactive playground above
