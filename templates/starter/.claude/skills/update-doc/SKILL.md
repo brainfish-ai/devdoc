@@ -1,15 +1,15 @@
 ---
 name: update-doc
-description: Update existing documentation by analyzing codebase changes or user references.
+description: Update existing documentation by searching codebase for current implementation.
 ---
 
 ## Instructions
 
 When user wants to update documentation:
 
-### Step 0: Read Context Memory
+### Step 0: Read Context
 
-**First, read `.devdoc/context.json` if it exists:**
+**Read `.devdoc/context.json` if it exists:**
 - Use `product.name` for product references
 - Apply `terminology.glossary` for correct terms
 - Avoid `terminology.avoidTerms`
@@ -41,14 +41,38 @@ Based on their choice:
   - Rewrite for clarity
   - Other (describe)"
 
-#### For Codebase Sync:
-- Locate source code (from context or `../`)
-- Compare documentation against code:
+#### For Codebase Sync (Search Real Files):
+
+**Step 2a: Search for source files related to documented topics:**
+```bash
+# Find all exported functions/classes
+rg "export (function|class|const|interface|type)" --type ts -l
+
+# Find specific topic files
+git ls-files | grep -iE "(auth|user|api)"
+```
+
+**Step 2b: Read both doc files AND source files:**
+1. Read the doc file to see what's documented
+2. Search and read the corresponding source file
+3. Compare documented vs actual implementation
+
+**Step 2c: Generate comparison:**
+```
+DOCUMENTED (from docs/api/users.mdx):
+  - createUser(name: string, email: string)
+
+ACTUAL (from src/lib/users.ts):
+  - createUser(options: CreateUserInput)
+
+→ SIGNATURE MISMATCH - needs update
+```
+
+Compare documentation against actual source:
   - Function signatures changed?
   - New exports not documented?
   - Removed features still documented?
   - Version numbers outdated?
-- Generate sync report (see below)
 
 #### For Navigation:
 - Read current `docs.json`
@@ -67,59 +91,137 @@ Based on their choice:
 - "What's the problem you're seeing?"
 - Analyze and propose fixes
 
-### Step 3: Generate Sync Report (if syncing)
+### Step 3: Detect Feature Flags & Duplicates
+
+**Search for feature flags in source:**
+```bash
+rg -l "featureFlag|feature_flag|isEnabled|FF_" --type ts
+rg "if.*\(.*feature|process\.env\.FEATURE" --type ts
+```
+
+**Search for duplicate/similar features:**
+```bash
+rg "export.*(login|authenticate|signIn)" --type ts -l
+```
+
+**Include in sync report:**
+
+### Step 4: Generate Sync Report (From File Search)
+
+**Compare docs against actual source files:**
 
 ```
 ## Documentation Sync Report
 
-### Outdated (Action Required)
-- `docs/api/users.mdx`: Function signature changed
+### Signature Changes (from source files)
+- `docs/api/users.mdx` vs `src/lib/users.ts`:
   - Documented: `createUser(name, email)`
-  - Current: `createUser(options: CreateUserInput)`
+  - Source file: `createUser(options: CreateUserInput)`
+  - Action: Update signature and params
   
-- `docs/quickstart.mdx`: Package version outdated
-  - Documented: v1.2.0
-  - Current: v2.0.0
+### New Exports (in source, not in docs)
+- `src/lib/auth.ts`: `refreshToken()` - Not documented
+- `src/lib/users.ts`: `deleteUser()` - Not documented
 
-### Terminology Issues
-- `docs/guides/intro.mdx:15`: Uses "charge" instead of "payment"
-
-### Missing Documentation
-- `src/utils/newFeature.ts` - New export, not documented
-- `POST /api/v2/webhooks` - New endpoint
+### Removed (in docs, not in source)
+- `legacyAuth()` - Not found in any source file
 
 ### Up to Date ✓
-- `docs/guides/authentication.mdx`
-- `docs/api/errors.mdx`
+- `docs/guides/authentication.mdx` matches `src/lib/auth/`
+
+### Unable to Verify (source not found)
+⚠️ `docs/legacy/old-api.mdx` - No matching source file
+
+═══════════════════════════════════════════════════════════
+                 FEATURE FLAGS DETECTED
+═══════════════════════════════════════════════════════════
+
+⚠️ src/lib/auth/index.ts:45 - newAuthFlow
+   Current docs: OLD implementation
+   Feature flag: NEW implementation available
+   
+   Question: Update docs to which version?
+   1. Keep current (old)
+   2. Update to new (feature-flagged)
+   3. Document both with toggle notice
+
+═══════════════════════════════════════════════════════════
+                 DUPLICATE FEATURES
+═══════════════════════════════════════════════════════════
+
+🔄 Similar functions found:
+   - src/lib/auth/login.ts → login()
+   - src/lib/auth/v2/authenticate.ts → authenticate()
+   
+   Question: How to handle?
+   1. Document primary only
+   2. Document all with comparison
+   3. Mark duplicates as deprecated
 ```
 
 Ask: "How would you like to proceed?
-1. **Fix all** - Update everything automatically
-2. **Interactive** - Review each change
-3. **Specific items** - Tell me which to fix"
+1. **Fix all** - Update everything (choose defaults for flags/duplicates)
+2. **Interactive** - Review each change with me
+3. **Specific items** - Tell me which to fix
+4. **Re-search** - Search for different file patterns"
 
-### Step 4: Propose Changes
+### Step 5: Review Each Change with User (MANDATORY)
 
-Before making changes, show what will be modified:
+**For EACH file being updated, show before/after:**
 
-"I'll make these changes:
+```
+═══════════════════════════════════════════════════════════
+              CHANGE REVIEW: docs/api/users.mdx
+═══════════════════════════════════════════════════════════
 
-**`docs/api/users.mdx`**
-- Update `createUser` signature and examples
-- Add new `options` parameter documentation
+📄 BEFORE (current):
+───────────────────────────────────────────────────────────
+## createUser(name, email)
 
-**`docs/quickstart.mdx`**  
-- Update version from 1.2.0 to 2.0.0
-- Update installation command
+Creates a new user account.
 
-**`docs.json`**
-- Add new page: `guides/webhooks.mdx`
+| Parameter | Type |
+|-----------|------|
+| name | string |
+| email | string |
+───────────────────────────────────────────────────────────
 
-Proceed with these changes?"
+📄 AFTER (proposed):
+───────────────────────────────────────────────────────────
+## createUser(options)
 
-### Step 5: Apply Updates
+Creates a new user account.
 
-When updating:
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| options | CreateUserInput | User creation options |
+
+### CreateUserInput
+
+| Property | Type | Required |
+|----------|------|----------|
+| name | string | Yes |
+| email | string | Yes |
+| role | 'admin' \| 'user' | No |
+───────────────────────────────────────────────────────────
+
+⚠️ NOTICES:
+- Source: src/lib/users.ts:23
+- Feature flag: None
+- Duplicates: None
+
+OPTIONS:
+1. ✅ **Approve** - Apply this change
+2. ✏️  **Edit** - Modify the proposed content
+3. ⏭️  **Skip** - Don't update this file
+4. ❌ **Cancel all** - Stop updating
+
+Choose an option:
+```
+
+### Step 6: Apply Updates (After Approval)
+
+**Only after user approves each change:**
 
 1. **Preserve prose** - Keep explanations, update technical details
 2. **Update code examples** - Match current signatures
@@ -131,7 +233,13 @@ When updating:
    See [migration guide](/guides/v2-migration).
    </Warning>
    ```
-5. **Create stubs** for new features:
+5. **Add feature flag notices** where applicable:
+   ```mdx
+   <Note>
+   **Feature Flag**: This feature requires `newAuthFlow` to be enabled.
+   </Note>
+   ```
+6. **Create stubs** for new features:
    ```mdx
    {/* TODO: Document this new feature */}
    ## New Feature
@@ -209,11 +317,27 @@ Documentation coming soon.
 
 ---
 
+## Key Principles
+
+| Principle | Description |
+|-----------|-------------|
+| **Search before update** | ALWAYS read source files before changing docs |
+| **No hallucination** | Only update based on actual file contents |
+| **Review before write** | ALWAYS show before/after for user approval |
+| **Flag feature flags** | Detect and highlight conditional features |
+| **Flag duplicates** | Identify similar/related features |
+| **Verify changes** | Read source to confirm what changed |
+
 ## Quality Guidelines
 
+- **SEARCH FIRST** - Read source files before making any update
+- **REVIEW WITH USER** - Show before/after for each change
+- **DETECT FEATURE FLAGS** - Search for conditional features
+- **DETECT DUPLICATES** - Find similar functions/features
 - Always show changes before applying
 - Preserve existing prose and explanations
 - Update only technical details (code, versions, signatures)
+- Flag when source file not found - offer auto-correct options
 - Add TODO markers for human review
 - Apply terminology from context.json
 - Create stubs rather than skip new features

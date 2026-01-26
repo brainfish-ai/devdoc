@@ -1,15 +1,15 @@
 ---
 name: create-doc
-description: Create new documentation pages interactively. Analyzes codebase and guides you through the process.
+description: Create new documentation pages interactively. Searches codebase to ensure accuracy.
 ---
 
 ## Instructions
 
 When user wants to create documentation:
 
-### Step 0: Read Context Memory
+### Step 0: Read Context
 
-**First, read `.devdoc/context.json` if it exists:**
+**Read `.devdoc/context.json` if it exists:**
 - Use `product.name` for product references
 - Apply `terminology.glossary` for correct terms
 - Use `documentation.codeExamples.primaryLanguage` for code
@@ -59,26 +59,142 @@ Based on their choice:
 - Ask clarifying questions
 - Understand the scope and purpose
 
-### Step 3: Analyze Codebase (if applicable)
+### Step 3: Search Codebase (CRITICAL - No Hallucination)
 
-When documenting code:
+**ALWAYS search and read actual files before generating content:**
+
+#### 3a. Search for Relevant Files
+
+```bash
+# Find files related to the topic
+git ls-files | grep -iE "(auth|login|session)"  # for auth docs
+
+# Search file contents for specific terms
+rg -l "export.*function.*createUser" --type ts
+rg -l "class.*Authentication" --type ts
+
+# Find types and interfaces
+rg -l "interface.*User|type.*User" --type ts
+
+# Find examples
+git ls-files | grep -iE "(example|test|spec)"
+```
+
+#### 3b. Read the Files Found
+
+For each relevant file:
+1. **Read the file** - Get actual implementation
+2. **Extract key info:**
+   - Function signatures and parameters
+   - Type definitions
+   - Error codes and messages
+   - Code examples from tests
+
+#### 3c. Assess Information Sufficiency
 
 ```
-Scan for:
-- Function signatures and JSDoc/docstrings
-- Type definitions and interfaces
-- Usage examples in tests
-- README sections about this feature
-- Existing related documentation
+┌─────────────────────────────────────────────┐
+│ ASSESSMENT                                  │
+├─────────────────────────────────────────────┤
+│ ✅ Sufficient - Found source files          │
+│    → Proceed with real data                 │
+│                                             │
+│ ⚠️ Partial - Some gaps                      │
+│    → Generate with TODOs for gaps           │
+│                                             │
+│ ❌ Insufficient - No relevant files         │
+│    → FLAG and offer options                 │
+└─────────────────────────────────────────────┘
 ```
 
-Show user what you found:
-"I found:
-- 5 exported functions in `src/utils/`
-- Type definitions in `types/index.ts`
-- 3 test files with usage examples
+#### 3d. Handle Insufficient Information
 
-Should I proceed with generating documentation for these?"
+**If files not found, present options:**
+
+```
+⚠️ UNCLEAR TOPIC: [topic]
+
+Searched for:
+  - src/**/*auth*.ts → Not found
+  - lib/**/*auth*.ts → Not found
+
+Options:
+  1. 🔄 **Skip this doc** - Remove from plan
+  2. ✏️  **Different topic** - Document something else
+  3. 📝 **Mark as TODO** - Create placeholder
+  4. ❓ **Ask for path** - "Where is [topic] implemented?"
+
+Choose an option (1-4):
+```
+
+#### 3e. Detect Feature Flags & Duplicates
+
+**Search for feature flags:**
+```bash
+# Find feature flag patterns
+rg -l "featureFlag|feature_flag|isEnabled|FF_" --type ts
+rg "if.*\(.*feature|process\.env\.FEATURE" --type ts
+rg "LaunchDarkly|Unleash|Split|flagsmith" --type ts
+```
+
+**Search for duplicate/similar features:**
+```bash
+# Find similar function names
+rg "export.*(login|authenticate|signIn)" --type ts -l
+rg "export.*(createUser|addUser|registerUser)" --type ts -l
+```
+
+**Flag findings for user guidance:**
+```
+⚠️ FEATURE FLAGS DETECTED:
+
+📍 src/lib/auth/index.ts:45
+   if (featureFlags.newAuthFlow) { ... }
+   
+   This feature has TWO implementations:
+   - OLD: lines 50-80 (current default)
+   - NEW: lines 82-120 (behind feature flag)
+   
+   Question: Document which version?
+   1. Current (old) implementation
+   2. New implementation (feature flagged)
+   3. Both with toggle notice
+
+⚠️ DUPLICATE FEATURES DETECTED:
+
+Found similar functions:
+- src/lib/auth/login.ts → login()
+- src/lib/auth/v2/authenticate.ts → authenticate()
+- src/lib/legacy/signIn.ts → signIn()
+
+Question: Which should be documented?
+1. Document primary (login.ts)
+2. Document all with comparison
+3. Mark legacy as deprecated
+```
+
+#### 3f. Show What Was Found
+
+```
+📂 FILES FOUND for [topic]:
+
+✓ src/lib/auth/index.ts (main auth module)
+  - login(email, password): Promise<Token>
+  - logout(): void
+  - verifyToken(token): boolean
+
+✓ src/lib/auth/types.ts
+  - interface User { id, email, role }
+  - type AuthToken { token, expiresAt }
+
+✓ tests/auth.test.ts
+  - Example usage patterns
+
+⚠️ FEATURE FLAGS: newAuthFlow (src/lib/auth/index.ts:45)
+⚠️ DUPLICATES: authenticate() in v2/, signIn() in legacy/
+
+Proceed with generating documentation from these files?
+```
 
 ### Step 4: Choose Template
 
@@ -92,31 +208,117 @@ Read the appropriate template from `.devdoc/templates/`:
 | Quick start | `quickstart.md` |
 | FAQ/Issues | `troubleshooting.md` |
 
-### Step 5: Generate Content
+### Step 5: Draft Content (From Real Files Only)
 
-Create the documentation:
+**CRITICAL: Only use data from files you actually read.**
+
+Draft the documentation (DO NOT WRITE YET):
 
 1. **Read the template** for structure guidance
 2. **Apply context** (terminology, voice, language)
-3. **Include mermaid diagrams** for flows/architecture
-4. **Add real code examples** from codebase
-5. **Use proper MDX components** (Steps, Cards, Tabs, etc.)
+3. **Use ONLY data from searched files:**
+   - Get exact function signatures from source files
+   - Get type definitions from actual type files
+   - Reference examples from test files or examples folder
+   - Document errors from error handling code
+4. **Include mermaid diagrams** for flows/architecture
+5. **Add real code examples** copied from codebase
+6. **Use proper MDX components** (Steps, Cards, Tabs, etc.)
+7. **Cite sources** - Note which files info came from
+8. **Mark feature flags** - Note conditional features
+9. **Note duplicates** - Reference related/similar features
 
-### Step 6: Propose File Location
+**NEVER generate content without reading source files first.**
 
-Suggest where to save:
+### Step 6: Review Content with User (MANDATORY)
+
+**ALWAYS show the complete draft for user review before writing:**
+
+```
+═══════════════════════════════════════════════════════════
+                    CONTENT REVIEW
+═══════════════════════════════════════════════════════════
+
+📄 FILE: docs/guides/authentication.mdx
+
+───────────────────────────────────────────────────────────
+                    DRAFT CONTENT
+───────────────────────────────────────────────────────────
+
+---
+title: Authentication
+description: Learn how to authenticate users in your app
+sources: ["src/lib/auth/index.ts", "src/lib/auth/types.ts"]
+---
+
+## Overview
+
+Authentication allows users to securely access your application...
+
+## login(email, password)
+
+Authenticate user and return JWT token.
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| email | string | User email address |
+| password | string | User password |
+
+**Returns:** `Promise<AuthToken>`
+
+### Example
+
+```typescript
+import { login } from '@package/auth';
+
+const token = await login('user@example.com', 'password');
+```
+
+## Next Steps
+
+...
+
+───────────────────────────────────────────────────────────
+                    NOTICES
+───────────────────────────────────────────────────────────
+
+⚠️ FEATURE FLAG: newAuthFlow
+   This feature has a new implementation behind a flag.
+   Currently documenting: OLD implementation
+   
+🔄 DUPLICATE: authenticate() exists in src/lib/auth/v2/
+   Consider: Document both or mark one as preferred?
+
+───────────────────────────────────────────────────────────
+                    OPTIONS
+───────────────────────────────────────────────────────────
+
+1. ✅ **Approve** - Create file with this content
+2. ✏️  **Edit** - Tell me what to change
+3. 🔄 **Switch version** - Document feature-flagged version instead
+4. ➕ **Add duplicate** - Include related feature documentation
+5. ❌ **Cancel** - Don't create this file
+
+Choose an option:
+```
+
+### Step 7: Propose File Location
+
+After content approval, suggest where to save:
 
 "I'll create this page at: `docs/guides/{topic}.mdx`
 
 Does this location work, or would you prefer somewhere else?"
 
-### Step 7: Create and Update Navigation
+### Step 8: Create and Update Navigation
+
+**Only after user approves content AND location:**
 
 1. Write the MDX file
 2. Ask: "Should I add this to the navigation in docs.json?"
 3. If yes, update docs.json with the new page
 
-### Step 8: Summary
+### Step 9: Summary
 
 "Created:
 - `docs/guides/{topic}.mdx` - {description}
@@ -188,11 +390,58 @@ Generates similar documentation following the template structure.
 
 ---
 
+## Key Principles
+
+| Principle | Description |
+|-----------|-------------|
+| **Search before generate** | ALWAYS search/read files before writing |
+| **No hallucination** | Only use data from actual source files |
+| **Review before write** | ALWAYS show draft to user for approval |
+| **Flag feature flags** | Detect and highlight conditional features |
+| **Flag duplicates** | Identify similar/related features |
+| **Use mermaid diagrams** | Visualize architecture, flows, sequences |
+| **Cite sources** | Note which files information came from |
+
 ## Quality Guidelines
 
-- Extract real code examples, don't fabricate
-- Include error handling in examples
+- **SEARCH FIRST** - Never generate without reading source files
+- **REVIEW WITH USER** - Always show draft before creating file
+- **DETECT FEATURE FLAGS** - Search for conditional features
+- **DETECT DUPLICATES** - Find similar functions/features
+- Extract real code examples from actual files
+- Flag insufficient info and offer auto-correct options
+- Include error handling from source code
 - Add TODO markers for sections needing human review
-- Use mermaid diagrams for complex flows
 - Link to related documentation
 - Apply terminology from context.json
+- Cite source files in frontmatter
+
+## Mermaid Diagram Requirements
+
+**ALWAYS include mermaid diagrams for:**
+
+| Content Type | Diagram | Example |
+|--------------|---------|---------|
+| Architecture | `flowchart TB` | System components |
+| Data flow | `flowchart LR` | Request processing |
+| API calls | `sequenceDiagram` | Auth flow |
+| State machine | `stateDiagram-v2` | Lifecycle |
+| Data models | `erDiagram` | Database schema |
+
+**Example for architecture docs:**
+```mermaid
+flowchart TB
+    Client --> API
+    API --> Auth
+    API --> Service
+    Service --> DB[(Database)]
+```
+
+**Example for API docs:**
+```mermaid
+sequenceDiagram
+    Client->>API: POST /login
+    API->>Auth: Validate
+    Auth-->>API: Token
+    API-->>Client: 200 OK
+```

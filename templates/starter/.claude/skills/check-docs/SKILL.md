@@ -1,6 +1,6 @@
 ---
 name: check-docs
-description: Quick health check for documentation issues. Reads context memory for validation.
+description: Quick health check for documentation issues. Verifies content against actual source files.
 ---
 
 ## Instructions
@@ -29,6 +29,31 @@ Run a quick audit of documentation health.
 - Check brand name capitalization
 - Validate API patterns match `api.conventions`
 
+### Step 0b: Source Verification (CRITICAL)
+
+**For each doc page, search for corresponding source files:**
+
+```bash
+# For auth docs, find auth source
+git ls-files | grep -iE "auth"
+rg -l "export.*login" --type ts
+
+# For API docs, find route handlers
+git ls-files | grep -iE "(route|api|controller)"
+```
+
+**Flag docs without verifiable sources:**
+```
+⚠️ UNVERIFIED DOCS (no matching source files)
+- docs/legacy/old-api.mdx - No source found
+- docs/guides/advanced.mdx - No source found
+
+Options:
+1. 🔄 Remove these docs
+2. ❓ Ask for source locations
+3. 📝 Mark as needs-review
+```
+
 ### Step 1: Get Documentation Type
 
 **Read `docs.json` for `docType` field:**
@@ -56,11 +81,17 @@ This helps tailor the checks:
 5. **Outdated Examples** - Compare imports against package exports
 6. **Stale Versions** - Check version numbers against package.json
 
+#### Source Verification Checks (CRITICAL):
+7. **Source File Exists** - For each doc, search for matching source file
+8. **Signature Match** - Compare documented signatures vs source
+9. **Type Accuracy** - Verify documented types match source types
+10. **Example Validity** - Check examples work with current source
+
 #### Context-Based Checks (if context.json exists):
-7. **Terminology** - Flag incorrect terms from `avoidTerms`
-8. **Brand Names** - Check capitalization matches `brandNames`
-9. **Product Name** - Ensure consistent use of `product.name`
-10. **API Patterns** - Verify examples follow `api.conventions`
+11. **Terminology** - Flag incorrect terms from `avoidTerms`
+12. **Brand Names** - Check capitalization matches `brandNames`
+13. **Product Name** - Ensure consistent use of `product.name`
+14. **API Patterns** - Verify examples follow `api.conventions`
 
 ### Output Format
 
@@ -81,19 +112,30 @@ Summary: X issues found
 ### Missing Pages (count)
    docs.json references 'page' but file not found
 
+### Source Verification Failed (count)
+   docs/api/auth.mdx → No source file found
+     Searched: src/**/*auth*.ts, lib/**/*auth*.ts
+     Options:
+       1. 🔄 Remove doc
+       2. ❓ Ask for path
+       3. 📝 Mark as TODO
+
+### Signature Mismatch (count)
+   docs/api/users.mdx → createUser signature wrong
+     Documented: createUser(name, email)
+     Source: createUser(options: CreateUserInput)
+     File: src/lib/users.ts:45
+
 ## Warnings
 
 ### Terminology Issues (count)
    file.mdx:line → Uses "charge" instead of "payment"
-   file.mdx:line → Uses "transaction" instead of "payment"
-   (per terminology.avoidTerms in context)
 
 ### Brand Name Issues (count)
    file.mdx:line → "productname" should be "ProductName"
 
 ### Outdated Code (count)
    file.mdx:line → import { oldFunc } from 'pkg'
-   'oldFunc' no longer exported, use 'newFunc'
 
 ### Orphan Pages (count)
    path/to/file.mdx (not in navigation)
@@ -104,6 +146,7 @@ Summary: X issues found
 ✓ All internal links resolve
 ✓ No syntax errors in code blocks
 ✓ Product name used consistently
+✓ All docs have verified source files
 ```
 
 ## Checks By DocType
@@ -129,6 +172,36 @@ Summary: X issues found
 
 ## Detailed Checks
 
+### Source Verification (CRITICAL)
+
+**For each documentation page:**
+```bash
+# 1. Extract topic from doc path
+# docs/api/auth.mdx → topic: "auth"
+
+# 2. Search for source files
+git ls-files | grep -iE "auth"
+rg -l "export.*(login|authenticate)" --type ts
+
+# 3. Read source and doc, compare:
+#    - Function signatures
+#    - Parameter types
+#    - Return types
+#    - Error codes
+```
+
+**If source not found:**
+```
+⚠️ UNVERIFIED: docs/api/auth.mdx
+No source file found for authentication documentation.
+
+Options:
+1. 🔄 Auto-correct IA - Remove this doc
+2. ✏️ Rename doc - Match what exists
+3. 📝 Mark as TODO - Keep with warning
+4. ❓ Ask for path - Where is it implemented?
+```
+
 ### Link Validation
 - Internal links (`href="/path"`)
 - Anchor links (`href="#section"`)
@@ -139,6 +212,7 @@ Summary: X issues found
 - Valid syntax (basic check)
 - Import statements resolve
 - Uses correct primary language from context
+- **Examples match source code**
 
 ### Navigation Validation
 - All pages in docs.json exist
@@ -149,6 +223,7 @@ Summary: X issues found
 - Frontmatter present (title, description)
 - No H1 headings (title from frontmatter)
 - Images have alt text
+- **Sources cited in frontmatter**
 
 ### Terminology Validation (from context)
 - No terms from `avoidTerms` used
