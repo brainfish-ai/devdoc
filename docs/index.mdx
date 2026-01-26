@@ -1,11 +1,11 @@
 ---
 title: DevDoc
 description: Beautiful documentation powered by AI agents
-mode: custom
+mode: wide
 hideHeader: true
 ---
 
-<Hero variant="default" minHeight="lg">
+<Hero minHeight="lg" className="py-16">
   <Center gap="lg">
     {/* ASCII Art Logo - inherits text color from Hero variant */}
     <div className="w-full flex items-center justify-center overflow-hidden mb-4">
@@ -43,18 +43,20 @@ hideHeader: true
     
     <Spacer size="sm" />
     
-    <div className="flex flex-wrap gap-4 justify-center">
-      <ButtonLink href="#guides/page/quickstart" variant="primary" size="lg" icon="arrow-right">
+    <div className="not-prose flex flex-wrap gap-4 justify-center">
+      <ButtonLink href="#guides/page/quickstart" variant="primary" size="md" icon="arrow-right">
         Get Started
       </ButtonLink>
-      <ButtonLink href="https://github.com/brainfish-ai/devdoc" variant="outline" size="lg" icon="github-logo" iconPosition="left">
+      <ButtonLink href="https://github.com/brainfish-ai/devdoc" variant="outline" size="md" icon="github-logo" iconPosition="left">
         View on GitHub
       </ButtonLink>
     </div>
   </Center>
 </Hero>
 
-<Section variant="default" padding="xl">
+<Divider variant="gradient" />
+
+<Section padding="xl">
   <Center gap="lg">
     <Tagline variant="muted">WHY DEVDOC</Tagline>
     <Headline size="lg">
@@ -136,7 +138,7 @@ hideHeader: true
   </div>
 </Section>
 
-<Section variant="default" padding="xl">
+<Section padding="xl">
   <Center gap="lg">
     <Tagline variant="muted">LIVE DEMOS</Tagline>
     <Headline size="lg">
@@ -175,11 +177,11 @@ hideHeader: true
     
     <Spacer size="md" />
     
-    <div className="flex flex-wrap gap-4 justify-center">
-      <ButtonLink href="#guides/page/quickstart" variant="primary" size="lg" icon="arrow-right">
+    <div className="not-prose flex flex-wrap gap-4 justify-center">
+      <ButtonLink href="#guides/page/quickstart" variant="primary" size="md" icon="arrow-right">
         Start Building
       </ButtonLink>
-      <ButtonLink href="#guides/page/cli/overview" variant="outline" size="lg" icon="terminal" iconPosition="left">
+      <ButtonLink href="#guides/page/cli/overview" variant="outline" size="md" icon="terminal" iconPosition="left">
         CLI Reference
       </ButtonLink>
     </div>
