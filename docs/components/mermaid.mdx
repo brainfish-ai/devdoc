@@ -208,7 +208,24 @@ The controls are especially useful for large or complex diagrams that don't fit 
 
 ## Syntax
 
-To create a Mermaid diagram, use the `Mermaid` component:
+There are two ways to create Mermaid diagrams:
+
+### Code Fence Syntax (Recommended)
+
+Use standard markdown code fences with the `mermaid` language identifier:
+
+~~~markdown
+```mermaid
+flowchart LR
+    A --> B --> C
+```
+~~~
+
+This is the simplest and most portable syntax that works across many documentation platforms.
+
+### Component Syntax
+
+Alternatively, use the `Mermaid` component directly:
 
 ```jsx
 <Mermaid>
@@ -219,7 +236,7 @@ To create a Mermaid diagram, use the `Mermaid` component:
 ```
 
 <Note>
-  The diagram code should be wrapped in template literals (backticks) inside curly braces for proper parsing.
+  When using the component syntax, the diagram code should be wrapped in template literals (backticks) inside curly braces for proper parsing.
 </Note>
 
 ## Supported Diagram Types
