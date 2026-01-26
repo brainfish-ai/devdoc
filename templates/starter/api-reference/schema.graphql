@@ -1,305 +1,179 @@
-# My GraphQL API Schema
-# A sample GraphQL schema for documentation
+# Countries GraphQL API Schema
+# Public API for querying country, continent, and language data
+# Endpoint: https://countries.trevorblades.com/graphql
 
 """
-Custom scalar for date-time values
+A continent on Earth
 """
-scalar DateTime
-
-"""
-Custom scalar for JSON data
-"""
-scalar JSON
-
-"""
-A user in the system
-"""
-type User {
-  "Unique identifier"
-  id: ID!
-  "User's email address"
-  email: String!
-  "User's display name"
+type Continent {
+  "Two-letter continent code"
+  code: ID!
+  "Continent name"
   name: String!
-  "URL to user's avatar image"
-  avatar: String
-  "When the user was created"
-  createdAt: DateTime!
-  "When the user was last updated"
-  updatedAt: DateTime!
-  "Projects owned by this user"
-  projects: [Project!]!
+  "Countries in this continent"
+  countries: [Country!]!
 }
 
 """
-A project in the system
+A country in the world
 """
-type Project {
-  "Unique identifier"
-  id: ID!
-  "Project name"
+type Country {
+  "AWS region code"
+  awsRegion: String!
+  "Capital city name"
+  capital: String
+  "Two-letter country code (ISO 3166-1 alpha-2)"
+  code: ID!
+  "Continent this country belongs to"
+  continent: Continent!
+  "List of currency codes used"
+  currencies: [String!]!
+  "Currency symbol and code"
+  currency: String
+  "Emoji flag representation"
+  emoji: String!
+  "Unicode emoji representation"
+  emojiU: String!
+  "Official languages spoken"
+  languages: [Language!]!
+  "Country name"
+  name(
+    "Language code for localized name"
+    lang: String = "en"
+  ): String!
+  "Native country name"
+  native: String!
+  "International dialing code"
+  phone: String!
+  "List of phone codes"
+  phones: [String!]!
+  "Country states or subdivisions"
+  states: [State!]!
+  "List of subdivisions"
+  subdivisions: [Subdivision!]!
+}
+
+"""
+Filter input for countries query
+"""
+input CountryFilterInput {
+  "Filter by country code"
+  code: StringQueryOperatorInput
+  "Filter by continent code"
+  continent: StringQueryOperatorInput
+  "Filter by currency code"
+  currency: StringQueryOperatorInput
+  "Filter by country name"
+  name: StringQueryOperatorInput
+}
+
+"""
+A language spoken in countries
+"""
+type Language {
+  "ISO 639-1 language code"
+  code: ID!
+  "Language name"
   name: String!
-  "Project description"
-  description: String
-  "Project owner"
-  owner: User!
-  "Project collaborators"
-  collaborators: [User!]!
-  "When the project was created"
-  createdAt: DateTime!
-  "When the project was last updated"
-  updatedAt: DateTime!
-  "Project status"
-  status: ProjectStatus!
+  "Native language name"
+  native: String!
+  "Writing direction (ltr or rtl)"
+  rtl: Boolean!
 }
 
 """
-Status of a project
+Filter input for languages query
 """
-enum ProjectStatus {
-  "Project is active and in progress"
-  ACTIVE
-  "Project is completed"
-  COMPLETED
-  "Project is archived"
-  ARCHIVED
-  "Project is on hold"
-  ON_HOLD
+input LanguageFilterInput {
+  "Filter by language code"
+  code: StringQueryOperatorInput
 }
 
 """
-Input for creating a new user
+A state or province within a country
 """
-input CreateUserInput {
-  "User's email address"
-  email: String!
-  "User's display name"
+type State {
+  "State code"
+  code: String
+  "Country this state belongs to"
+  country: Country!
+  "State name"
   name: String!
-  "User's password"
-  password: String!
 }
 
 """
-Input for updating a user
+String query operators for filtering
 """
-input UpdateUserInput {
-  "User's email address"
-  email: String
-  "User's display name"
-  name: String
-  "URL to user's avatar image"
-  avatar: String
+input StringQueryOperatorInput {
+  "Equals"
+  eq: String
+  "In list"
+  in: [String!]
+  "Not equals"
+  ne: String
+  "Not in list"
+  nin: [String!]
+  "Contains substring (regex)"
+  regex: String
 }
 
 """
-Input for creating a new project
+A subdivision within a country
 """
-input CreateProjectInput {
-  "Project name"
+type Subdivision {
+  "Subdivision code"
+  code: ID!
+  "Emoji representation"
+  emoji: String
+  "Subdivision name"
   name: String!
-  "Project description"
-  description: String
 }
 
 """
-Input for updating a project
+Filter input for continents query
 """
-input UpdateProjectInput {
-  "Project name"
-  name: String
-  "Project description"
-  description: String
-  "Project status"
-  status: ProjectStatus
+input ContinentFilterInput {
+  "Filter by continent code"
+  code: StringQueryOperatorInput
 }
 
 """
-Pagination input
-"""
-input PaginationInput {
-  "Number of items per page"
-  limit: Int = 20
-  "Page offset"
-  offset: Int = 0
-}
-
-"""
-Paginated list of users
-"""
-type UserConnection {
-  "List of users"
-  nodes: [User!]!
-  "Total count of users"
-  totalCount: Int!
-  "Whether there are more pages"
-  hasNextPage: Boolean!
-}
-
-"""
-Paginated list of projects
-"""
-type ProjectConnection {
-  "List of projects"
-  nodes: [Project!]!
-  "Total count of projects"
-  totalCount: Int!
-  "Whether there are more pages"
-  hasNextPage: Boolean!
-}
-
-"""
-Root Query type
+Query root - all available queries
 """
 type Query {
-  """
-  Get the currently authenticated user
-  """
-  me: User
+  "Get a single continent by code"
+  continent(
+    "Two-letter continent code (e.g., 'EU', 'NA', 'AS')"
+    code: ID! = "EU"
+  ): Continent
 
-  """
-  Get a user by ID
-  """
-  user(
-    "The user ID"
-    id: ID!
-  ): User
+  "Get all continents, optionally filtered"
+  continents(
+    "Filter criteria"
+    filter: ContinentFilterInput = {}
+  ): [Continent!]!
 
-  """
-  List all users with pagination
-  """
-  users(
-    "Pagination options"
-    pagination: PaginationInput
-  ): UserConnection!
+  "Get all countries, optionally filtered"
+  countries(
+    "Filter criteria"
+    filter: CountryFilterInput = {}
+  ): [Country!]!
 
-  """
-  Get a project by ID
-  """
-  project(
-    "The project ID"
-    id: ID!
-  ): Project
+  "Get a single country by code"
+  country(
+    "Two-letter country code (e.g., 'US', 'GB', 'JP')"
+    code: ID! = "US"
+  ): Country
 
-  """
-  List all projects with pagination
-  """
-  projects(
-    "Pagination options"
-    pagination: PaginationInput
-    "Filter by status"
-    status: ProjectStatus
-  ): ProjectConnection!
+  "Get a single language by code"
+  language(
+    "ISO 639-1 language code (e.g., 'en', 'es', 'zh')"
+    code: ID! = "en"
+  ): Language
 
-  """
-  Search projects by name
-  """
-  searchProjects(
-    "Search query"
-    query: String!
-    "Maximum results"
-    limit: Int = 10
-  ): [Project!]!
-}
-
-"""
-Root Mutation type
-"""
-type Mutation {
-  """
-  Create a new user account
-  """
-  createUser(
-    "User creation input"
-    input: CreateUserInput!
-  ): User!
-
-  """
-  Update an existing user
-  """
-  updateUser(
-    "The user ID to update"
-    id: ID!
-    "Update input"
-    input: UpdateUserInput!
-  ): User!
-
-  """
-  Delete a user account
-  """
-  deleteUser(
-    "The user ID to delete"
-    id: ID!
-  ): Boolean!
-
-  """
-  Create a new project
-  """
-  createProject(
-    "Project creation input"
-    input: CreateProjectInput!
-  ): Project!
-
-  """
-  Update an existing project
-  """
-  updateProject(
-    "The project ID to update"
-    id: ID!
-    "Update input"
-    input: UpdateProjectInput!
-  ): Project!
-
-  """
-  Delete a project
-  """
-  deleteProject(
-    "The project ID to delete"
-    id: ID!
-  ): Boolean!
-
-  """
-  Add a collaborator to a project
-  """
-  addCollaborator(
-    "The project ID"
-    projectId: ID!
-    "The user ID to add"
-    userId: ID!
-  ): Project!
-
-  """
-  Remove a collaborator from a project
-  """
-  removeCollaborator(
-    "The project ID"
-    projectId: ID!
-    "The user ID to remove"
-    userId: ID!
-  ): Project!
-}
-
-"""
-Root Subscription type
-"""
-type Subscription {
-  """
-  Subscribe to user updates
-  """
-  userUpdated(
-    "The user ID to watch"
-    userId: ID!
-  ): User!
-
-  """
-  Subscribe to project updates
-  """
-  projectUpdated(
-    "The project ID to watch"
-    projectId: ID!
-  ): Project!
-
-  """
-  Subscribe to new projects
-  """
-  projectCreated: Project!
+  "Get all languages, optionally filtered"
+  languages(
+    "Filter criteria"
+    filter: LanguageFilterInput = {}
+  ): [Language!]!
 }

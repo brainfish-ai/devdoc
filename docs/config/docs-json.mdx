@@ -97,7 +97,54 @@ Organize your docs into tabs:
 |------|-------------|
 | `docs` | Documentation pages (MDX files) |
 | `openapi` | Auto-generated API reference |
+| `graphql` | GraphQL API playground |
 | `changelog` | Changelog entries |
+
+### Visibility
+
+Control whether tabs or groups are visible in production or only during local development:
+
+```json
+{
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Guides",
+        "type": "docs",
+        "groups": [...]
+      },
+      {
+        "tab": "Internal API",
+        "type": "graphql",
+        "visibility": "private",
+        "schema": "graphql/schema.graphql",
+        "endpoint": "https://api.example.com/graphql"
+      }
+    ]
+  }
+}
+```
+
+**Visibility Options:**
+
+| Value | Description |
+|-------|-------------|
+| `public` | Always visible (default) |
+| `private` | Only visible in local dev mode, hidden in production |
+
+<Tip>
+Use `visibility: "private"` for work-in-progress documentation, internal APIs, or testing features that shouldn't be exposed to public users.
+</Tip>
+
+You can also set visibility on individual groups:
+
+```json
+{
+  "group": "Internal Tools",
+  "visibility": "private",
+  "pages": ["internal/debugging", "internal/admin"]
+}
+```
 
 ### Groups
 
@@ -279,12 +326,24 @@ Add external links to the header:
             "group": "Features",
             "icon": "star",
             "pages": ["features/auth", "features/api"]
+          },
+          {
+            "group": "Internal",
+            "visibility": "private",
+            "pages": ["internal/debugging"]
           }
         ]
       },
       {
         "tab": "API Reference",
         "type": "openapi"
+      },
+      {
+        "tab": "GraphQL Playground",
+        "type": "graphql",
+        "visibility": "private",
+        "schema": "graphql/schema.graphql",
+        "endpoint": "https://api.example.com/graphql"
       }
     ],
     "global": {

@@ -121,6 +121,7 @@
       {
         "tab": "GraphQL API",
         "type": "graphql",
+        "visibility": "private",
         "path": "/graphql-api",
         "schema": "graphql/schema.graphql",
         "endpoint": "https://countries.trevorblades.com/graphql",
