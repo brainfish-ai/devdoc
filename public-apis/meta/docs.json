@@ -1,6 +1,7 @@
 {
   "$schema": "https://devdoc.sh/docs.json",
   "name": "Meta Platform APIs",
+  "description": "Official API documentation for Facebook, Instagram, WhatsApp, and Threads platforms",
   "favicon": "/assets/favicon.svg",
   "navigation": {
     "tabs": [
