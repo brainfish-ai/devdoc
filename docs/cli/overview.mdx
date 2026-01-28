@@ -61,6 +61,7 @@ npm update @brainfish-ai/devdoc
 | `devdoc deploy` | `npm run deploy` | Deploy to DevDoc hosting |
 | `devdoc check` | `npm run check` | Validate docs.json and content files |
 | `devdoc ai` | `npm run ai` | Set up AI agent configuration |
+| `devdoc sdk` | - | Generate client SDKs from OpenAPI spec |
 | `devdoc whoami` | `npm run whoami` | Show current project information |
 | `devdoc keys` | - | Manage API keys for your project |
 | `devdoc domain` | - | Manage custom domains |
@@ -131,6 +132,13 @@ devdoc domain add docs.example.com
 
 # Check domain status
 devdoc domain status
+
+# SDK generation
+devdoc sdk init           # Initialize SDK config
+devdoc sdk generate       # Generate all SDKs
+devdoc sdk generate --lang typescript  # Generate specific language
+devdoc sdk validate       # Validate OpenAPI spec
+devdoc sdk list           # List available generators
 ```
 
 ## Next Steps
@@ -144,6 +152,9 @@ devdoc domain status
   </Card>
   <Card title="Development" icon="play" href="/cli/dev">
     Local development server.
+  </Card>
+  <Card title="SDK Generation" icon="code" href="/cli/sdk">
+    Generate client SDKs from OpenAPI.
   </Card>
   <Card title="AI Agents" icon="robot" href="/cli/ai">
     Set up AI-powered documentation.

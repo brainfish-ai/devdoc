@@ -1,0 +1,490 @@
+---
+title: devdoc sdk
+description: Generate client SDKs from your OpenAPI specification
+---
+
+Generate type-safe client SDKs in multiple languages from your OpenAPI specification.
+
+## Overview
+
+The SDK generator helps you create client libraries for your API, making it easier for developers to integrate with your services. It supports:
+
+- **Native generators** - TypeScript, Python, Go (no Java required)
+- **OpenAPI Generator** - Java, C#, Ruby, PHP, Swift, Kotlin, Rust (requires Java)
+
+## Quick Start
+
+<Steps>
+  <Step title="Initialize configuration">
+    Run the init command to create an `sdk.json` configuration file:
+
+    ```bash
+    devdoc sdk init
+    ```
+
+    This will:
+    - Auto-detect your OpenAPI spec location
+    - Let you select which languages to generate
+    - Create the `sdk.json` configuration file
+  </Step>
+  
+  <Step title="Generate SDKs">
+    Generate SDKs for all configured languages:
+
+    ```bash
+    devdoc sdk generate
+    ```
+
+    Or generate for a specific language:
+
+    ```bash
+    devdoc sdk generate --lang typescript
+    ```
+  </Step>
+  
+  <Step title="Use the SDK">
+    Install and use the generated SDK in your project:
+
+    ```bash
+    # TypeScript
+    cd sdks/typescript && npm install && npm run build
+
+    # Python
+    cd sdks/python && pip install -e .
+    ```
+  </Step>
+</Steps>
+
+## Commands
+
+### `devdoc sdk init`
+
+Initialize SDK generation configuration interactively.
+
+```bash
+devdoc sdk init [options]
+```
+
+| Option | Description |
+|--------|-------------|
+| `--openapi <path>` | Path to OpenAPI specification |
+| `--package-name <name>` | Base package name for generated SDKs |
+| `--force` | Overwrite existing configuration |
+
+**Example:**
+
+```bash
+$ devdoc sdk init
+
+○ 🔧 Initialize SDK Generation
+
+○ Found OpenAPI spec at: api-reference/openapi.json
+Enter a new path or press Enter to use this one: 
+
+Base package name (my-api): acme-api
+
+Select languages to generate:
+
+  1. [x] TypeScript (recommended)
+  2. [x] Python (recommended)
+  3. [ ] Go
+  4. [ ] Java (requires Java)
+  5. [ ] C# (requires Java)
+  ...
+
+Enter numbers separated by commas (e.g., 1,2,3):
+> 1,2
+
+✓ Created sdk.json
+
+Configuration:
+  OpenAPI spec: api-reference/openapi.json
+  Package name: acme-api
+  Languages: typescript, python
+  Output: ./sdks
+
+Next steps:
+  Run 'devdoc sdk generate' to generate SDKs
+```
+
+### `devdoc sdk generate`
+
+Generate SDKs for configured languages.
+
+```bash
+devdoc sdk generate [options]
+```
+
+| Option | Description |
+|--------|-------------|
+| `--lang <language>` | Generate only for a specific language |
+| `--preview` | Preview what would be generated without writing files |
+| `--output <dir>` | Override output directory |
+
+**Example:**
+
+```bash
+$ devdoc sdk generate
+
+○ 📦 Generate SDKs
+
+○ Validating OpenAPI spec...
+✓ OpenAPI spec is valid
+
+○ Generating SDKs...
+
+✓ TypeScript   ./sdks/typescript           0.1s
+✓ Python       ./sdks/python               0.1s
+
+✓ Generated 2 SDK(s) in 0.2s
+
+Next steps:
+  cd sdks/typescript && npm install
+  cd sdks/python && pip install -e .
+```
+
+### `devdoc sdk validate`
+
+Validate your OpenAPI specification.
+
+```bash
+devdoc sdk validate [spec-path]
+```
+
+If no path is provided, uses the spec configured in `sdk.json`.
+
+**Example:**
+
+```bash
+$ devdoc sdk validate
+
+○ 🔍 Validate OpenAPI Specification
+
+○ Validating: api-reference/openapi.json
+
+✓ Specification is valid
+```
+
+### `devdoc sdk list`
+
+List available generators and their status.
+
+```bash
+devdoc sdk list
+```
+
+**Example:**
+
+```bash
+$ devdoc sdk list
+
+○ 📋 SDK Generators
+
+Available generators:
+
+Native (no Java required):
+  TypeScript   enabled
+  Python       enabled
+  Go           disabled
+
+OpenAPI Generator (requires Java):
+  Java         disabled
+  C#           disabled
+  Ruby         disabled
+  PHP          disabled
+  Swift        disabled
+  Kotlin       disabled
+  Rust         disabled
+
+Configuration: sdk.json
+OpenAPI spec: api-reference/openapi.json
+Enabled: typescript, python
+```
+
+## Configuration
+
+The SDK generator uses an `sdk.json` configuration file:
+
+```json
+{
+  "openapi": "./api-reference/openapi.json",
+  "packageName": "acme-api",
+  "output": "./sdks",
+  "languages": {
+    "typescript": {
+      "enabled": true,
+      "packageName": "@acme/sdk"
+    },
+    "python": {
+      "enabled": true,
+      "packageName": "acme_sdk"
+    },
+    "go": {
+      "enabled": false
+    }
+  }
+}
+```
+
+### Configuration Options
+
+| Field | Description |
+|-------|-------------|
+| `openapi` | Path to your OpenAPI specification (JSON or YAML) |
+| `packageName` | Base package name for generated SDKs |
+| `output` | Output directory for generated SDKs (default: `./sdks`) |
+| `languages` | Language-specific configuration |
+
+### Language Configuration
+
+Each language can have these options:
+
+| Field | Description |
+|-------|-------------|
+| `enabled` | Whether to generate this SDK |
+| `packageName` | Override the package name for this language |
+| `output` | Override output directory for this language |
+| `additionalOptions` | Additional generator-specific options |
+
+## Supported Languages
+
+### Native Generators (Recommended)
+
+These generators are built-in and don't require any additional dependencies:
+
+<CardGroup cols={3}>
+  <Card title="TypeScript" icon="js">
+    Full TypeScript support with type definitions, fetch-based HTTP client, and npm packaging.
+  </Card>
+  <Card title="Python" icon="python">
+    Python 3.8+ with httpx client, type hints, and setuptools packaging.
+  </Card>
+  <Card title="Go" icon="golang">
+    Go module with standard library HTTP client.
+  </Card>
+</CardGroup>
+
+### OpenAPI Generator (Requires Java)
+
+These generators use [OpenAPI Generator](https://openapi-generator.tech/) and require Java 11+:
+
+| Language | Generator Name |
+|----------|----------------|
+| Java | `java` |
+| C# | `csharp` |
+| Ruby | `ruby` |
+| PHP | `php` |
+| Swift | `swift5` |
+| Kotlin | `kotlin` |
+| Rust | `rust` |
+
+<Note>
+To use OpenAPI Generator languages, install Java 11 or later:
+
+```bash
+# macOS
+brew install openjdk@11
+
+# Ubuntu/Debian
+sudo apt install openjdk-11-jdk
+```
+</Note>
+
+## Generated SDK Structure
+
+### TypeScript SDK
+
+```
+sdks/typescript/
+├── package.json
+├── tsconfig.json
+├── README.md
+└── src/
+    ├── index.ts
+    ├── client.ts
+    └── types.ts
+```
+
+**Usage:**
+
+```typescript
+import { ApiClient } from '@acme/sdk';
+
+const client = new ApiClient({
+  baseUrl: 'https://api.acme.com',
+  apiKey: 'your-api-key',
+});
+
+// Make API calls
+const users = await client.getUsers();
+```
+
+### Python SDK
+
+```
+sdks/python/
+├── setup.py
+├── README.md
+└── acme_sdk/
+    ├── __init__.py
+    └── client.py
+```
+
+**Usage:**
+
+```python
+from acme_sdk import ApiClient
+
+client = ApiClient(
+    base_url="https://api.acme.com",
+    api_key="your-api-key",
+)
+
+# Make API calls
+users = client.get_users()
+```
+
+### Go SDK
+
+```
+sdks/go/
+├── go.mod
+├── README.md
+└── client.go
+```
+
+**Usage:**
+
+```go
+package main
+
+import "github.com/acme/sdk"
+
+func main() {
+    client := sdk.NewClient("https://api.acme.com", "your-api-key")
+    
+    // Make API calls
+    users, err := client.GetUsers()
+}
+```
+
+## CI/CD Integration
+
+Generate SDKs automatically in your CI/CD pipeline:
+
+```yaml
+# GitHub Actions example
+name: Generate SDKs
+
+on:
+  push:
+    paths:
+      - 'api-reference/openapi.json'
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      
+      - name: Install dependencies
+        run: npm install
+      
+      - name: Generate SDKs
+        run: npx devdoc sdk generate
+      
+      - name: Commit changes
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add sdks/
+          git commit -m "chore: regenerate SDKs" || exit 0
+          git push
+```
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Version your SDKs with your API">
+    Keep your SDK versions in sync with your API versions. Update the version in your OpenAPI spec's `info.version` field, and the generated SDKs will use that version.
+  </Accordion>
+  
+  <Accordion title="Add SDKs to .gitignore (optional)">
+    If you generate SDKs in CI/CD, you can add them to `.gitignore`:
+    
+    ```gitignore
+    # Generated SDKs
+    sdks/
+    ```
+  </Accordion>
+  
+  <Accordion title="Customize package names per language">
+    Use language-specific package naming conventions:
+    
+    ```json
+    {
+      "languages": {
+        "typescript": { "packageName": "@acme/api-sdk" },
+        "python": { "packageName": "acme_api_sdk" },
+        "go": { "packageName": "github.com/acme/api-sdk" }
+      }
+    }
+    ```
+  </Accordion>
+  
+  <Accordion title="Publish SDKs to package registries">
+    After generation, publish your SDKs:
+    
+    ```bash
+    # TypeScript/npm
+    cd sdks/typescript && npm publish
+    
+    # Python/PyPI
+    cd sdks/python && pip install build twine
+    python -m build && twine upload dist/*
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Troubleshooting
+
+### "OpenAPI specification not found"
+
+Ensure your `sdk.json` points to a valid OpenAPI spec:
+
+```bash
+devdoc sdk validate ./path/to/openapi.json
+```
+
+### "Java is required for this generator"
+
+Install Java 11+ for non-native generators:
+
+```bash
+# Check Java version
+java -version
+
+# Install Java (macOS)
+brew install openjdk@11
+```
+
+### "Specification is invalid"
+
+Check the validation errors:
+
+```bash
+$ devdoc sdk validate
+
+○ Validating: openapi.json
+
+Errors:
+  ✗ Missing "info" section
+  ✗ No paths defined in specification
+```
+
+Fix the issues in your OpenAPI spec and try again.

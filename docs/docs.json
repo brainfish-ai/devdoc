@@ -30,6 +30,7 @@
               "cli/create",
               "cli/dev",
               "cli/deploy",
+              "cli/sdk",
               "cli/domain",
               "cli/keys",
               "cli/ai"
