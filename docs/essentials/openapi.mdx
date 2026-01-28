@@ -32,13 +32,14 @@ Your users can test API endpoints without leaving your documentation — no need
 
 Place your OpenAPI specification file in your docs folder:
 
-```
-your-docs/
-├── api-reference/
-│   └── openapi.json    # or openapi.yaml
-├── docs.json
-└── ...
-```
+<FileTree>
+  <Folder name="your-docs" defaultOpen>
+    <Folder name="api-reference">
+      <File name="openapi.json" comment="or openapi.yaml" />
+    </Folder>
+    <File name="docs.json" />
+  </Folder>
+</FileTree>
 
 ### 2. Configure docs.json
 
@@ -94,16 +95,19 @@ Support multiple versions of your API:
 
 ### Version File Structure
 
-```
-your-docs/
-├── api-reference/
-│   ├── v1/
-│   │   └── openapi.json
-│   └── v2/
-│       └── openapi.json
-├── docs.json
-└── ...
-```
+<FileTree>
+  <Folder name="your-docs" defaultOpen>
+    <Folder name="api-reference">
+      <Folder name="v1">
+        <File name="openapi.json" />
+      </Folder>
+      <Folder name="v2">
+        <File name="openapi.json" />
+      </Folder>
+    </Folder>
+    <File name="docs.json" />
+  </Folder>
+</FileTree>
 
 ## Adding Documentation Pages
 
@@ -136,16 +140,17 @@ Add custom MDX documentation pages alongside your API endpoints using the `group
 
 Then create the corresponding MDX files:
 
-```
-your-docs/
-├── api-reference/
-│   ├── openapi.json
-│   ├── introduction.mdx
-│   ├── authentication.mdx
-│   └── errors.mdx
-├── docs.json
-└── ...
-```
+<FileTree>
+  <Folder name="your-docs" defaultOpen>
+    <Folder name="api-reference">
+      <File name="openapi.json" />
+      <File name="introduction.mdx" />
+      <File name="authentication.mdx" />
+      <File name="errors.mdx" />
+    </Folder>
+    <File name="docs.json" />
+  </Folder>
+</FileTree>
 
 <Tip>
 Documentation pages appear in the sidebar above your API endpoints, making it easy to provide context, authentication guides, and error handling documentation.
