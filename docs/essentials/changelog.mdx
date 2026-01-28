@@ -28,15 +28,16 @@ Keep your users informed about new features, improvements, and bug fixes with a 
 
 Create a `changelog` folder in your docs:
 
-```text
-your-docs/
-├── changelog/
-│   ├── v2.0.0.mdx
-│   ├── v1.1.0.mdx
-│   └── v1.0.0.mdx
-├── docs.json
-└── ...
-```
+<FileTree>
+  <Folder name="your-docs" defaultOpen>
+    <Folder name="changelog">
+      <File name="v2.0.0.mdx" />
+      <File name="v1.1.0.mdx" />
+      <File name="v1.0.0.mdx" />
+    </Folder>
+    <File name="docs.json" />
+  </Folder>
+</FileTree>
 
 ### 2. Configure docs.json
 
@@ -64,14 +65,15 @@ You can customize the tab name - use "Releases", "What's New", or "Updates" inst
 
 Each release is a separate MDX file named with the version number:
 
-```text
-changelog/
-├── v2.1.0.mdx
-├── v2.0.0.mdx
-├── v1.2.0.mdx
-├── v1.1.0.mdx
-└── v1.0.0.mdx
-```
+<FileTree>
+  <Folder name="changelog" defaultOpen>
+    <File name="v2.1.0.mdx" />
+    <File name="v2.0.0.mdx" />
+    <File name="v1.2.0.mdx" />
+    <File name="v1.1.0.mdx" />
+    <File name="v1.0.0.mdx" />
+  </Folder>
+</FileTree>
 
 ### Frontmatter
 

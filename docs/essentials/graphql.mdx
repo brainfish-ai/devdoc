@@ -28,13 +28,14 @@ Generate interactive GraphQL API documentation from your schema definitions.
 
 Place your GraphQL schema file (SDL format) in your docs folder:
 
-```
-your-docs/
-├── api-reference/
-│   └── schema.graphql    # Your GraphQL schema
-├── docs.json
-└── ...
-```
+<FileTree>
+  <Folder name="your-docs" defaultOpen>
+    <Folder name="api-reference">
+      <File name="schema.graphql" comment="Your GraphQL schema" />
+    </Folder>
+    <File name="docs.json" />
+  </Folder>
+</FileTree>
 
 ### 2. Configure docs.json
 
@@ -122,15 +123,16 @@ Add custom MDX documentation pages alongside your GraphQL operations using the `
 
 Then create the corresponding MDX files:
 
-```
-your-docs/
-├── api-reference/
-│   ├── schema.graphql
-│   ├── introduction.mdx
-│   └── authentication.mdx
-├── docs.json
-└── ...
-```
+<FileTree>
+  <Folder name="your-docs" defaultOpen>
+    <Folder name="api-reference">
+      <File name="schema.graphql" />
+      <File name="introduction.mdx" />
+      <File name="authentication.mdx" />
+    </Folder>
+    <File name="docs.json" />
+  </Folder>
+</FileTree>
 
 <Tip>
 Documentation pages appear in the sidebar above your GraphQL operations, making it easy to provide context, authentication guides, and getting started content.

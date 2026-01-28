@@ -51,21 +51,25 @@ This guide will help you create and deploy your first DevDoc documentation site.
 
 After scaffolding, your project will look like this:
 
-```
-my-docs/
-├── docs.json          # Configuration file
-├── index.mdx          # Homepage
-├── quickstart.mdx     # Quickstart guide
-├── guides/            # Your documentation pages
-│   ├── overview.mdx
-│   └── configuration.mdx
-├── api-reference/     # API specs (OpenAPI/GraphQL templates)
-│   └── openapi.json   # or schema.graphql
-├── assets/            # Static assets
-│   ├── favicon.svg
-│   └── logo.svg
-└── package.json
-```
+<FileTree>
+  <Folder name="my-docs" defaultOpen>
+    <File name="docs.json" comment="Configuration file" />
+    <File name="index.mdx" comment="Homepage" />
+    <File name="quickstart.mdx" comment="Quickstart guide" />
+    <Folder name="guides" comment="Your documentation pages">
+      <File name="overview.mdx" />
+      <File name="configuration.mdx" />
+    </Folder>
+    <Folder name="api-reference" comment="API specs (OpenAPI/GraphQL templates)">
+      <File name="openapi.json" comment="or schema.graphql" />
+    </Folder>
+    <Folder name="assets" comment="Static assets">
+      <File name="favicon.svg" />
+      <File name="logo.svg" />
+    </Folder>
+    <File name="package.json" />
+  </Folder>
+</FileTree>
 
 <Note>
   The `api-reference/` folder is only included in the **openapi** and **graphql** templates.

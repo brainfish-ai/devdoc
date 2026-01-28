@@ -23,60 +23,73 @@ When you run bootstrap, you'll be asked what type of docs you're creating:
   <Tab title="Internal Docs">
     **For your team** - Developer setup, architecture, contributing guides
     
-    ```
-    docs/
-    ├── index.mdx              # Project overview
-    ├── getting-started/
-    │   ├── setup.mdx          # Dev environment setup
-    │   ├── prerequisites.mdx
-    │   └── first-contribution.mdx
-    ├── architecture/
-    │   ├── overview.mdx       # System design
-    │   └── folder-structure.mdx
-    ├── development/
-    │   ├── workflow.mdx       # Git workflow, PR process
-    │   ├── testing.mdx
-    │   └── deployment.mdx
-    └── contributing.mdx
-    ```
+    <FileTree>
+      <Folder name="docs" defaultOpen>
+        <File name="index.mdx" comment="Project overview" />
+        <Folder name="getting-started">
+          <File name="setup.mdx" comment="Dev environment setup" />
+          <File name="prerequisites.mdx" />
+          <File name="first-contribution.mdx" />
+        </Folder>
+        <Folder name="architecture">
+          <File name="overview.mdx" comment="System design" />
+          <File name="folder-structure.mdx" />
+        </Folder>
+        <Folder name="development">
+          <File name="workflow.mdx" comment="Git workflow, PR process" />
+          <File name="testing.mdx" />
+          <File name="deployment.mdx" />
+        </Folder>
+        <File name="contributing.mdx" />
+      </Folder>
+    </FileTree>
   </Tab>
   <Tab title="API Docs">
     **For external developers** - API reference, authentication, SDKs
     
-    ```
-    docs/
-    ├── index.mdx              # Product intro
-    ├── quickstart.mdx         # 5-minute getting started
-    ├── authentication.mdx     # API keys, OAuth
-    ├── guides/
-    │   └── overview.mdx
-    ├── api-reference/
-    │   ├── introduction.mdx
-    │   ├── errors.mdx
-    │   └── openapi.json
-    ├── sdks/
-    │   └── ...
-    └── changelog.mdx
-    ```
+    <FileTree>
+      <Folder name="docs" defaultOpen>
+        <File name="index.mdx" comment="Product intro" />
+        <File name="quickstart.mdx" comment="5-minute getting started" />
+        <File name="authentication.mdx" comment="API keys, OAuth" />
+        <Folder name="guides">
+          <File name="overview.mdx" />
+        </Folder>
+        <Folder name="api-reference">
+          <File name="introduction.mdx" />
+          <File name="errors.mdx" />
+          <File name="openapi.json" />
+        </Folder>
+        <Folder name="sdks">
+          <File name="..." />
+        </Folder>
+        <File name="changelog.mdx" />
+      </Folder>
+    </FileTree>
   </Tab>
   <Tab title="Product Docs">
     **For end users** - Feature guides, tutorials, FAQs
     
-    ```
-    docs/
-    ├── index.mdx              # Product overview
-    ├── getting-started/
-    │   ├── quickstart.mdx
-    │   └── key-concepts.mdx
-    ├── features/
-    │   └── {feature}.mdx
-    ├── tutorials/
-    │   └── {workflow}.mdx
-    ├── troubleshooting/
-    │   ├── common-issues.mdx
-    │   └── faq.mdx
-    └── release-notes.mdx
-    ```
+    <FileTree>
+      <Folder name="docs" defaultOpen>
+        <File name="index.mdx" comment="Product overview" />
+        <Folder name="getting-started">
+          <File name="quickstart.mdx" />
+          <File name="key-concepts.mdx" />
+        </Folder>
+        <Folder name="features">
+          <File name="{feature}.mdx" />
+        </Folder>
+        <Folder name="tutorials">
+          <File name="{workflow}.mdx" />
+        </Folder>
+        <Folder name="troubleshooting">
+          <File name="common-issues.mdx" />
+          <File name="faq.mdx" />
+        </Folder>
+        <File name="release-notes.mdx" />
+      </Folder>
+    </FileTree>
   </Tab>
 </Tabs>
 
@@ -131,13 +144,15 @@ If you don't set `docType`, the AI will ask you once and then save your choice t
 
 If your docs are in a subfolder (e.g., `my-project/docs/`), the AI automatically looks for source code in the parent directory (`../`).
 
-```
-my-project/
-├── src/           # Source code here
-├── package.json
-└── docs/          # You run bootstrap from here
-    └── docs.json
-```
+<FileTree>
+  <Folder name="my-project" defaultOpen>
+    <Folder name="src" comment="Source code here" />
+    <File name="package.json" />
+    <Folder name="docs" comment="You run bootstrap from here">
+      <File name="docs.json" />
+    </Folder>
+  </Folder>
+</FileTree>
 
 ## Bootstrap Output
 

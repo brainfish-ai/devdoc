@@ -11,25 +11,32 @@ Serve static assets from your documentation repository. All assets should be pla
 
 ## Project Structure
 
-```text
-/your-project
-  ├── docs.json
-  ├── theme.json
-  ├── assets/                    # All static assets go here
-  │   ├── logo/
-  │   │   ├── light.svg         # Light mode logo
-  │   │   └── dark.svg          # Dark mode logo
-  │   ├── images/
-  │   │   ├── hero.png
-  │   │   └── screenshots/
-  │   │       └── dashboard.png
-  │   ├── videos/
-  │   │   └── demo.mp4
-  │   └── fonts/
-  │       └── custom-font.woff2
-  ├── index.mdx
-  └── quickstart.mdx
-```
+<FileTree>
+  <Folder name="your-project" defaultOpen>
+    <File name="docs.json" />
+    <File name="theme.json" />
+    <Folder name="assets" comment="All static assets go here">
+      <Folder name="logo">
+        <File name="light.svg" comment="Light mode logo" />
+        <File name="dark.svg" comment="Dark mode logo" />
+      </Folder>
+      <Folder name="images">
+        <File name="hero.png" />
+        <Folder name="screenshots">
+          <File name="dashboard.png" />
+        </Folder>
+      </Folder>
+      <Folder name="videos">
+        <File name="demo.mp4" />
+      </Folder>
+      <Folder name="fonts">
+        <File name="custom-font.woff2" />
+      </Folder>
+    </Folder>
+    <File name="index.mdx" />
+    <File name="quickstart.mdx" />
+  </Folder>
+</FileTree>
 
 Files in the `assets/` folder are automatically uploaded during deployment and served from your documentation domain.
 

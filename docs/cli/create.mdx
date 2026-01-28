@@ -59,37 +59,44 @@ Choose the template that best fits your documentation needs:
 
 A minimal documentation site with essential pages:
 
-```
-my-docs/
-├── docs.json
-├── index.mdx
-├── quickstart.mdx
-├── guides/
-│   ├── overview.mdx
-│   └── configuration.mdx
-└── assets/
-    ├── favicon.svg
-    └── logo.svg
-```
+<FileTree>
+  <Folder name="my-docs" defaultOpen>
+    <File name="docs.json" />
+    <File name="index.mdx" />
+    <File name="quickstart.mdx" />
+    <Folder name="guides">
+      <File name="overview.mdx" />
+      <File name="configuration.mdx" />
+    </Folder>
+    <Folder name="assets">
+      <File name="favicon.svg" />
+      <File name="logo.svg" />
+    </Folder>
+  </Folder>
+</FileTree>
 
 ### OpenAPI Template
 
 Documentation with REST API reference:
 
-```
-my-docs/
-├── docs.json
-├── index.mdx
-├── quickstart.mdx
-├── guides/
-│   ├── overview.mdx
-│   └── configuration.mdx
-├── api-reference/
-│   └── openapi.json      # Your OpenAPI spec
-└── assets/
-    ├── favicon.svg
-    └── logo.svg
-```
+<FileTree>
+  <Folder name="my-docs" defaultOpen>
+    <File name="docs.json" />
+    <File name="index.mdx" />
+    <File name="quickstart.mdx" />
+    <Folder name="guides">
+      <File name="overview.mdx" />
+      <File name="configuration.mdx" />
+    </Folder>
+    <Folder name="api-reference">
+      <File name="openapi.json" comment="Your OpenAPI spec" />
+    </Folder>
+    <Folder name="assets">
+      <File name="favicon.svg" />
+      <File name="logo.svg" />
+    </Folder>
+  </Folder>
+</FileTree>
 
 The `docs.json` includes an API Reference tab configured to load the OpenAPI spec:
 
@@ -119,20 +126,24 @@ The `docs.json` includes an API Reference tab configured to load the OpenAPI spe
 
 Documentation with GraphQL API playground:
 
-```
-my-docs/
-├── docs.json
-├── index.mdx
-├── quickstart.mdx
-├── guides/
-│   ├── overview.mdx
-│   └── configuration.mdx
-├── api-reference/
-│   └── schema.graphql    # Your GraphQL schema
-└── assets/
-    ├── favicon.svg
-    └── logo.svg
-```
+<FileTree>
+  <Folder name="my-docs" defaultOpen>
+    <File name="docs.json" />
+    <File name="index.mdx" />
+    <File name="quickstart.mdx" />
+    <Folder name="guides">
+      <File name="overview.mdx" />
+      <File name="configuration.mdx" />
+    </Folder>
+    <Folder name="api-reference">
+      <File name="schema.graphql" comment="Your GraphQL schema" />
+    </Folder>
+    <Folder name="assets">
+      <File name="favicon.svg" />
+      <File name="logo.svg" />
+    </Folder>
+  </Folder>
+</FileTree>
 
 The `docs.json` includes a GraphQL API tab:
 

@@ -294,16 +294,18 @@ sudo apt install openjdk-11-jdk
 
 ### TypeScript SDK
 
-```
-sdks/typescript/
-├── package.json
-├── tsconfig.json
-├── README.md
-└── src/
-    ├── index.ts
-    ├── client.ts
-    └── types.ts
-```
+<FileTree>
+  <Folder name="sdks/typescript" defaultOpen>
+    <File name="package.json" />
+    <File name="tsconfig.json" />
+    <File name="README.md" />
+    <Folder name="src">
+      <File name="index.ts" />
+      <File name="client.ts" />
+      <File name="types.ts" />
+    </Folder>
+  </Folder>
+</FileTree>
 
 **Usage:**
 
@@ -321,14 +323,16 @@ const users = await client.getUsers();
 
 ### Python SDK
 
-```
-sdks/python/
-├── setup.py
-├── README.md
-└── acme_sdk/
-    ├── __init__.py
-    └── client.py
-```
+<FileTree>
+  <Folder name="sdks/python" defaultOpen>
+    <File name="setup.py" />
+    <File name="README.md" />
+    <Folder name="acme_sdk">
+      <File name="__init__.py" />
+      <File name="client.py" />
+    </Folder>
+  </Folder>
+</FileTree>
 
 **Usage:**
 
@@ -346,12 +350,13 @@ users = client.get_users()
 
 ### Go SDK
 
-```
-sdks/go/
-├── go.mod
-├── README.md
-└── client.go
-```
+<FileTree>
+  <Folder name="sdks/go" defaultOpen>
+    <File name="go.mod" />
+    <File name="README.md" />
+    <File name="client.go" />
+  </Folder>
+</FileTree>
 
 **Usage:**
 
