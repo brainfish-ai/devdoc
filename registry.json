@@ -30,5 +30,24 @@
       "preview": "https://devdoc.sh/themes/enterprise/preview.png"
     }
   ],
-  "examples": []
+  "examples": [
+    {
+      "name": "basic",
+      "description": "Simple documentation site with guides and pages",
+      "url": "https://basic-template.devdoc.sh",
+      "template": "basic"
+    },
+    {
+      "name": "openapi",
+      "description": "REST API documentation with interactive playground",
+      "url": "https://openapi-demo.devdoc.sh",
+      "template": "openapi"
+    },
+    {
+      "name": "graphql",
+      "description": "GraphQL API explorer with query execution",
+      "url": "https://graphql.devdoc.sh",
+      "template": "graphql"
+    }
+  ]
 }
