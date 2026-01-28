@@ -53,6 +53,7 @@
                   "components/cards",
                   "components/code-blocks",
                   "components/embeds",
+                  "components/file-tree",
                   "components/highlight",
                   "components/images",
                   "components/mermaid",

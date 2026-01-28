@@ -1,0 +1,163 @@
+---
+title: File Tree
+description: Display file and folder structures with icons and collapsible folders
+---
+
+The `FileTree` component renders visual file and folder hierarchies with proper icons, indentation, and expand/collapse functionality.
+
+## Basic Usage
+
+<FileTree>
+  <Folder name="my-project" defaultOpen>
+    <File name="package.json" />
+    <File name="README.md" />
+    <Folder name="src">
+      <File name="index.ts" />
+      <File name="utils.ts" />
+    </Folder>
+  </Folder>
+</FileTree>
+
+```mdx
+<FileTree>
+  <Folder name="my-project" defaultOpen>
+    <File name="package.json" />
+    <File name="README.md" />
+    <Folder name="src">
+      <File name="index.ts" />
+      <File name="utils.ts" />
+    </Folder>
+  </Folder>
+</FileTree>
+```
+
+## With Comments
+
+Add comments to explain what each file or folder is for:
+
+<FileTree>
+  <Folder name="docs" defaultOpen>
+    <File name="docs.json" comment="Configuration file" />
+    <File name="index.mdx" comment="Homepage" />
+    <Folder name="guides" comment="Tutorial content">
+      <File name="quickstart.mdx" />
+      <File name="advanced.mdx" />
+    </Folder>
+  </Folder>
+</FileTree>
+
+```mdx
+<FileTree>
+  <Folder name="docs" defaultOpen>
+    <File name="docs.json" comment="Configuration file" />
+    <File name="index.mdx" comment="Homepage" />
+    <Folder name="guides" comment="Tutorial content">
+      <File name="quickstart.mdx" />
+      <File name="advanced.mdx" />
+    </Folder>
+  </Folder>
+</FileTree>
+```
+
+## Collapsed by Default
+
+Use `defaultOpen={false}` to show folders collapsed initially:
+
+<FileTree>
+  <Folder name="project" defaultOpen>
+    <Folder name="src" defaultOpen={false}>
+      <File name="index.ts" />
+      <File name="utils.ts" />
+    </Folder>
+    <Folder name="tests" defaultOpen={false}>
+      <File name="index.test.ts" />
+    </Folder>
+  </Folder>
+</FileTree>
+
+```mdx
+<FileTree>
+  <Folder name="project" defaultOpen>
+    <Folder name="src" defaultOpen={false}>
+      <File name="index.ts" />
+      <File name="utils.ts" />
+    </Folder>
+    <Folder name="tests" defaultOpen={false}>
+      <File name="index.test.ts" />
+    </Folder>
+  </Folder>
+</FileTree>
+```
+
+## Deep Nesting
+
+The component handles deeply nested structures with proper indentation:
+
+<FileTree>
+  <Folder name="app" defaultOpen>
+    <Folder name="api">
+      <Folder name="auth">
+        <File name="route.ts" />
+      </Folder>
+      <Folder name="users">
+        <Folder name="[id]">
+          <File name="route.ts" />
+        </Folder>
+        <File name="route.ts" />
+      </Folder>
+    </Folder>
+    <Folder name="components">
+      <File name="button.tsx" />
+      <File name="card.tsx" />
+    </Folder>
+    <File name="layout.tsx" />
+    <File name="page.tsx" />
+  </Folder>
+</FileTree>
+
+```mdx
+<FileTree>
+  <Folder name="app" defaultOpen>
+    <Folder name="api">
+      <Folder name="auth">
+        <File name="route.ts" />
+      </Folder>
+      <Folder name="users">
+        <Folder name="[id]">
+          <File name="route.ts" />
+        </Folder>
+        <File name="route.ts" />
+      </Folder>
+    </Folder>
+    <Folder name="components">
+      <File name="button.tsx" />
+      <File name="card.tsx" />
+    </Folder>
+    <File name="layout.tsx" />
+    <File name="page.tsx" />
+  </Folder>
+</FileTree>
+```
+
+## Props
+
+### FileTree
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `className` | `string` | - | Additional CSS classes |
+
+### Folder
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `name` | `string` | **Required** | Folder name to display |
+| `defaultOpen` | `boolean` | `true` | Whether folder starts expanded |
+| `comment` | `string` | - | Optional description shown after the name |
+
+### File
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `name` | `string` | **Required** | File name to display |
+| `comment` | `string` | - | Optional description shown after the name |
