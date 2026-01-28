@@ -1,7 +1,7 @@
 {
   "$schema": "https://devdoc.sh/docs.json",
   "name": "Meta Platform APIs",
-  "description": "Unofficial documentation of Meta by Devdoc powered by Brainfish",
+  "description": "Unofficial documentation of Facebook, Instagram, WhatsApp, and Threads APIs by Devdoc powered by Brainfish",
   "favicon": "/assets/favicon.svg",
   "navigation": {
     "tabs": [
