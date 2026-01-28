@@ -1,0 +1,106 @@
+---
+title: Facebook Pages API
+description: Manage Facebook Pages - create posts, upload media, moderate comments, and access insights
+---
+
+# Facebook Pages API
+
+Build applications that publish content, manage interactions, and access analytics for Facebook Pages.
+
+<Note>
+**Source:** [developers.facebook.com/docs/pages-api](https://developers.facebook.com/docs/pages-api) (Official Documentation)
+</Note>
+
+## Overview
+
+The Facebook Pages API is part of the Graph API and enables you to:
+
+- **Publish content** - Create text, photo, and video posts
+- **Schedule posts** - Plan content for future publication
+- **Manage comments** - Read, reply, hide, and delete comments
+- **Access insights** - Get analytics on reach, engagement, and growth
+- **Handle messages** - Read and respond to Page conversations
+
+## Authentication
+
+The Pages API uses OAuth 2.0 with **Page Access Tokens**:
+
+<Steps>
+  <Step title="Get User Access Token">
+    Authenticate a user who manages the Page with required permissions
+  </Step>
+  <Step title="Exchange for Page Token">
+    Call `GET /me/accounts` to get Page Access Tokens for Pages the user manages
+  </Step>
+  <Step title="Use Page Token">
+    Include the Page Access Token in API requests
+  </Step>
+</Steps>
+
+## Required Permissions
+
+| Permission | Purpose |
+|-----------|---------|
+| `pages_manage_posts` | Create, edit, delete posts |
+| `pages_read_engagement` | Read posts, comments, reactions |
+| `pages_manage_engagement` | Respond to comments |
+| `pages_read_user_content` | Read visitor posts |
+| `pages_manage_metadata` | Update Page settings |
+| `pages_messaging` | Read/send messages |
+| `read_insights` | Access Page analytics |
+
+## Quick Start
+
+### 1. Get Your Page Access Token
+
+```bash
+curl -X GET "https://graph.facebook.com/v21.0/me/accounts?access_token={user-access-token}"
+```
+
+### 2. Create a Post
+
+```bash
+curl -X POST "https://graph.facebook.com/v21.0/{page-id}/feed" \
+  -d "message=Hello from the API!" \
+  -d "access_token={page-access-token}"
+```
+
+### 3. Schedule a Post
+
+```bash
+curl -X POST "https://graph.facebook.com/v21.0/{page-id}/feed" \
+  -d "message=This post is scheduled!" \
+  -d "published=false" \
+  -d "scheduled_publish_time=1735689600" \
+  -d "access_token={page-access-token}"
+```
+
+## API Categories
+
+<CardGroup cols={2}>
+  <Card title="Posts" icon="pen-to-square">
+    Create, read, update, and delete Page posts
+  </Card>
+  <Card title="Photos & Videos" icon="image">
+    Upload and manage media content
+  </Card>
+  <Card title="Comments" icon="comments">
+    Moderate and respond to comments
+  </Card>
+  <Card title="Insights" icon="chart-line">
+    Access Page analytics and metrics
+  </Card>
+</CardGroup>
+
+## Rate Limits
+
+The Pages API follows standard Graph API rate limits:
+
+- **Application-level**: 200 calls per user per hour
+- **Page-level**: Varies by endpoint and Page size
+
+## Resources
+
+- [Pages API Documentation](https://developers.facebook.com/docs/pages-api)
+- [Graph API Explorer](https://developers.facebook.com/tools/explorer/)
+- [Access Token Debugger](https://developers.facebook.com/tools/debug/accesstoken/)

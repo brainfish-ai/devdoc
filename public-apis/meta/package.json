@@ -1,0 +1,13 @@
+{
+  "name": "meta-platform-apis",
+  "version": "1.0.1",
+  "description": "Meta Platform API Documentation",
+  "scripts": {
+    "dev": "devdoc dev",
+    "build": "devdoc build",
+    "deploy": "devdoc deploy"
+  },
+  "devDependencies": {
+    "@brainfish-ai/devdoc": "latest"
+  }
+}

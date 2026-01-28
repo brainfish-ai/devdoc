@@ -1,0 +1,486 @@
+/**
+ * Meta Platform APIs Theme
+ * Based on Meta Brand Guidelines 2024
+ * Primary Blue: #0866FF
+ */
+
+/* ==========================================================================
+   CSS Variables - Meta Theme
+   ========================================================================== */
+
+:root {
+  /* Meta Blue palette */
+  --docs-primary: #0866FF;
+  --docs-primary-light: #4599FF;
+  --docs-primary-dark: #0064E0;
+  
+  /* Secondary accent - Instagram pink */
+  --docs-accent: #C13584;
+  --docs-accent-light: #E1306C;
+  
+  /* Warning - amber */
+  --docs-warning: #F59E0B;
+  
+  /* Error - red */
+  --docs-error: #DC2626;
+  
+  /* WhatsApp green (for reference) */
+  --meta-whatsapp: #25D366;
+  
+  /* Light mode background colors - Meta style */
+  --docs-bg: #FFFFFF;
+  --docs-bg-secondary: #F0F2F5;
+  --docs-bg-tertiary: #E4E6EB;
+  --docs-bg-elevated: #FFFFFF;
+  
+  /* Light mode text colors - Meta style */
+  --docs-text: #1C1E21;
+  --docs-text-secondary: #65676B;
+  --docs-text-muted: #8A8D91;
+  --docs-text-bright: #050505;
+  
+  /* Light mode border colors */
+  --docs-border: #CED0D4;
+  --docs-border-light: #E4E6EB;
+  --docs-border-focus: var(--docs-primary);
+  
+  /* Shadows */
+  --docs-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --docs-shadow-md: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --docs-shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.1);
+  
+  /* Glow effects */
+  --docs-glow-primary: 0 0 15px rgba(8, 102, 255, 0.2);
+  --docs-glow-accent: 0 0 15px rgba(193, 53, 132, 0.2);
+  
+  /* Sidebar */
+  --docs-sidebar-bg: var(--docs-bg);
+  --docs-sidebar-border: var(--docs-border);
+  
+  /* Header */
+  --docs-header-bg: rgba(255, 255, 255, 0.95);
+  --docs-header-border: var(--docs-border);
+  
+  /* Code blocks - always dark */
+  --docs-code-bg: #1C1E21;
+  --docs-code-text: #E4E6EB;
+  --docs-code-border: #3E4042;
+  --docs-code-border-radius: 8px;
+  
+  /* Typography */
+  --docs-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --docs-font-family-mono: SF Mono, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  --docs-font-size-base: 16px;
+  --docs-line-height: 1.6;
+  
+  /* Border radius - Meta uses rounded corners */
+  --docs-radius-sm: 4px;
+  --docs-radius-md: 6px;
+  --docs-radius-lg: 8px;
+  --docs-radius-xl: 12px;
+  
+  /* Tables */
+  --docs-table-border: 1px solid var(--docs-border);
+  --docs-table-border-radius: 8px;
+  --docs-table-header-bg: var(--docs-bg-secondary);
+  --docs-table-row-hover: var(--docs-bg-tertiary);
+  --docs-table-cell-padding: 0.75rem 1rem;
+  
+  color-scheme: light;
+}
+
+/* Dark mode overrides */
+.dark {
+  /* Meta Blue - brighter for dark mode */
+  --docs-primary: #4599FF;
+  --docs-primary-light: #75B3FF;
+  --docs-primary-dark: #0866FF;
+  
+  /* Background colors - Meta dark */
+  --docs-bg: #18191A;
+  --docs-bg-secondary: #242526;
+  --docs-bg-tertiary: #3A3B3C;
+  --docs-bg-elevated: #242526;
+  
+  /* Text colors */
+  --docs-text: #E4E6EB;
+  --docs-text-secondary: #B0B3B8;
+  --docs-text-muted: #8A8D91;
+  --docs-text-bright: #FFFFFF;
+  
+  /* Border colors */
+  --docs-border: #3E4042;
+  --docs-border-light: #242526;
+  
+  /* Header */
+  --docs-header-bg: rgba(24, 25, 26, 0.95);
+  
+  /* Shadows - glow style */
+  --docs-shadow-sm: 0 0 10px rgba(0, 0, 0, 0.3);
+  --docs-shadow-md: 0 0 20px rgba(0, 0, 0, 0.4);
+  --docs-shadow-lg: 0 0 30px rgba(0, 0, 0, 0.5);
+  
+  /* Glow effects - more prominent */
+  --docs-glow-primary: 0 0 20px rgba(69, 153, 255, 0.3);
+  
+  color-scheme: dark;
+}
+
+/* ==========================================================================
+   Global Styles
+   ========================================================================== */
+
+body {
+  background-color: var(--docs-bg);
+  color: var(--docs-text);
+  font-family: var(--docs-font-family);
+}
+
+/* Selection highlight - Meta blue */
+::selection {
+  background-color: var(--docs-primary);
+  color: white;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--docs-bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--docs-border);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--docs-text-muted);
+}
+
+/* ==========================================================================
+   Links
+   ========================================================================== */
+
+.docs-prose a {
+  color: var(--docs-primary);
+  text-decoration: none;
+  transition: all 0.15s ease;
+}
+
+.docs-prose a:hover {
+  color: var(--docs-primary-light);
+  text-decoration: underline;
+}
+
+.dark .docs-prose a:hover {
+  text-shadow: var(--docs-glow-primary);
+}
+
+/* ==========================================================================
+   Code Blocks - Always Dark
+   ========================================================================== */
+
+.docs-prose pre {
+  background: var(--docs-code-bg) !important;
+  border: 1px solid var(--docs-code-border) !important;
+  border-radius: var(--docs-code-border-radius);
+  padding: 1rem;
+}
+
+.docs-prose pre code {
+  background: transparent;
+  border: none;
+  color: var(--docs-code-text);
+}
+
+/* Inline code */
+.docs-prose code {
+  background: var(--docs-bg-tertiary);
+  color: var(--docs-primary-dark);
+  padding: 0.2em 0.4em;
+  border-radius: var(--docs-radius-sm);
+  font-size: 0.9em;
+  border: 1px solid var(--docs-border);
+}
+
+.dark .docs-prose code {
+  background: var(--docs-bg-tertiary);
+  color: var(--docs-primary-light);
+}
+
+/* ==========================================================================
+   Cards
+   ========================================================================== */
+
+.docs-card {
+  background: var(--docs-bg-elevated);
+  border: 1px solid var(--docs-border);
+  border-radius: var(--docs-radius-lg);
+  transition: all 0.2s ease;
+}
+
+.docs-card:hover {
+  border-color: var(--docs-primary);
+  box-shadow: var(--docs-shadow-md);
+}
+
+.dark .docs-card:hover {
+  box-shadow: var(--docs-glow-primary);
+}
+
+/* ==========================================================================
+   API Method Badges
+   ========================================================================== */
+
+.docs-api-method {
+  font-weight: 600;
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--docs-radius-sm);
+  text-transform: uppercase;
+}
+
+.docs-api-method-get {
+  background: rgba(37, 211, 102, 0.15);
+  color: #1B8A4B;
+}
+
+.docs-api-method-post {
+  background: rgba(8, 102, 255, 0.15);
+  color: var(--docs-primary-dark);
+}
+
+.docs-api-method-put {
+  background: rgba(245, 158, 11, 0.15);
+  color: #B45309;
+}
+
+.docs-api-method-patch {
+  background: rgba(139, 92, 246, 0.15);
+  color: #7C3AED;
+}
+
+.docs-api-method-delete {
+  background: rgba(220, 38, 38, 0.15);
+  color: #B91C1C;
+}
+
+.dark .docs-api-method-get {
+  background: rgba(37, 211, 102, 0.2);
+  color: #25D366;
+}
+
+.dark .docs-api-method-post {
+  background: rgba(69, 153, 255, 0.2);
+  color: var(--docs-primary);
+}
+
+.dark .docs-api-method-put {
+  background: rgba(245, 158, 11, 0.2);
+  color: #F59E0B;
+}
+
+.dark .docs-api-method-patch {
+  background: rgba(139, 92, 246, 0.2);
+  color: #8B5CF6;
+}
+
+.dark .docs-api-method-delete {
+  background: rgba(239, 68, 68, 0.2);
+  color: #EF4444;
+}
+
+/* ==========================================================================
+   Callouts
+   ========================================================================== */
+
+.docs-callout {
+  border-radius: var(--docs-radius-lg);
+  padding: 1rem;
+  margin: 1.5rem 0;
+  border-left: 4px solid;
+}
+
+.docs-callout-note {
+  background: rgba(8, 102, 255, 0.08);
+  border-left-color: var(--docs-primary);
+}
+
+.docs-callout-info {
+  background: rgba(8, 102, 255, 0.08);
+  border-left-color: var(--docs-primary);
+}
+
+.docs-callout-warning {
+  background: rgba(245, 158, 11, 0.08);
+  border-left-color: var(--docs-warning);
+}
+
+.docs-callout-tip {
+  background: rgba(37, 211, 102, 0.08);
+  border-left-color: var(--meta-whatsapp);
+}
+
+.docs-callout-error {
+  background: rgba(220, 38, 38, 0.08);
+  border-left-color: var(--docs-error);
+}
+
+.dark .docs-callout-note,
+.dark .docs-callout-info {
+  background: rgba(69, 153, 255, 0.12);
+}
+
+.dark .docs-callout-warning {
+  background: rgba(245, 158, 11, 0.12);
+}
+
+.dark .docs-callout-tip {
+  background: rgba(37, 211, 102, 0.12);
+}
+
+.dark .docs-callout-error {
+  background: rgba(239, 68, 68, 0.12);
+}
+
+/* ==========================================================================
+   Tables
+   ========================================================================== */
+
+.docs-prose table {
+  border: var(--docs-table-border);
+  border-radius: var(--docs-table-border-radius);
+  overflow: hidden;
+}
+
+.docs-prose thead {
+  background: var(--docs-table-header-bg);
+}
+
+.docs-prose th {
+  color: var(--docs-text-bright);
+  font-weight: 600;
+  padding: var(--docs-table-cell-padding);
+  border-bottom: 1px solid var(--docs-border);
+}
+
+.docs-prose td {
+  padding: var(--docs-table-cell-padding);
+  border-bottom: 1px solid var(--docs-border);
+}
+
+.docs-prose tbody tr:hover {
+  background: var(--docs-table-row-hover);
+}
+
+/* ==========================================================================
+   Buttons
+   ========================================================================== */
+
+.docs-button-primary {
+  background: var(--docs-primary);
+  color: white;
+  border: none;
+  border-radius: var(--docs-radius-md);
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.docs-button-primary:hover {
+  background: var(--docs-primary-dark);
+  box-shadow: var(--docs-shadow-md);
+}
+
+.dark .docs-button-primary:hover {
+  box-shadow: var(--docs-glow-primary);
+}
+
+/* ==========================================================================
+   Sidebar
+   ========================================================================== */
+
+.docs-sidebar-item {
+  border-radius: var(--docs-radius-md);
+  transition: all 0.15s ease;
+}
+
+.docs-sidebar-item:hover {
+  background: var(--docs-bg-tertiary);
+}
+
+.docs-sidebar-item-active {
+  color: var(--docs-primary) !important;
+  background: rgba(8, 102, 255, 0.1);
+}
+
+/* ==========================================================================
+   Tabs
+   ========================================================================== */
+
+.docs-tab {
+  color: var(--docs-text-secondary);
+  padding: 0.75rem 1rem;
+  border-bottom: 2px solid transparent;
+  transition: all 0.15s ease;
+}
+
+.docs-tab:hover {
+  color: var(--docs-text);
+}
+
+.docs-tab-active {
+  color: var(--docs-primary) !important;
+  border-bottom-color: var(--docs-primary) !important;
+}
+
+/* ==========================================================================
+   Search
+   ========================================================================== */
+
+.docs-search-input {
+  background: var(--docs-bg-secondary);
+  border: 1px solid var(--docs-border);
+  border-radius: var(--docs-radius-lg);
+}
+
+.docs-search-input:focus {
+  border-color: var(--docs-primary);
+  box-shadow: 0 0 0 3px rgba(8, 102, 255, 0.1);
+  outline: none;
+}
+
+.dark .docs-search-input:focus {
+  box-shadow: var(--docs-glow-primary);
+}
+
+/* ==========================================================================
+   Header
+   ========================================================================== */
+
+.docs-header {
+  background: var(--docs-header-bg);
+  border-bottom: 1px solid var(--docs-border);
+  backdrop-filter: blur(10px);
+}
+
+/* ==========================================================================
+   Sandbox / Code Editor - Always Dark
+   ========================================================================== */
+
+.docs-sandbox,
+.docs-code-editor,
+[class*="code-editor"],
+[class*="sandbox"] {
+  background-color: #18191A !important;
+  border: 1px solid #3E4042 !important;
+  border-radius: var(--docs-radius-lg) !important;
+}
+
+.monaco-editor,
+.monaco-editor-background {
+  background-color: #1C1E21 !important;
+}

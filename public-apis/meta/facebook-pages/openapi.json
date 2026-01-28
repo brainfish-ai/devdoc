@@ -1,0 +1,1255 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Facebook Pages API",
+    "description": "The Facebook Pages API allows you to create, publish, edit, and manage posts on Facebook Pages through the Graph API. Build applications that can post content, respond to comments, manage Page settings, and access insights for Facebook Pages you manage.",
+    "version": "v21.0",
+    "contact": {
+      "name": "Meta for Developers",
+      "url": "https://developers.facebook.com/docs/pages-api"
+    },
+    "x-logo": {
+      "url": "https://www.facebook.com/images/fb_icon_325x325.png"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://graph.facebook.com/v21.0",
+      "description": "Facebook Graph API"
+    }
+  ],
+  "tags": [
+    {"name": "Posts", "description": "Create, read, update, and delete Page posts"},
+    {"name": "Photos", "description": "Upload and manage photos on Pages"},
+    {"name": "Videos", "description": "Upload and manage videos on Pages"},
+    {"name": "Comments", "description": "Manage comments on Page posts"},
+    {"name": "Page Settings", "description": "Manage Page settings and information"},
+    {"name": "Insights", "description": "Access Page analytics and insights"},
+    {"name": "Conversations", "description": "Manage Page conversations and messages"}
+  ],
+  "paths": {
+    "/{page-id}/feed": {
+      "get": {
+        "tags": ["Posts"],
+        "summary": "Get Page Feed",
+        "description": "Returns an array of Post objects on a Facebook Page. Includes posts created by the Page, posts by other users on the Page, and posts that tag the Page.",
+        "operationId": "getPageFeed",
+        "parameters": [
+          {
+            "name": "page-id",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the Page",
+            "schema": {"type": "string"}
+          },
+          {
+            "name": "fields",
+            "in": "query",
+            "description": "Comma-separated list of fields to return",
+            "schema": {"type": "string", "example": "id,message,created_time,full_picture,permalink_url"}
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Maximum number of posts to return",
+            "schema": {"type": "integer", "default": 25}
+          },
+          {
+            "name": "access_token",
+            "in": "query",
+            "required": true,
+            "description": "Page Access Token",
+            "schema": {"type": "string"}
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {"$ref": "#/components/schemas/Post"}
+                    },
+                    "paging": {"$ref": "#/components/schemas/Paging"}
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [{"PageAccessToken": []}]
+      },
+      "post": {
+        "tags": ["Posts"],
+        "summary": "Create Page Post",
+        "description": "Publishes a new post to the Page's feed. You can create text posts, link posts, or schedule posts for future publication.",
+        "operationId": "createPagePost",
+        "parameters": [
+          {
+            "name": "page-id",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the Page",
+            "schema": {"type": "string"}
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "description": "The main body of the post"
+                  },
+                  "link": {
+                    "type": "string",
+                    "description": "URL to attach to the post"
+                  },
+                  "published": {
+                    "type": "boolean",
+                    "description": "Set to false to schedule the post",
+                    "default": true
+                  },
+                  "scheduled_publish_time": {
+                    "type": "integer",
+                    "description": "UNIX timestamp for scheduled publication (10 min to 30 days in future)"
+                  },
+                  "targeting": {
+                    "type": "object",
+                    "description": "Targeting options for the post"
+                  },
+                  "access_token": {
+                    "type": "string",
+                    "description": "Page Access Token"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Post created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {"type": "string", "description": "The ID of the created post"}
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [{"PageAccessToken": []}]
+      }
+    },
+    "/{post-id}": {
+      "get": {
+        "tags": ["Posts"],
+        "summary": "Get Post",
+        "description": "Returns a single Post object by ID",
+        "operationId": "getPost",
+        "parameters": [
+          {
+            "name": "post-id",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the post (format: page-id_post-id)",
+            "schema": {"type": "string"}
+          },
+          {
+            "name": "fields",
+            "in": "query",
+            "description": "Comma-separated list of fields to return",
+            "schema": {"type": "string", "example": "id,message,created_time,shares,reactions.summary(true)"}
+          },
+          {
+            "name": "access_token",
+            "in": "query",
+            "required": true,
+            "description": "Page Access Token",
+            "schema": {"type": "string"}
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/Post"}
+              }
+            }
+          }
+        },
+        "security": [{"PageAccessToken": []}]
+      },
+      "post": {
+        "tags": ["Posts"],
+        "summary": "Update Post",
+        "description": "Updates an existing post. You can only edit posts created by your app.",
+        "operationId": "updatePost",
+        "parameters": [
+          {
+            "name": "post-id",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the post to update",
+            "schema": {"type": "string"}
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "description": "Updated message text"
+                  },
+                  "access_token": {
+                    "type": "string",
+                    "description": "Page Access Token"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Post updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {"type": "boolean"}
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [{"PageAccessToken": []}]
+      },
+      "delete": {
+        "tags": ["Posts"],
+        "summary": "Delete Post",
+        "description": "Deletes a post from the Page. You can only delete posts created by your app.",
+        "operationId": "deletePost",
+        "parameters": [
+          {
+            "name": "post-id",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the post to delete",
+            "schema": {"type": "string"}
+          },
+          {
+            "name": "access_token",
+            "in": "query",
+            "required": true,
+            "description": "Page Access Token",
+            "schema": {"type": "string"}
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Post deleted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {"type": "boolean"}
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [{"PageAccessToken": []}]
+      }
+    },
+    "/{page-id}/photos": {
+      "get": {
+        "tags": ["Photos"],
+        "summary": "Get Page Photos",
+        "description": "Returns photos uploaded to the Page",
+        "operationId": "getPagePhotos",
+        "parameters": [
+          {
+            "name": "page-id",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the Page",
+            "schema": {"type": "string"}
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "description": "Type of photos to return",
+            "schema": {"type": "string", "enum": ["uploaded", "tagged"]}
+          },
+          {
+            "name": "access_token",
+            "in": "query",
+            "required": true,
+            "schema": {"type": "string"}
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {"$ref": "#/components/schemas/Photo"}
+                    },
+                    "paging": {"$ref": "#/components/schemas/Paging"}
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [{"PageAccessToken": []}]
+      },
+      "post": {
+        "tags": ["Photos"],
+        "summary": "Upload Photo to Page",
+        "description": "Uploads a photo to the Page. You can upload from a URL or file.",
+        "operationId": "uploadPagePhoto",
+        "parameters": [
+          {
+            "name": "page-id",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the Page",
+            "schema": {"type": "string"}
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "source": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "Photo file to upload"
+                  },
+                  "url": {
+                    "type": "string",
+                    "description": "URL of the photo to upload"
+                  },
+                  "caption": {
+                    "type": "string",
+                    "description": "Caption for the photo"
+                  },
+                  "published": {
+                    "type": "boolean",
+                    "default": true
+                  },
+                  "access_token": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Photo uploaded successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {"type": "string"},
+                    "post_id": {"type": "string"}
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [{"PageAccessToken": []}]
+      }
+    },
+    "/{page-id}/videos": {
+      "get": {
+        "tags": ["Videos"],
+        "summary": "Get Page Videos",
+        "description": "Returns videos uploaded to the Page",
+        "operationId": "getPageVideos",
+        "parameters": [
+          {
+            "name": "page-id",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "string"}
+          },
+          {
+            "name": "access_token",
+            "in": "query",
+            "required": true,
+            "schema": {"type": "string"}
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {"$ref": "#/components/schemas/Video"}
+                    },
+                    "paging": {"$ref": "#/components/schemas/Paging"}
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [{"PageAccessToken": []}]
+      },
+      "post": {
+        "tags": ["Videos"],
+        "summary": "Upload Video to Page",
+        "description": "Uploads a video to the Page. For videos over 1GB, use resumable upload.",
+        "operationId": "uploadPageVideo",
+        "parameters": [
+          {
+            "name": "page-id",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "string"}
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "source": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "Video file to upload"
+                  },
+                  "file_url": {
+                    "type": "string",
+                    "description": "URL of video to upload"
+                  },
+                  "title": {
+                    "type": "string",
+                    "description": "Title of the video"
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "Description of the video"
+                  },
+                  "published": {
+                    "type": "boolean",
+                    "default": true
+                  },
+                  "scheduled_publish_time": {
+                    "type": "integer",
+                    "description": "UNIX timestamp for scheduled publication"
+                  },
+                  "access_token": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Video uploaded successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {"type": "string"}
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [{"PageAccessToken": []}]
+      }
+    },
+    "/{object-id}/comments": {
+      "get": {
+        "tags": ["Comments"],
+        "summary": "Get Comments",
+        "description": "Returns comments on a post, photo, or video",
+        "operationId": "getComments",
+        "parameters": [
+          {
+            "name": "object-id",
+            "in": "path",
+            "required": true,
+            "description": "ID of the post, photo, or video",
+            "schema": {"type": "string"}
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "description": "Filter comments",
+            "schema": {"type": "string", "enum": ["toplevel", "stream"]}
+          },
+          {
+            "name": "order",
+            "in": "query",
+            "description": "Order of comments",
+            "schema": {"type": "string", "enum": ["chronological", "reverse_chronological"]}
+          },
+          {
+            "name": "access_token",
+            "in": "query",
+            "required": true,
+            "schema": {"type": "string"}
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {"$ref": "#/components/schemas/Comment"}
+                    },
+                    "paging": {"$ref": "#/components/schemas/Paging"}
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [{"PageAccessToken": []}]
+      },
+      "post": {
+        "tags": ["Comments"],
+        "summary": "Post Comment",
+        "description": "Posts a comment on a post, photo, or video as the Page",
+        "operationId": "postComment",
+        "parameters": [
+          {
+            "name": "object-id",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "string"}
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "description": "Comment text"
+                  },
+                  "attachment_url": {
+                    "type": "string",
+                    "description": "URL of image to include"
+                  },
+                  "access_token": {
+                    "type": "string"
+                  }
+                },
+                "required": ["message"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Comment posted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {"type": "string"}
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [{"PageAccessToken": []}]
+      }
+    },
+    "/{comment-id}": {
+      "delete": {
+        "tags": ["Comments"],
+        "summary": "Delete Comment",
+        "description": "Deletes a comment. You can only delete comments on content you manage.",
+        "operationId": "deleteComment",
+        "parameters": [
+          {
+            "name": "comment-id",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "string"}
+          },
+          {
+            "name": "access_token",
+            "in": "query",
+            "required": true,
+            "schema": {"type": "string"}
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Comment deleted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {"type": "boolean"}
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [{"PageAccessToken": []}]
+      },
+      "post": {
+        "tags": ["Comments"],
+        "summary": "Hide/Unhide Comment",
+        "description": "Hides or unhides a comment on the Page",
+        "operationId": "hideComment",
+        "parameters": [
+          {
+            "name": "comment-id",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "string"}
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "is_hidden": {
+                    "type": "boolean",
+                    "description": "Set to true to hide, false to unhide"
+                  },
+                  "access_token": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {"type": "boolean"}
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [{"PageAccessToken": []}]
+      }
+    },
+    "/{page-id}": {
+      "get": {
+        "tags": ["Page Settings"],
+        "summary": "Get Page Information",
+        "description": "Returns information about a Facebook Page",
+        "operationId": "getPage",
+        "parameters": [
+          {
+            "name": "page-id",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "string"}
+          },
+          {
+            "name": "fields",
+            "in": "query",
+            "description": "Fields to return",
+            "schema": {"type": "string", "example": "id,name,about,category,fan_count,picture,cover"}
+          },
+          {
+            "name": "access_token",
+            "in": "query",
+            "required": true,
+            "schema": {"type": "string"}
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/Page"}
+              }
+            }
+          }
+        },
+        "security": [{"PageAccessToken": []}]
+      },
+      "post": {
+        "tags": ["Page Settings"],
+        "summary": "Update Page Settings",
+        "description": "Updates Page settings like about, description, hours, etc.",
+        "operationId": "updatePage",
+        "parameters": [
+          {
+            "name": "page-id",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "string"}
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "about": {
+                    "type": "string",
+                    "description": "Page's about section (max 100 chars)"
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "Page description"
+                  },
+                  "website": {
+                    "type": "string",
+                    "description": "Page website URL"
+                  },
+                  "phone": {
+                    "type": "string",
+                    "description": "Page phone number"
+                  },
+                  "access_token": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Page updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {"type": "boolean"}
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [{"PageAccessToken": []}]
+      }
+    },
+    "/{page-id}/insights": {
+      "get": {
+        "tags": ["Insights"],
+        "summary": "Get Page Insights",
+        "description": "Returns analytics and insights data for the Page",
+        "operationId": "getPageInsights",
+        "parameters": [
+          {
+            "name": "page-id",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "string"}
+          },
+          {
+            "name": "metric",
+            "in": "query",
+            "required": true,
+            "description": "Metrics to retrieve",
+            "schema": {"type": "string", "example": "page_impressions,page_engaged_users,page_fan_adds"}
+          },
+          {
+            "name": "period",
+            "in": "query",
+            "description": "Time period for aggregation",
+            "schema": {"type": "string", "enum": ["day", "week", "days_28", "month", "lifetime"]}
+          },
+          {
+            "name": "since",
+            "in": "query",
+            "description": "Start of date range (UNIX timestamp)",
+            "schema": {"type": "integer"}
+          },
+          {
+            "name": "until",
+            "in": "query",
+            "description": "End of date range (UNIX timestamp)",
+            "schema": {"type": "integer"}
+          },
+          {
+            "name": "access_token",
+            "in": "query",
+            "required": true,
+            "schema": {"type": "string"}
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {"$ref": "#/components/schemas/Insight"}
+                    },
+                    "paging": {"$ref": "#/components/schemas/Paging"}
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [{"PageAccessToken": []}]
+      }
+    },
+    "/{page-id}/conversations": {
+      "get": {
+        "tags": ["Conversations"],
+        "summary": "Get Page Conversations",
+        "description": "Returns conversations (message threads) for the Page",
+        "operationId": "getPageConversations",
+        "parameters": [
+          {
+            "name": "page-id",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "string"}
+          },
+          {
+            "name": "folder",
+            "in": "query",
+            "description": "Filter by folder",
+            "schema": {"type": "string", "enum": ["inbox", "other", "page_done", "pending", "spam"]}
+          },
+          {
+            "name": "access_token",
+            "in": "query",
+            "required": true,
+            "schema": {"type": "string"}
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {"$ref": "#/components/schemas/Conversation"}
+                    },
+                    "paging": {"$ref": "#/components/schemas/Paging"}
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [{"PageAccessToken": []}]
+      }
+    },
+    "/{conversation-id}/messages": {
+      "get": {
+        "tags": ["Conversations"],
+        "summary": "Get Conversation Messages",
+        "description": "Returns messages in a conversation",
+        "operationId": "getConversationMessages",
+        "parameters": [
+          {
+            "name": "conversation-id",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "string"}
+          },
+          {
+            "name": "fields",
+            "in": "query",
+            "schema": {"type": "string", "example": "id,message,from,created_time"}
+          },
+          {
+            "name": "access_token",
+            "in": "query",
+            "required": true,
+            "schema": {"type": "string"}
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {"$ref": "#/components/schemas/Message"}
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [{"PageAccessToken": []}]
+      },
+      "post": {
+        "tags": ["Conversations"],
+        "summary": "Send Message",
+        "description": "Sends a message in a conversation as the Page",
+        "operationId": "sendMessage",
+        "parameters": [
+          {
+            "name": "conversation-id",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "string"}
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "description": "Message text"
+                  },
+                  "access_token": {
+                    "type": "string"
+                  }
+                },
+                "required": ["message"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Message sent",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {"type": "string"}
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [{"PageAccessToken": []}]
+      }
+    },
+    "/me/accounts": {
+      "get": {
+        "tags": ["Page Settings"],
+        "summary": "Get User's Pages",
+        "description": "Returns the Pages that the current user manages. Use this to get Page Access Tokens.",
+        "operationId": "getUserPages",
+        "parameters": [
+          {
+            "name": "access_token",
+            "in": "query",
+            "required": true,
+            "description": "User Access Token",
+            "schema": {"type": "string"}
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {"type": "string", "description": "Page ID"},
+                          "name": {"type": "string", "description": "Page name"},
+                          "access_token": {"type": "string", "description": "Page Access Token"},
+                          "category": {"type": "string"},
+                          "tasks": {
+                            "type": "array",
+                            "items": {"type": "string"},
+                            "description": "Tasks the user can perform on this Page"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [{"UserAccessToken": []}]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Post": {
+        "type": "object",
+        "properties": {
+          "id": {"type": "string", "description": "Post ID"},
+          "message": {"type": "string", "description": "Post text content"},
+          "story": {"type": "string", "description": "Auto-generated story text"},
+          "created_time": {"type": "string", "format": "date-time"},
+          "updated_time": {"type": "string", "format": "date-time"},
+          "full_picture": {"type": "string", "description": "URL of attached image"},
+          "permalink_url": {"type": "string", "description": "Permanent link to post"},
+          "shares": {
+            "type": "object",
+            "properties": {
+              "count": {"type": "integer"}
+            }
+          },
+          "likes": {
+            "type": "object",
+            "properties": {
+              "summary": {
+                "type": "object",
+                "properties": {
+                  "total_count": {"type": "integer"}
+                }
+              }
+            }
+          },
+          "comments": {
+            "type": "object",
+            "properties": {
+              "summary": {
+                "type": "object",
+                "properties": {
+                  "total_count": {"type": "integer"}
+                }
+              }
+            }
+          },
+          "is_published": {"type": "boolean"},
+          "scheduled_publish_time": {"type": "string"}
+        }
+      },
+      "Photo": {
+        "type": "object",
+        "properties": {
+          "id": {"type": "string"},
+          "created_time": {"type": "string", "format": "date-time"},
+          "name": {"type": "string", "description": "Caption"},
+          "picture": {"type": "string", "description": "Thumbnail URL"},
+          "source": {"type": "string", "description": "Full-size image URL"},
+          "width": {"type": "integer"},
+          "height": {"type": "integer"}
+        }
+      },
+      "Video": {
+        "type": "object",
+        "properties": {
+          "id": {"type": "string"},
+          "title": {"type": "string"},
+          "description": {"type": "string"},
+          "created_time": {"type": "string", "format": "date-time"},
+          "length": {"type": "number", "description": "Duration in seconds"},
+          "source": {"type": "string", "description": "Video URL"},
+          "picture": {"type": "string", "description": "Thumbnail URL"}
+        }
+      },
+      "Comment": {
+        "type": "object",
+        "properties": {
+          "id": {"type": "string"},
+          "message": {"type": "string"},
+          "created_time": {"type": "string", "format": "date-time"},
+          "from": {
+            "type": "object",
+            "properties": {
+              "id": {"type": "string"},
+              "name": {"type": "string"}
+            }
+          },
+          "is_hidden": {"type": "boolean"},
+          "like_count": {"type": "integer"}
+        }
+      },
+      "Page": {
+        "type": "object",
+        "properties": {
+          "id": {"type": "string"},
+          "name": {"type": "string"},
+          "about": {"type": "string"},
+          "category": {"type": "string"},
+          "fan_count": {"type": "integer", "description": "Number of Page likes"},
+          "followers_count": {"type": "integer"},
+          "website": {"type": "string"},
+          "picture": {
+            "type": "object",
+            "properties": {
+              "data": {
+                "type": "object",
+                "properties": {
+                  "url": {"type": "string"}
+                }
+              }
+            }
+          },
+          "cover": {
+            "type": "object",
+            "properties": {
+              "source": {"type": "string"}
+            }
+          }
+        }
+      },
+      "Insight": {
+        "type": "object",
+        "properties": {
+          "name": {"type": "string", "description": "Metric name"},
+          "period": {"type": "string"},
+          "values": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "value": {"type": "integer"},
+                "end_time": {"type": "string", "format": "date-time"}
+              }
+            }
+          },
+          "title": {"type": "string"},
+          "description": {"type": "string"}
+        }
+      },
+      "Conversation": {
+        "type": "object",
+        "properties": {
+          "id": {"type": "string"},
+          "link": {"type": "string"},
+          "snippet": {"type": "string", "description": "Last message preview"},
+          "updated_time": {"type": "string", "format": "date-time"},
+          "message_count": {"type": "integer"},
+          "unread_count": {"type": "integer"}
+        }
+      },
+      "Message": {
+        "type": "object",
+        "properties": {
+          "id": {"type": "string"},
+          "message": {"type": "string"},
+          "created_time": {"type": "string", "format": "date-time"},
+          "from": {
+            "type": "object",
+            "properties": {
+              "id": {"type": "string"},
+              "name": {"type": "string"},
+              "email": {"type": "string"}
+            }
+          }
+        }
+      },
+      "Paging": {
+        "type": "object",
+        "properties": {
+          "cursors": {
+            "type": "object",
+            "properties": {
+              "before": {"type": "string"},
+              "after": {"type": "string"}
+            }
+          },
+          "next": {"type": "string"},
+          "previous": {"type": "string"}
+        }
+      }
+    },
+    "securitySchemes": {
+      "PageAccessToken": {
+        "type": "apiKey",
+        "in": "query",
+        "name": "access_token",
+        "description": "Page Access Token - obtained by exchanging a User Access Token for a Page you manage"
+      },
+      "UserAccessToken": {
+        "type": "apiKey",
+        "in": "query",
+        "name": "access_token",
+        "description": "User Access Token with pages_manage_posts and pages_read_engagement permissions"
+      }
+    }
+  }
+}

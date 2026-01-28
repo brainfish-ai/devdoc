@@ -1,0 +1,56 @@
+{
+  "$schema": "https://devdoc.sh/schemas/sdk.json",
+  "openapi": "api-reference/openapi.json",
+  "output": "./sdks",
+  "packageName": "devdoc-api",
+  "generators": {
+    "typescript": {
+      "enabled": true,
+      "output": "./sdks/typescript",
+      "options": {
+        "client": "fetch",
+        "enums": "javascript"
+      }
+    },
+    "python": {
+      "enabled": true,
+      "output": "./sdks/python",
+      "options": {
+        "asyncio": true,
+        "client": "httpx"
+      }
+    },
+    "go": {
+      "enabled": false,
+      "output": "./sdks/go"
+    },
+    "java": {
+      "enabled": false,
+      "output": "./sdks/java"
+    },
+    "csharp": {
+      "enabled": false,
+      "output": "./sdks/csharp"
+    },
+    "ruby": {
+      "enabled": false,
+      "output": "./sdks/ruby"
+    },
+    "php": {
+      "enabled": false,
+      "output": "./sdks/php"
+    },
+    "swift": {
+      "enabled": false,
+      "output": "./sdks/swift"
+    },
+    "kotlin": {
+      "enabled": false,
+      "output": "./sdks/kotlin"
+    },
+    "rust": {
+      "enabled": false,
+      "output": "./sdks/rust"
+    }
+  }
+}

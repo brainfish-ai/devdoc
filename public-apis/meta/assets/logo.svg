@@ -1,0 +1,10 @@
+<svg width="120" height="32" viewBox="0 0 120 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Meta Logo with Text -->
+  <path d="M6 16C6 12.5 8.5 9 12 9C15 9 16.5 11.5 17.5 14C18.5 11.5 20 9 23 9C26.5 9 29 12.5 29 16C29 19.5 26.5 23 23 23C20 23 18.5 20.5 17.5 18C16.5 20.5 15 23 12 23C8.5 23 6 19.5 6 16Z" stroke="#0866FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  
+  <!-- "Meta" text -->
+  <text x="38" y="21" font-family="Helvetica Neue, Arial, sans-serif" font-size="16" font-weight="700" fill="#1C1E21">Meta</text>
+  
+  <!-- "Platform APIs" subtitle -->
+  <text x="72" y="21" font-family="Helvetica Neue, Arial, sans-serif" font-size="14" font-weight="400" fill="#65676B">APIs</text>
+</svg>

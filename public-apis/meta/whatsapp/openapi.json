@@ -1,0 +1,670 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "WhatsApp Business Cloud API",
+    "description": "The WhatsApp Business Platform Cloud API allows businesses to communicate with customers via WhatsApp. Send messages, manage templates, and handle webhooks. Based on Meta's official documentation.",
+    "version": "v21.0",
+    "termsOfService": "https://www.whatsapp.com/legal/business-terms",
+    "contact": {
+      "name": "Meta Developer Support",
+      "url": "https://developers.facebook.com/support"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://graph.facebook.com/v21.0",
+      "description": "WhatsApp Cloud API"
+    }
+  ],
+  "tags": [
+    {"name": "Messages", "description": "Send messages to customers"},
+    {"name": "Media", "description": "Upload and manage media"},
+    {"name": "Templates", "description": "Message template management"},
+    {"name": "Phone Numbers", "description": "Phone number management"},
+    {"name": "Business Profile", "description": "Business profile settings"},
+    {"name": "Registration", "description": "Phone number registration"}
+  ],
+  "paths": {
+    "/{phone-number-id}/messages": {
+      "post": {
+        "summary": "Send Message",
+        "description": "Send a text, media, template, or interactive message to a WhatsApp user.",
+        "operationId": "sendMessage",
+        "tags": ["Messages"],
+        "parameters": [
+          {"name": "phone-number-id", "in": "path", "required": true, "schema": {"type": "string"}, "description": "Your WhatsApp Business Phone Number ID"}
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {"$ref": "#/components/schemas/SendMessageRequest"},
+              "examples": {
+                "text": {
+                  "summary": "Text Message",
+                  "value": {
+                    "messaging_product": "whatsapp",
+                    "to": "1234567890",
+                    "type": "text",
+                    "text": {"body": "Hello from WhatsApp!"}
+                  }
+                },
+                "template": {
+                  "summary": "Template Message",
+                  "value": {
+                    "messaging_product": "whatsapp",
+                    "to": "1234567890",
+                    "type": "template",
+                    "template": {"name": "hello_world", "language": {"code": "en_US"}}
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Message sent successfully",
+            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/MessageResponse"}}}
+          },
+          "400": {"$ref": "#/components/responses/BadRequest"}
+        },
+        "security": [{"accessToken": []}]
+      }
+    },
+    "/{phone-number-id}/media": {
+      "post": {
+        "summary": "Upload Media",
+        "description": "Upload media (images, documents, audio, video, stickers) to use in messages.",
+        "operationId": "uploadMedia",
+        "tags": ["Media"],
+        "parameters": [
+          {"name": "phone-number-id", "in": "path", "required": true, "schema": {"type": "string"}}
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": ["file", "messaging_product"],
+                "properties": {
+                  "file": {"type": "string", "format": "binary", "description": "Media file to upload"},
+                  "type": {"type": "string", "description": "MIME type of the file"},
+                  "messaging_product": {"type": "string", "enum": ["whatsapp"]}
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Media uploaded",
+            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/MediaUploadResponse"}}}
+          }
+        },
+        "security": [{"accessToken": []}]
+      }
+    },
+    "/{media-id}": {
+      "get": {
+        "summary": "Get Media URL",
+        "description": "Retrieve the URL for a media object.",
+        "operationId": "getMediaUrl",
+        "tags": ["Media"],
+        "parameters": [
+          {"name": "media-id", "in": "path", "required": true, "schema": {"type": "string"}}
+        ],
+        "responses": {
+          "200": {
+            "description": "Media URL",
+            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/MediaUrlResponse"}}}
+          }
+        },
+        "security": [{"accessToken": []}]
+      },
+      "delete": {
+        "summary": "Delete Media",
+        "description": "Delete a media object.",
+        "operationId": "deleteMedia",
+        "tags": ["Media"],
+        "parameters": [
+          {"name": "media-id", "in": "path", "required": true, "schema": {"type": "string"}}
+        ],
+        "responses": {
+          "200": {
+            "description": "Media deleted",
+            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/SuccessResponse"}}}
+          }
+        },
+        "security": [{"accessToken": []}]
+      }
+    },
+    "/{whatsapp-business-account-id}/message_templates": {
+      "get": {
+        "summary": "List Message Templates",
+        "description": "Get all message templates for a WhatsApp Business Account.",
+        "operationId": "listTemplates",
+        "tags": ["Templates"],
+        "parameters": [
+          {"name": "whatsapp-business-account-id", "in": "path", "required": true, "schema": {"type": "string"}},
+          {"name": "limit", "in": "query", "schema": {"type": "integer", "default": 25}},
+          {"name": "status", "in": "query", "schema": {"type": "string", "enum": ["APPROVED", "PENDING", "REJECTED"]}}
+        ],
+        "responses": {
+          "200": {
+            "description": "List of templates",
+            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/TemplateListResponse"}}}
+          }
+        },
+        "security": [{"accessToken": []}]
+      },
+      "post": {
+        "summary": "Create Message Template",
+        "description": "Create a new message template for approval.",
+        "operationId": "createTemplate",
+        "tags": ["Templates"],
+        "parameters": [
+          {"name": "whatsapp-business-account-id", "in": "path", "required": true, "schema": {"type": "string"}}
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {"$ref": "#/components/schemas/CreateTemplateRequest"}
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Template created",
+            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/TemplateResponse"}}}
+          }
+        },
+        "security": [{"accessToken": []}]
+      }
+    },
+    "/{whatsapp-business-account-id}/message_templates/{template-name}": {
+      "delete": {
+        "summary": "Delete Message Template",
+        "description": "Delete a message template by name.",
+        "operationId": "deleteTemplate",
+        "tags": ["Templates"],
+        "parameters": [
+          {"name": "whatsapp-business-account-id", "in": "path", "required": true, "schema": {"type": "string"}},
+          {"name": "template-name", "in": "path", "required": true, "schema": {"type": "string"}}
+        ],
+        "responses": {
+          "200": {
+            "description": "Template deleted",
+            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/SuccessResponse"}}}
+          }
+        },
+        "security": [{"accessToken": []}]
+      }
+    },
+    "/{phone-number-id}": {
+      "get": {
+        "summary": "Get Phone Number",
+        "description": "Get details about a WhatsApp Business phone number.",
+        "operationId": "getPhoneNumber",
+        "tags": ["Phone Numbers"],
+        "parameters": [
+          {"name": "phone-number-id", "in": "path", "required": true, "schema": {"type": "string"}},
+          {"name": "fields", "in": "query", "schema": {"type": "string"}}
+        ],
+        "responses": {
+          "200": {
+            "description": "Phone number details",
+            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/PhoneNumber"}}}
+          }
+        },
+        "security": [{"accessToken": []}]
+      }
+    },
+    "/{whatsapp-business-account-id}/phone_numbers": {
+      "get": {
+        "summary": "List Phone Numbers",
+        "description": "Get all phone numbers associated with a WhatsApp Business Account.",
+        "operationId": "listPhoneNumbers",
+        "tags": ["Phone Numbers"],
+        "parameters": [
+          {"name": "whatsapp-business-account-id", "in": "path", "required": true, "schema": {"type": "string"}}
+        ],
+        "responses": {
+          "200": {
+            "description": "List of phone numbers",
+            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/PhoneNumberListResponse"}}}
+          }
+        },
+        "security": [{"accessToken": []}]
+      }
+    },
+    "/{phone-number-id}/whatsapp_business_profile": {
+      "get": {
+        "summary": "Get Business Profile",
+        "description": "Get the WhatsApp Business profile information.",
+        "operationId": "getBusinessProfile",
+        "tags": ["Business Profile"],
+        "parameters": [
+          {"name": "phone-number-id", "in": "path", "required": true, "schema": {"type": "string"}},
+          {"name": "fields", "in": "query", "schema": {"type": "string", "example": "about,address,description,email,profile_picture_url,websites,vertical"}}
+        ],
+        "responses": {
+          "200": {
+            "description": "Business profile",
+            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/BusinessProfileResponse"}}}
+          }
+        },
+        "security": [{"accessToken": []}]
+      },
+      "post": {
+        "summary": "Update Business Profile",
+        "description": "Update the WhatsApp Business profile information.",
+        "operationId": "updateBusinessProfile",
+        "tags": ["Business Profile"],
+        "parameters": [
+          {"name": "phone-number-id", "in": "path", "required": true, "schema": {"type": "string"}}
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {"$ref": "#/components/schemas/UpdateBusinessProfileRequest"}
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Profile updated",
+            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/SuccessResponse"}}}
+          }
+        },
+        "security": [{"accessToken": []}]
+      }
+    },
+    "/{phone-number-id}/register": {
+      "post": {
+        "summary": "Register Phone Number",
+        "description": "Register a phone number with WhatsApp Business.",
+        "operationId": "registerPhoneNumber",
+        "tags": ["Registration"],
+        "parameters": [
+          {"name": "phone-number-id", "in": "path", "required": true, "schema": {"type": "string"}}
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["messaging_product", "pin"],
+                "properties": {
+                  "messaging_product": {"type": "string", "enum": ["whatsapp"]},
+                  "pin": {"type": "string", "description": "6-digit PIN for two-step verification"}
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Registration initiated",
+            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/SuccessResponse"}}}
+          }
+        },
+        "security": [{"accessToken": []}]
+      }
+    },
+    "/{phone-number-id}/deregister": {
+      "post": {
+        "summary": "Deregister Phone Number",
+        "description": "Deregister a phone number from WhatsApp Business.",
+        "operationId": "deregisterPhoneNumber",
+        "tags": ["Registration"],
+        "parameters": [
+          {"name": "phone-number-id", "in": "path", "required": true, "schema": {"type": "string"}}
+        ],
+        "responses": {
+          "200": {
+            "description": "Deregistration successful",
+            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/SuccessResponse"}}}
+          }
+        },
+        "security": [{"accessToken": []}]
+      }
+    },
+    "/{phone-number-id}/request_code": {
+      "post": {
+        "summary": "Request Verification Code",
+        "description": "Request a verification code for phone number registration.",
+        "operationId": "requestCode",
+        "tags": ["Registration"],
+        "parameters": [
+          {"name": "phone-number-id", "in": "path", "required": true, "schema": {"type": "string"}}
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["code_method", "language"],
+                "properties": {
+                  "code_method": {"type": "string", "enum": ["SMS", "VOICE"]},
+                  "language": {"type": "string", "example": "en_US"}
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Code sent",
+            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/SuccessResponse"}}}
+          }
+        },
+        "security": [{"accessToken": []}]
+      }
+    },
+    "/{phone-number-id}/verify_code": {
+      "post": {
+        "summary": "Verify Code",
+        "description": "Verify the code received during registration.",
+        "operationId": "verifyCode",
+        "tags": ["Registration"],
+        "parameters": [
+          {"name": "phone-number-id", "in": "path", "required": true, "schema": {"type": "string"}}
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["code"],
+                "properties": {
+                  "code": {"type": "string", "description": "6-digit verification code"}
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Code verified",
+            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/SuccessResponse"}}}
+          }
+        },
+        "security": [{"accessToken": []}]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "SendMessageRequest": {
+        "type": "object",
+        "required": ["messaging_product", "to", "type"],
+        "properties": {
+          "messaging_product": {"type": "string", "enum": ["whatsapp"]},
+          "recipient_type": {"type": "string", "enum": ["individual"], "default": "individual"},
+          "to": {"type": "string", "description": "WhatsApp ID or phone number"},
+          "type": {"type": "string", "enum": ["text", "image", "audio", "video", "document", "sticker", "location", "contacts", "interactive", "template", "reaction"]},
+          "text": {"$ref": "#/components/schemas/TextObject"},
+          "image": {"$ref": "#/components/schemas/MediaObject"},
+          "audio": {"$ref": "#/components/schemas/MediaObject"},
+          "video": {"$ref": "#/components/schemas/MediaObject"},
+          "document": {"$ref": "#/components/schemas/DocumentObject"},
+          "sticker": {"$ref": "#/components/schemas/MediaObject"},
+          "location": {"$ref": "#/components/schemas/LocationObject"},
+          "contacts": {"type": "array", "items": {"$ref": "#/components/schemas/ContactObject"}},
+          "interactive": {"$ref": "#/components/schemas/InteractiveObject"},
+          "template": {"$ref": "#/components/schemas/TemplateObject"},
+          "reaction": {"$ref": "#/components/schemas/ReactionObject"},
+          "context": {"type": "object", "properties": {"message_id": {"type": "string", "description": "Message ID to reply to"}}}
+        }
+      },
+      "TextObject": {
+        "type": "object",
+        "required": ["body"],
+        "properties": {
+          "body": {"type": "string", "maxLength": 4096},
+          "preview_url": {"type": "boolean", "default": false}
+        }
+      },
+      "MediaObject": {
+        "type": "object",
+        "properties": {
+          "id": {"type": "string", "description": "Media ID from upload"},
+          "link": {"type": "string", "format": "uri", "description": "URL of media"},
+          "caption": {"type": "string"}
+        }
+      },
+      "DocumentObject": {
+        "type": "object",
+        "properties": {
+          "id": {"type": "string"},
+          "link": {"type": "string", "format": "uri"},
+          "caption": {"type": "string"},
+          "filename": {"type": "string"}
+        }
+      },
+      "LocationObject": {
+        "type": "object",
+        "required": ["longitude", "latitude"],
+        "properties": {
+          "longitude": {"type": "number"},
+          "latitude": {"type": "number"},
+          "name": {"type": "string"},
+          "address": {"type": "string"}
+        }
+      },
+      "ContactObject": {
+        "type": "object",
+        "properties": {
+          "name": {"type": "object", "properties": {"formatted_name": {"type": "string"}, "first_name": {"type": "string"}, "last_name": {"type": "string"}}},
+          "phones": {"type": "array", "items": {"type": "object", "properties": {"phone": {"type": "string"}, "type": {"type": "string"}}}},
+          "emails": {"type": "array", "items": {"type": "object", "properties": {"email": {"type": "string"}, "type": {"type": "string"}}}}
+        }
+      },
+      "InteractiveObject": {
+        "type": "object",
+        "required": ["type", "body"],
+        "properties": {
+          "type": {"type": "string", "enum": ["button", "list", "product", "product_list", "cta_url", "flow"]},
+          "header": {"type": "object"},
+          "body": {"type": "object", "properties": {"text": {"type": "string"}}},
+          "footer": {"type": "object", "properties": {"text": {"type": "string"}}},
+          "action": {"type": "object"}
+        }
+      },
+      "TemplateObject": {
+        "type": "object",
+        "required": ["name", "language"],
+        "properties": {
+          "name": {"type": "string", "description": "Template name"},
+          "language": {"type": "object", "properties": {"code": {"type": "string", "example": "en_US"}}},
+          "components": {"type": "array", "items": {"type": "object"}}
+        }
+      },
+      "ReactionObject": {
+        "type": "object",
+        "required": ["message_id", "emoji"],
+        "properties": {
+          "message_id": {"type": "string"},
+          "emoji": {"type": "string"}
+        }
+      },
+      "MessageResponse": {
+        "type": "object",
+        "properties": {
+          "messaging_product": {"type": "string"},
+          "contacts": {"type": "array", "items": {"type": "object", "properties": {"input": {"type": "string"}, "wa_id": {"type": "string"}}}},
+          "messages": {"type": "array", "items": {"type": "object", "properties": {"id": {"type": "string"}}}}
+        }
+      },
+      "MediaUploadResponse": {
+        "type": "object",
+        "properties": {
+          "id": {"type": "string", "description": "Media ID"}
+        }
+      },
+      "MediaUrlResponse": {
+        "type": "object",
+        "properties": {
+          "url": {"type": "string", "format": "uri"},
+          "mime_type": {"type": "string"},
+          "sha256": {"type": "string"},
+          "file_size": {"type": "integer"},
+          "id": {"type": "string"},
+          "messaging_product": {"type": "string"}
+        }
+      },
+      "CreateTemplateRequest": {
+        "type": "object",
+        "required": ["name", "language", "category", "components"],
+        "properties": {
+          "name": {"type": "string"},
+          "language": {"type": "string", "example": "en_US"},
+          "category": {"type": "string", "enum": ["AUTHENTICATION", "MARKETING", "UTILITY"]},
+          "components": {"type": "array", "items": {"$ref": "#/components/schemas/TemplateComponent"}}
+        }
+      },
+      "TemplateComponent": {
+        "type": "object",
+        "required": ["type"],
+        "properties": {
+          "type": {"type": "string", "enum": ["HEADER", "BODY", "FOOTER", "BUTTONS"]},
+          "format": {"type": "string", "enum": ["TEXT", "IMAGE", "VIDEO", "DOCUMENT"]},
+          "text": {"type": "string"},
+          "buttons": {"type": "array", "items": {"type": "object"}}
+        }
+      },
+      "TemplateListResponse": {
+        "type": "object",
+        "properties": {
+          "data": {"type": "array", "items": {"$ref": "#/components/schemas/Template"}},
+          "paging": {"$ref": "#/components/schemas/Paging"}
+        }
+      },
+      "Template": {
+        "type": "object",
+        "properties": {
+          "id": {"type": "string"},
+          "name": {"type": "string"},
+          "status": {"type": "string", "enum": ["APPROVED", "PENDING", "REJECTED"]},
+          "category": {"type": "string"},
+          "language": {"type": "string"},
+          "components": {"type": "array", "items": {"$ref": "#/components/schemas/TemplateComponent"}}
+        }
+      },
+      "TemplateResponse": {
+        "type": "object",
+        "properties": {
+          "id": {"type": "string"},
+          "status": {"type": "string"},
+          "category": {"type": "string"}
+        }
+      },
+      "PhoneNumber": {
+        "type": "object",
+        "properties": {
+          "id": {"type": "string"},
+          "display_phone_number": {"type": "string"},
+          "verified_name": {"type": "string"},
+          "quality_rating": {"type": "string", "enum": ["GREEN", "YELLOW", "RED"]},
+          "code_verification_status": {"type": "string"},
+          "messaging_limit_tier": {"type": "string"}
+        }
+      },
+      "PhoneNumberListResponse": {
+        "type": "object",
+        "properties": {
+          "data": {"type": "array", "items": {"$ref": "#/components/schemas/PhoneNumber"}},
+          "paging": {"$ref": "#/components/schemas/Paging"}
+        }
+      },
+      "BusinessProfileResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "about": {"type": "string"},
+                "address": {"type": "string"},
+                "description": {"type": "string"},
+                "email": {"type": "string"},
+                "profile_picture_url": {"type": "string", "format": "uri"},
+                "websites": {"type": "array", "items": {"type": "string"}},
+                "vertical": {"type": "string"},
+                "messaging_product": {"type": "string"}
+              }
+            }
+          }
+        }
+      },
+      "UpdateBusinessProfileRequest": {
+        "type": "object",
+        "required": ["messaging_product"],
+        "properties": {
+          "messaging_product": {"type": "string", "enum": ["whatsapp"]},
+          "about": {"type": "string", "maxLength": 139},
+          "address": {"type": "string", "maxLength": 256},
+          "description": {"type": "string", "maxLength": 512},
+          "email": {"type": "string"},
+          "profile_picture_handle": {"type": "string"},
+          "websites": {"type": "array", "items": {"type": "string"}, "maxItems": 2},
+          "vertical": {"type": "string", "enum": ["UNDEFINED", "OTHER", "AUTO", "BEAUTY", "APPAREL", "EDU", "ENTERTAIN", "EVENT_PLAN", "FINANCE", "GROCERY", "GOVT", "HOTEL", "HEALTH", "NONPROFIT", "PROF_SERVICES", "RETAIL", "TRAVEL", "RESTAURANT", "NOT_A_BIZ"]}
+        }
+      },
+      "SuccessResponse": {
+        "type": "object",
+        "properties": {
+          "success": {"type": "boolean"}
+        }
+      },
+      "Paging": {
+        "type": "object",
+        "properties": {
+          "cursors": {"type": "object", "properties": {"before": {"type": "string"}, "after": {"type": "string"}}},
+          "next": {"type": "string", "format": "uri"},
+          "previous": {"type": "string", "format": "uri"}
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "object",
+            "properties": {
+              "message": {"type": "string"},
+              "type": {"type": "string"},
+              "code": {"type": "integer"},
+              "error_subcode": {"type": "integer"},
+              "fbtrace_id": {"type": "string"}
+            }
+          }
+        }
+      }
+    },
+    "responses": {
+      "BadRequest": {
+        "description": "Bad request",
+        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/Error"}}}
+      }
+    },
+    "securitySchemes": {
+      "accessToken": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "System User Access Token with whatsapp_business_messaging permission"
+      }
+    }
+  },
+  "externalDocs": {
+    "description": "WhatsApp Business Platform Documentation",
+    "url": "https://developers.facebook.com/docs/whatsapp/cloud-api"
+  }
+}

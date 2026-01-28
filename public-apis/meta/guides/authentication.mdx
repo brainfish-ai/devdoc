@@ -1,0 +1,103 @@
+---
+title: Authentication
+description: How to authenticate with Meta Platform APIs
+---
+
+All Meta Platform APIs use OAuth 2.0 for authentication. This guide covers the common authentication patterns across all APIs.
+
+## Token Types
+
+| Token Type | Description | Expiration |
+|------------|-------------|------------|
+| User Access Token | Represents a user's authorization | Short-lived (1 hour) or Long-lived (60 days) |
+| Page Access Token | Acts on behalf of a Facebook Page | Never expires (from long-lived user token) |
+| System User Token | For server-to-server communication | Never expires |
+| App Access Token | For app-level operations | Never expires |
+
+## Getting Access Tokens
+
+### Graph API Explorer (Development)
+
+1. Go to [Graph API Explorer](https://developers.facebook.com/tools/explorer/)
+2. Select your app from the dropdown
+3. Click **Generate Access Token**
+4. Grant required permissions
+5. Copy the token
+
+### OAuth Flow (Production)
+
+```
+https://www.facebook.com/v21.0/dialog/oauth?
+  client_id={app-id}
+  &redirect_uri={redirect-uri}
+  &scope={permissions}
+  &response_type=code
+```
+
+### Exchange Code for Token
+
+```bash
+curl -X GET "https://graph.facebook.com/v21.0/oauth/access_token" \
+  -d "client_id={app-id}" \
+  -d "client_secret={app-secret}" \
+  -d "redirect_uri={redirect-uri}" \
+  -d "code={code}"
+```
+
+## Extending Token Lifetime
+
+### Short-lived → Long-lived
+
+```bash
+curl -X GET "https://graph.facebook.com/v21.0/oauth/access_token" \
+  -d "grant_type=fb_exchange_token" \
+  -d "client_id={app-id}" \
+  -d "client_secret={app-secret}" \
+  -d "fb_exchange_token={short-lived-token}"
+```
+
+## Debugging Tokens
+
+Verify token validity and permissions:
+
+```bash
+curl -X GET "https://graph.facebook.com/debug_token" \
+  -d "input_token={token-to-debug}" \
+  -d "access_token={app-id}|{app-secret}"
+```
+
+Response:
+```json
+{
+  "data": {
+    "app_id": "123456789",
+    "type": "USER",
+    "is_valid": true,
+    "scopes": ["email", "instagram_basic"],
+    "expires_at": 1234567890
+  }
+}
+```
+
+## Using Tokens
+
+### Query Parameter
+
+```bash
+curl "https://graph.facebook.com/v21.0/me?access_token=YOUR_TOKEN"
+```
+
+### Authorization Header
+
+```bash
+curl "https://graph.facebook.com/v21.0/me" \
+  -H "Authorization: Bearer YOUR_TOKEN"
+```
+
+## Best Practices
+
+1. **Never expose tokens** in client-side code or version control
+2. **Use long-lived tokens** for production applications
+3. **Store tokens securely** using encryption
+4. **Monitor token expiration** and refresh proactively
+5. **Request minimal permissions** only what your app needs

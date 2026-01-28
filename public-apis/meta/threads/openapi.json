@@ -1,0 +1,1880 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Threads API",
+    "description": "The Threads API from Meta allows you to create, manage, and publish Threads content programmatically. This is the official API specification converted from Meta's Postman collection.",
+    "version": "1.0.0",
+    "termsOfService": "https://www.facebook.com/legal/technology_terms",
+    "contact": {
+      "name": "Meta Developer Support",
+      "url": "https://developers.facebook.com/support"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://graph.threads.net/v1.0",
+      "description": "Threads Graph API"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Authorization",
+      "description": "Authorization operations"
+    },
+    {
+      "name": "Post to Threads",
+      "description": "Post to Threads operations"
+    },
+    {
+      "name": "Read And Manage Threads",
+      "description": "Read And Manage Threads operations"
+    },
+    {
+      "name": "Read Threads Insights",
+      "description": "Read Threads Insights operations"
+    },
+    {
+      "name": "Discover Threads",
+      "description": "Discover Threads operations"
+    },
+    {
+      "name": "Display Threads",
+      "description": "Display Threads operations"
+    },
+    {
+      "name": "Troubleshooting",
+      "description": "Troubleshooting operations"
+    }
+  ],
+  "paths": {
+    "/oauth/access_token": {
+      "post": {
+        "summary": "Exchange the Code For a Token",
+        "description": "Once you receive a code, exchange it for a short-lived access token by sending a `POST` request to the /oauth/access_token [endpoint](https://developers.facebook.com/docs/threads/get-started/get-access-tokens-and-permissions#step-2--exchange-the-code-for-a-token)",
+        "operationId": "ExchangetheCodeForaToken",
+        "tags": [
+          "Authorization"
+        ],
+        "parameters": [
+          {
+            "name": "client_id",
+            "in": "query",
+            "description": "Your Threads App ID displayed in App Dashboard > App settings > Basic > Threads App ID.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "client_secret",
+            "in": "query",
+            "description": "Your Threads App Secret displayed in App Dashboard > App settings > Basic > Threads App secret.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "code",
+            "in": "query",
+            "description": "The authorization code we passed you in the code parameter when redirecting the user to your redirect_uri.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "grant_type",
+            "in": "query",
+            "description": "This value is required. Set this value to authorization_code.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "redirect_uri",
+            "in": "query",
+            "description": "The redirect URI you passed when you directed the user to the Authorization Window. This must be the same URI or the request will be rejected.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "accessToken": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "Get App Access Token",
+        "description": "",
+        "operationId": "GetAppAccessToken",
+        "tags": [
+          "Authorization"
+        ],
+        "parameters": [
+          {
+            "name": "grant_type",
+            "in": "query",
+            "description": "This value is required. Set this value to client_credentials.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "client_id",
+            "in": "query",
+            "description": "Your Threads App ID displayed in App Dashboard > App settings > Basic > Threads App ID.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "client_secret",
+            "in": "query",
+            "description": "Your Threads App Secret displayed in App Dashboard > App settings > Basic > Threads App secret.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "accessToken": []
+          }
+        ]
+      }
+    },
+    "/access_token": {
+      "get": {
+        "summary": "Get Long-Lived Access Token",
+        "description": "Use the `GET` /access_token [endpoint](https://developers.facebook.com/docs/threads/get-started/long-lived-tokens#get-a-long-lived-token) to exchange a short-lived Threads user access token for a long-lived token.",
+        "operationId": "GetLongLivedAccessToken",
+        "tags": [
+          "Authorization"
+        ],
+        "parameters": [
+          {
+            "name": "grant_type",
+            "in": "query",
+            "description": "This value is required. Set this to th_exchange_token.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "client_secret",
+            "in": "query",
+            "description": "Your Threads App Secret displayed in App Dashboard > App settings > Basic > Threads App secret.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "accessToken": []
+          }
+        ]
+      }
+    },
+    "/refresh_access_token": {
+      "get": {
+        "summary": "Refresh Access Token",
+        "description": "",
+        "operationId": "RefreshAccessToken",
+        "tags": [
+          "Authorization"
+        ],
+        "parameters": [
+          {
+            "name": "grant_type",
+            "in": "query",
+            "description": "Set this to th_refresh_token.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "accessToken": []
+          }
+        ]
+      }
+    },
+    "/me/threads": {
+      "post": {
+        "summary": "Control Who Can Reply",
+        "description": "Use the [reply_control](https://developers.facebook.com/docs/threads/reply-management#control-who-can-reply) parameter to specify who can reply to a post being created for publishing.",
+        "operationId": "ControlWhoCanReply2",
+        "tags": [
+          "Read And Manage Threads"
+        ],
+        "parameters": [
+          {
+            "name": "media_type",
+            "in": "query",
+            "description": "Indicates the current media type.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "text",
+            "in": "query",
+            "description": "The text associated with the post.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "reply_control",
+            "in": "query",
+            "description": "Can be used to specify who can reply to a post.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "accessToken": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "Get a List of All a User's Threads",
+        "description": "Use the `GET` /{threads-user-id}/threads [endpoint](https://developers.facebook.com/docs/threads/threads-media#retrieve-a-list-of-all-a-user-s-threads) to return a paginated list of all threads created by a user.",
+        "operationId": "GetaListofAllaUsersThreads",
+        "tags": [
+          "Read And Manage Threads"
+        ],
+        "parameters": [
+          {
+            "name": "fields",
+            "in": "query",
+            "description": "A comma-separated list of fields for media objects on Threads.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "since",
+            "in": "query",
+            "description": "Query string parameter representing the start date for retrieval.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "until",
+            "in": "query",
+            "description": "Query string parameter representing the end date for retrieval.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Query string parameter representing the maximum number of media objects or records to return.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "before",
+            "in": "query",
+            "description": "Query string parameter representing a cursor that can be used for pagination. Both \"before\" and \"after\" cannot be sent in the same request.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "after",
+            "in": "query",
+            "description": "Query string parameter representing a cursor that can be used for pagination. Both \"before\" and \"after\" cannot be sent in the same request.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "accessToken": []
+          }
+        ]
+      }
+    },
+    "/me/threads_publish": {
+      "post": {
+        "summary": "2. Publish Threads Quote Post",
+        "description": "Use the `POST` /{threads-user-id}/threads_publish [endpoint](https://developers.facebook.com/docs/threads/posts#step-2--publish-a-threads-media-container) to publish the container ID returned in the previous step.",
+        "operationId": "2PublishThreadsQuotePost2",
+        "tags": [
+          "Post to Threads"
+        ],
+        "parameters": [
+          {
+            "name": "creation_id",
+            "in": "query",
+            "description": "Identifier of the Threads media container created from the /threads endpoint.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "accessToken": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/{thread_id}/repost": {
+      "post": {
+        "summary": "Repost Threads Post",
+        "description": "Use the `POST` /{threads-user-id}/threads_publish [endpoint](https://developers.facebook.com/docs/threads/posts#step-2--publish-a-threads-media-container) to publish the container ID returned in the previous step.",
+        "operationId": "RepostThreadsPost",
+        "tags": [
+          "Post to Threads"
+        ],
+        "parameters": [
+          {
+            "name": "thread_id",
+            "in": "path",
+            "required": true,
+            "description": "The thread id",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "accessToken": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/location_search": {
+      "get": {
+        "summary": "Search for Locations",
+        "description": "",
+        "operationId": "SearchforLocations",
+        "tags": [
+          "Post to Threads"
+        ],
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "description": "A query to search for locations by.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "latitude",
+            "in": "query",
+            "description": "The latitude of a location.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "longitude",
+            "in": "query",
+            "description": "The longitude of a location.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "fields",
+            "in": "query",
+            "description": "List of comma-separated fields for a location.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "accessToken": []
+          }
+        ]
+      }
+    },
+    "/{location_id}": {
+      "get": {
+        "summary": "Retrieve Threads Location",
+        "description": "",
+        "operationId": "RetrieveThreadsLocation",
+        "tags": [
+          "Post to Threads"
+        ],
+        "parameters": [
+          {
+            "name": "location_id",
+            "in": "path",
+            "required": true,
+            "description": "The location id",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "fields",
+            "in": "query",
+            "description": "List of comma-separated fields for a location.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "accessToken": []
+          }
+        ]
+      }
+    },
+    "/me": {
+      "get": {
+        "summary": "Get App-Scoped User's Profile Information",
+        "description": "Use the `GET` /{threads-user-id}?fields=id,username,... [endpoint](https://developers.facebook.com/docs/threads/threads-profiles#retrieve-a-threads-user-s-profile-information) to return profile information about a Threads user.",
+        "operationId": "GetAppScopedUsersProfileInformation",
+        "tags": [
+          "Read And Manage Threads"
+        ],
+        "parameters": [
+          {
+            "name": "fields",
+            "in": "query",
+            "description": "A comma-separated list of fields for a user on Threads.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "accessToken": []
+          }
+        ]
+      }
+    },
+    "/profile_lookup": {
+      "get": {
+        "summary": "Get Public Threads User's Profile Information",
+        "description": "",
+        "operationId": "GetPublicThreadsUsersProfileInformation",
+        "tags": [
+          "Read And Manage Threads"
+        ],
+        "parameters": [
+          {
+            "name": "username",
+            "in": "query",
+            "description": "Handle or unique username on Threads. Must be an exact match.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "accessToken": []
+          }
+        ]
+      }
+    },
+    "/{thread_id}": {
+      "get": {
+        "summary": "Get Threads Post Details",
+        "description": "Use the `GET` /{threads-media-id} [endpoint](https://developers.facebook.com/docs/threads/threads-media#retrieve-a-single-threads-media-object) to return an individual Threads media object.",
+        "operationId": "GetThreadsPostDetails",
+        "tags": [
+          "Read And Manage Threads"
+        ],
+        "parameters": [
+          {
+            "name": "thread_id",
+            "in": "path",
+            "required": true,
+            "description": "The thread id",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "fields",
+            "in": "query",
+            "description": "A comma-separated list of fields for a media object on Threads.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "accessToken": []
+          }
+        ]
+      },
+      "delete": {
+        "summary": "Delete Threads Post",
+        "description": "",
+        "operationId": "DeleteThreadsPost",
+        "tags": [
+          "Read And Manage Threads"
+        ],
+        "parameters": [
+          {
+            "name": "thread_id",
+            "in": "path",
+            "required": true,
+            "description": "The thread id",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "accessToken": []
+          }
+        ]
+      }
+    },
+    "/profile_posts": {
+      "get": {
+        "summary": "Retrieve a List of a Public Profile's Threads",
+        "description": "",
+        "operationId": "RetrieveaListofaPublicProfilesThreads",
+        "tags": [
+          "Read And Manage Threads"
+        ],
+        "parameters": [
+          {
+            "name": "username",
+            "in": "query",
+            "description": "Handle or unique username on Threads. Must be an exact match.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "fields",
+            "in": "query",
+            "description": "A comma-separated list of fields for media objects on Threads.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "accessToken": []
+          }
+        ]
+      }
+    },
+    "/{thread_id}/replies": {
+      "get": {
+        "summary": "Get Threads Replies",
+        "description": "Use `GET` /replies [endpoint](https://developers.facebook.com/docs/threads/reply-management#replies) to fetch a paginated list of all top-level replies.",
+        "operationId": "GetThreadsReplies",
+        "tags": [
+          "Read And Manage Threads"
+        ],
+        "parameters": [
+          {
+            "name": "thread_id",
+            "in": "path",
+            "required": true,
+            "description": "The thread id",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "fields",
+            "in": "query",
+            "description": "A comma-separated list of fields for replies on Threads.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "reverse",
+            "in": "query",
+            "description": "Whether or not replies should be sorted in reverse chronological order. The default is true if not specified.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "accessToken": []
+          }
+        ]
+      }
+    },
+    "/{thread_id}/conversation": {
+      "get": {
+        "summary": "Get Threads Conversations",
+        "description": "Use `GET` /conversation [endpoint](https://developers.facebook.com/docs/threads/reply-management#conversations) to fetch a paginated and flattened list of all top-level and nested replies.",
+        "operationId": "GetThreadsConversations",
+        "tags": [
+          "Read And Manage Threads"
+        ],
+        "parameters": [
+          {
+            "name": "thread_id",
+            "in": "path",
+            "required": true,
+            "description": "The thread id",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "fields",
+            "in": "query",
+            "description": "A comma-separated list of fields for replies on Threads.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "reverse",
+            "in": "query",
+            "description": "Whether or not replies should be sorted in reverse chronological order. The default is true if not specified.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "accessToken": []
+          }
+        ]
+      }
+    },
+    "/{reply_thread_id}/manage_reply": {
+      "post": {
+        "summary": "Hide Replies",
+        "description": "Use `POST` /manage_reply [endpoint](https://developers.facebook.com/docs/threads/reply-management#hide-replies) to hide/unhide any top-level replies.",
+        "operationId": "HideReplies",
+        "tags": [
+          "Read And Manage Threads"
+        ],
+        "parameters": [
+          {
+            "name": "reply_thread_id",
+            "in": "path",
+            "required": true,
+            "description": "The reply thread id",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "hide",
+            "in": "query",
+            "description": "Set to true to hide a reply and set to false to unhide a reply.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "accessToken": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/replies": {
+      "get": {
+        "summary": "Get a List of All a User's Replies",
+        "description": "Use the `GET` /{threads-user-id}/threads [endpoint](https://developers.facebook.com/docs/threads/threads-media#retrieve-a-list-of-all-a-user-s-threads) to return a paginated list of all threads created by a user.",
+        "operationId": "GetaListofAllaUsersReplies",
+        "tags": [
+          "Read And Manage Threads"
+        ],
+        "parameters": [
+          {
+            "name": "fields",
+            "in": "query",
+            "description": "A comma-separated list of fields for replies on Threads.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "since",
+            "in": "query",
+            "description": "Query string parameter representing the start date for retrieval.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "until",
+            "in": "query",
+            "description": "Query string parameter representing the end date for retrieval.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Query string parameter representing the maximum number of media objects or records to return.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "before",
+            "in": "query",
+            "description": "Query string parameter representing a cursor that can be used for pagination. Both \"before\" and \"after\" cannot be sent in the same request.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "after",
+            "in": "query",
+            "description": "Query string parameter representing a cursor that can be used for pagination. Both \"before\" and \"after\" cannot be sent in the same request.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "accessToken": []
+          }
+        ]
+      }
+    },
+    "/{thread_id}/insights": {
+      "get": {
+        "summary": "Get Post Insights",
+        "description": "Use the `GET` /{threads-media-id}/insights [endpoint](https://developers.facebook.com/docs/threads/insights#media-insights) to return the insights of a given Threads post.",
+        "operationId": "GetPostInsights",
+        "tags": [
+          "Read Threads Insights"
+        ],
+        "parameters": [
+          {
+            "name": "thread_id",
+            "in": "path",
+            "required": true,
+            "description": "The thread id",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "metric",
+            "in": "query",
+            "description": "A comma-separated list of metrics for a post on Threads.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "accessToken": []
+          }
+        ]
+      }
+    },
+    "/me/threads_insights": {
+      "get": {
+        "summary": "Get Account Insights",
+        "description": "Use the `GET` /{threads-user-id}/threads_insights [endpoint](https://developers.facebook.com/docs/threads/insights#user-insights) to return the insights of a given Threads user.",
+        "operationId": "GetAccountInsights",
+        "tags": [
+          "Read Threads Insights"
+        ],
+        "parameters": [
+          {
+            "name": "metric",
+            "in": "query",
+            "description": "A comma-separated list of metrics for an account on Threads.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "breakdown",
+            "in": "query",
+            "description": "Used for categorizing follower demographics. Must be one of the following values: country, city, age, or gender.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "accessToken": []
+          }
+        ]
+      }
+    },
+    "/keyword_search": {
+      "get": {
+        "summary": "Search for Threads Posts",
+        "description": "",
+        "operationId": "SearchforThreadsPosts",
+        "tags": [
+          "Discover Threads"
+        ],
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "description": "This is the query to be searched for.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "search_type",
+            "in": "query",
+            "description": "This is the type of search to be performed. This can be either TOP or RECENT.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "fields",
+            "in": "query",
+            "description": "A comma-separated list of fields for media objects on Threads.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "search_mode",
+            "in": "query",
+            "description": "Specifies the search mode. KEYWORD (default) \u2014 The query will be treated as a keyword. TAG \u2014 The query will be treated as a topic tag.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Query string parameter representing the maximum number of media objects or records to return.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "since",
+            "in": "query",
+            "description": "Query string parameter representing the start date for retrieval (must be a Unix timestamp or a date/time representation parseable by strtotime();, the timestamp must be greater than or equal to 1688540400 and less than the until parameter).",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "until",
+            "in": "query",
+            "description": "Query string parameter representing the end date for retrieval (must be a Unix timestamp or a date/time representation parseable by strtotime();, the timestamp must be less than or equal to the current timestamp and greater than the since parameter).",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "accessToken": []
+          }
+        ]
+      }
+    },
+    "/me/mentions": {
+      "get": {
+        "summary": "Get Mentioned Threads Posts",
+        "description": "",
+        "operationId": "GetMentionedThreadsPosts",
+        "tags": [
+          "Discover Threads"
+        ],
+        "parameters": [
+          {
+            "name": "fields",
+            "in": "query",
+            "description": "A comma-separated list of fields for media objects on Threads.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "since",
+            "in": "query",
+            "description": "Query string parameter representing the start date for retrieval.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "until",
+            "in": "query",
+            "description": "Query string parameter representing the end date for retrieval.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Query string parameter representing the maximum number of media objects or records to return.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "before",
+            "in": "query",
+            "description": "Query string parameter representing a cursor that can be used for pagination. Both \"before\" and \"after\" cannot be sent in the same request.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "after",
+            "in": "query",
+            "description": "Query string parameter representing a cursor that can be used for pagination. Both \"before\" and \"after\" cannot be sent in the same request.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "accessToken": []
+          }
+        ]
+      }
+    },
+    "/oembed": {
+      "get": {
+        "summary": "Embed a Threads Post",
+        "description": "",
+        "operationId": "EmbedaThreadsPost",
+        "tags": [
+          "Display Threads"
+        ],
+        "parameters": [
+          {
+            "name": "url",
+            "in": "query",
+            "description": "This is the URL of the Threads post to be embedded. With standard access, you may embed posts from the @meta, @threads, @instagram, and @facebook accounts.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "access_token",
+            "in": "query",
+            "description": "This is your app access token. This consists of your app's ID and secret.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "access_token",
+            "in": "query",
+            "description": "This is your app access token received via the GET /oauth/access_token endpoint. See the Authorization folder for details.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "accessToken": []
+          }
+        ]
+      }
+    },
+    "/{container_id}/": {
+      "get": {
+        "summary": "Check Container's Publishing Status",
+        "description": "Use `POST` /{threads-user-id}/threads_publish [endpoint](https://developers.facebook.com/docs/threads/troubleshooting#publishing-does-not-return-a-media-id) to check a container's publishing status.",
+        "operationId": "CheckContainersPublishingStatus",
+        "tags": [
+          "Troubleshooting"
+        ],
+        "parameters": [
+          {
+            "name": "container_id",
+            "in": "path",
+            "required": true,
+            "description": "The container id",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "fields",
+            "in": "query",
+            "description": "EXPIRED \u2014 The container was not published within 24 hours and has expired.\nERROR \u2014 The container failed to complete the publishing process.\nFINISHED \u2014 The container and its media object are ready to be published.\nIN_PROGRESS \u2014 The container is still in the publishing process.\nPUBLISHED \u2014 The container's media object has been published.\n",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "accessToken": []
+          }
+        ]
+      }
+    },
+    "/me/threads_publishing_limit": {
+      "get": {
+        "summary": "Retrieve Publishing Quota Limit",
+        "description": "Use `GET` /threads_publishing_limit [endpoint](https://developers.facebook.com/docs/threads/troubleshooting#retrieve-publishing-quota-limit) to check a user's publishing API quota limit.",
+        "operationId": "RetrievePublishingQuotaLimit",
+        "tags": [
+          "Troubleshooting"
+        ],
+        "parameters": [
+          {
+            "name": "fields",
+            "in": "query",
+            "description": "The user's current Threads API publishing usage total.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "accessToken": []
+          }
+        ]
+      }
+    },
+    "/debug_token": {
+      "get": {
+        "summary": "Debug Access Token",
+        "description": "",
+        "operationId": "DebugAccessToken",
+        "tags": [
+          "Troubleshooting"
+        ],
+        "parameters": [
+          {
+            "name": "input_token",
+            "in": "query",
+            "description": "The access token to be inspected.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "accessToken": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "oauth2": {
+        "type": "oauth2",
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://threads.net/oauth/authorize",
+            "tokenUrl": "https://graph.threads.net/oauth/access_token",
+            "scopes": {
+              "threads_basic": "Read profile info",
+              "threads_content_publish": "Create and publish content",
+              "threads_manage_insights": "Read insights data",
+              "threads_manage_replies": "Manage replies",
+              "threads_read_replies": "Read replies"
+            }
+          }
+        }
+      },
+      "accessToken": {
+        "type": "apiKey",
+        "in": "query",
+        "name": "access_token"
+      }
+    },
+    "schemas": {
+      "ThreadsUser": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "User ID"
+          },
+          "username": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "threads_profile_picture_url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "threads_biography": {
+            "type": "string"
+          }
+        }
+      },
+      "ThreadsMedia": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "media_product_type": {
+            "type": "string",
+            "enum": [
+              "THREADS"
+            ]
+          },
+          "media_type": {
+            "type": "string",
+            "enum": [
+              "TEXT_POST",
+              "IMAGE",
+              "VIDEO",
+              "CAROUSEL_ALBUM",
+              "REPOST_FACADE"
+            ]
+          },
+          "media_url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "permalink": {
+            "type": "string",
+            "format": "uri"
+          },
+          "text": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "shortcode": {
+            "type": "string"
+          },
+          "is_quote_post": {
+            "type": "boolean"
+          },
+          "has_replies": {
+            "type": "boolean"
+          },
+          "reply_audience": {
+            "type": "string",
+            "enum": [
+              "everyone",
+              "accounts_you_follow",
+              "mentioned_only"
+            ]
+          }
+        }
+      },
+      "AccessTokenResponse": {
+        "type": "object",
+        "properties": {
+          "access_token": {
+            "type": "string"
+          },
+          "user_id": {
+            "type": "string"
+          },
+          "token_type": {
+            "type": "string"
+          },
+          "expires_in": {
+            "type": "integer"
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "object",
+            "properties": {
+              "message": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string"
+              },
+              "code": {
+                "type": "integer"
+              },
+              "fbtrace_id": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

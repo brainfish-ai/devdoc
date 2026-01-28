@@ -1,0 +1,135 @@
+{
+  "$schema": "https://devdoc.sh/docs.json",
+  "name": "Meta Platform APIs",
+  "favicon": "/assets/favicon.svg",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Documentation",
+        "type": "docs",
+        "groups": [
+          {
+            "group": "Getting Started",
+            "icon": "rocket-launch",
+            "pages": [
+              "index",
+              "quickstart"
+            ]
+          },
+          {
+            "group": "Guides",
+            "icon": "book-open",
+            "pages": [
+              "guides/authentication",
+              "guides/rate-limits"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Facebook Pages API",
+        "type": "openapi",
+        "path": "/api-reference/facebook",
+        "versions": [
+          {
+            "version": "v21.0",
+            "spec": "facebook-pages/openapi.json",
+            "default": true
+          }
+        ],
+        "groups": [
+          {
+            "group": "Overview",
+            "icon": "book-open",
+            "pages": [
+              "facebook-pages/introduction"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Instagram API",
+        "type": "openapi",
+        "path": "/api-reference/instagram",
+        "versions": [
+          {
+            "version": "v1",
+            "spec": "instagram/openapi.json",
+            "default": true
+          }
+        ],
+        "groups": [
+          {
+            "group": "Overview",
+            "icon": "book-open",
+            "pages": [
+              "instagram/introduction"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "WhatsApp Cloud API",
+        "type": "openapi",
+        "path": "/api-reference/whatsapp",
+        "versions": [
+          {
+            "version": "v1",
+            "spec": "whatsapp/openapi.json",
+            "default": true
+          }
+        ],
+        "groups": [
+          {
+            "group": "Overview",
+            "icon": "book-open",
+            "pages": [
+              "whatsapp/introduction"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Threads API",
+        "type": "openapi",
+        "path": "/api-reference/threads",
+        "versions": [
+          {
+            "version": "v1",
+            "spec": "threads/openapi.json",
+            "default": true
+          }
+        ],
+        "groups": [
+          {
+            "group": "Overview",
+            "icon": "book-open",
+            "pages": [
+              "threads/introduction"
+            ]
+          }
+        ]
+      }
+    ],
+    "global": {
+      "anchors": [
+        {
+          "anchor": "Meta for Developers",
+          "href": "https://developers.facebook.com",
+          "icon": "globe"
+        },
+        {
+          "anchor": "Postman Collections",
+          "href": "https://www.postman.com/meta",
+          "icon": "code"
+        }
+      ]
+    }
+  },
+  "api": {
+    "baseUrl": "https://graph.facebook.com",
+    "playground": {
+      "mode": "show"
+    }
+  }
+}

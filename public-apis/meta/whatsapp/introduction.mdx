@@ -1,0 +1,93 @@
+---
+title: WhatsApp Cloud API
+description: Send messages and manage customer conversations
+---
+
+The WhatsApp Business Platform Cloud API enables businesses to communicate with customers via WhatsApp at scale.
+
+## Overview
+
+<Note>
+  **Source**: Based on [Official WhatsApp Cloud API Documentation](https://developers.facebook.com/docs/whatsapp/cloud-api)
+</Note>
+
+## Key Features
+
+<CardGroup cols={2}>
+  <Card title="Messaging" icon="message">
+    Send text, media, templates, and interactive messages
+  </Card>
+  <Card title="Templates" icon="file-text">
+    Create pre-approved message templates
+  </Card>
+  <Card title="Media" icon="image">
+    Upload and send images, videos, documents
+  </Card>
+  <Card title="Webhooks" icon="webhook">
+    Receive real-time message notifications
+  </Card>
+</CardGroup>
+
+## Base URL
+
+```
+https://graph.facebook.com/v21.0/{phone-number-id}/messages
+```
+
+## Message Types
+
+| Type | Description |
+|------|-------------|
+| `text` | Plain text (up to 4096 chars) |
+| `image` | JPEG, PNG images |
+| `video` | MP4, 3GPP videos |
+| `audio` | AAC, MP3, OGG audio |
+| `document` | PDF, DOC, XLS files |
+| `template` | Pre-approved templates |
+| `interactive` | Buttons, lists, CTAs |
+| `location` | GPS coordinates |
+| `contacts` | Contact cards |
+
+## Quick Examples
+
+### Send Text Message
+
+```bash
+curl -X POST "https://graph.facebook.com/v21.0/{phone-number-id}/messages" \
+  -H "Authorization: Bearer TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "messaging_product": "whatsapp",
+    "to": "1234567890",
+    "type": "text",
+    "text": {"body": "Hello!"}
+  }'
+```
+
+### Send Template
+
+```bash
+curl -X POST "https://graph.facebook.com/v21.0/{phone-number-id}/messages" \
+  -H "Authorization: Bearer TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "messaging_product": "whatsapp",
+    "to": "1234567890",
+    "type": "template",
+    "template": {"name": "hello_world", "language": {"code": "en_US"}}
+  }'
+```
+
+## Messaging Tiers
+
+| Tier | Messages per 24 hours |
+|------|----------------------|
+| Tier 1 | 1,000 |
+| Tier 2 | 10,000 |
+| Tier 3 | 100,000 |
+| Tier 4 | Unlimited |
+
+## Resources
+
+- [WhatsApp Cloud API Docs](https://developers.facebook.com/docs/whatsapp/cloud-api)
+- [Message Templates](https://developers.facebook.com/docs/whatsapp/message-templates)

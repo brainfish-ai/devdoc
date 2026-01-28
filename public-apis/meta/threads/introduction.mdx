@@ -1,0 +1,96 @@
+---
+title: Threads API
+description: Create and publish content on Threads
+---
+
+The Threads API allows you to create, manage, and publish content on Threads programmatically.
+
+## Overview
+
+<Note>
+  **Source**: [fbsamples/threads_api](https://github.com/fbsamples/threads_api) (Official Postman Collection)
+</Note>
+
+## Key Features
+
+<CardGroup cols={2}>
+  <Card title="Content Publishing" icon="pen">
+    Create and publish text, image, and video threads
+  </Card>
+  <Card title="Replies" icon="message">
+    Read and manage replies to threads
+  </Card>
+  <Card title="Insights" icon="chart-bar">
+    Access engagement metrics and analytics
+  </Card>
+  <Card title="Profiles" icon="user">
+    Read user profile information
+  </Card>
+</CardGroup>
+
+## Base URL
+
+```
+https://graph.threads.net/v1.0
+```
+
+## Main Endpoints
+
+| Endpoint | Description |
+|----------|-------------|
+| `POST /me/threads` | Create thread container |
+| `POST /me/threads_publish` | Publish thread |
+| `GET /me/threads` | Get user's threads |
+| `GET /{thread-id}/replies` | Get replies |
+| `GET /me/threads_insights` | Get insights |
+
+## Quick Examples
+
+### Create and Publish Thread
+
+```bash
+# Step 1: Create container
+curl -X POST "https://graph.threads.net/v1.0/me/threads" \
+  -d "media_type=TEXT" \
+  -d "text=Hello Threads!" \
+  -d "access_token=TOKEN"
+
+# Step 2: Publish
+curl -X POST "https://graph.threads.net/v1.0/me/threads_publish" \
+  -d "creation_id={container_id}" \
+  -d "access_token=TOKEN"
+```
+
+### Post with Image
+
+```bash
+curl -X POST "https://graph.threads.net/v1.0/me/threads" \
+  -d "media_type=IMAGE" \
+  -d "image_url=https://example.com/image.jpg" \
+  -d "text=Check this out!" \
+  -d "access_token=TOKEN"
+```
+
+### Reply to Thread
+
+```bash
+curl -X POST "https://graph.threads.net/v1.0/me/threads" \
+  -d "media_type=TEXT" \
+  -d "text=Great post!" \
+  -d "reply_to_id={thread_id}" \
+  -d "access_token=TOKEN"
+```
+
+## Permissions
+
+| Scope | Description |
+|-------|-------------|
+| `threads_basic` | Read profile and threads |
+| `threads_content_publish` | Create and publish |
+| `threads_manage_insights` | Access insights |
+| `threads_manage_replies` | Manage replies |
+
+## Resources
+
+- [Threads API Documentation](https://developers.facebook.com/docs/threads)
+- [Getting Started Guide](https://developers.facebook.com/docs/threads/get-started)

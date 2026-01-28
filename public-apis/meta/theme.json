@@ -1,0 +1,43 @@
+{
+  "$schema": "https://devdoc.sh/theme.json",
+  "logo": {
+    "url": "/assets/logo.png",
+    "alt": "Meta Platform APIs",
+    "width": 120,
+    "height": 24
+  },
+  "header": {
+    "showAskAI": true,
+    "showSearch": true,
+    "showThemeToggle": true
+  },
+  "navbar": {
+    "links": [
+      {
+        "label": "Meta for Developers",
+        "href": "https://developers.facebook.com",
+        "external": true
+      },
+      {
+        "label": "GitHub",
+        "href": "https://github.com/facebook",
+        "external": true
+      }
+    ],
+    "primary": {
+      "label": "Get Started",
+      "href": "/quickstart"
+    }
+  },
+  "colors": {
+    "primary": "#0866FF",
+    "primaryLight": "#4599FF",
+    "primaryDark": "#0064E0"
+  },
+  "typography": {
+    "fontFamily": "-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, sans-serif",
+    "fontFamilyMono": "SF Mono, Menlo, Monaco, Consolas, monospace",
+    "baseFontSize": "16px"
+  },
+  "customCss": "custom.css"
+}

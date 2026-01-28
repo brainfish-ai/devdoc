@@ -1,0 +1,113 @@
+---
+title: Quick Start
+description: Get started with Meta Platform APIs in minutes
+---
+
+This guide will help you make your first API call to any Meta Platform API.
+
+## Prerequisites
+
+- A Meta Developer account
+- A Meta App (Business type recommended)
+- Access tokens with required permissions
+
+## Step 1: Create a Meta App
+
+1. Go to [developers.facebook.com](https://developers.facebook.com)
+2. Click **My Apps** → **Create App**
+3. Select **Business** as the app type
+4. Fill in app details and create
+
+## Step 2: Add Products
+
+Add the relevant API products to your app:
+
+| API | Product to Add |
+|-----|----------------|
+| Facebook Conversions | Marketing API |
+| Instagram | Instagram Graph API |
+| WhatsApp | WhatsApp Business Platform |
+| Threads | Threads API |
+
+## Step 3: Generate Access Token
+
+### Using Graph API Explorer
+
+1. Go to [Graph API Explorer](https://developers.facebook.com/tools/explorer/)
+2. Select your app
+3. Click **Generate Access Token**
+4. Grant the required permissions
+
+### Required Permissions by API
+
+<Tabs>
+  <Tab title="Facebook Conversions">
+    - `ads_management`
+    - `ads_read`
+  </Tab>
+  <Tab title="Instagram">
+    - `instagram_basic`
+    - `instagram_content_publish`
+    - `instagram_manage_comments`
+    - `instagram_manage_insights`
+    - `pages_show_list`
+  </Tab>
+  <Tab title="WhatsApp">
+    - `whatsapp_business_messaging`
+    - `whatsapp_business_management`
+  </Tab>
+  <Tab title="Threads">
+    - `threads_basic`
+    - `threads_content_publish`
+  </Tab>
+</Tabs>
+
+## Step 4: Make Your First Call
+
+<Tabs>
+  <Tab title="Facebook Conversions">
+    ```bash
+    curl -X POST "https://graph.facebook.com/v21.0/{pixel_id}/events" \
+      -H "Content-Type: application/json" \
+      -d '{
+        "data": [{
+          "event_name": "PageView",
+          "event_time": 1234567890,
+          "user_data": {
+            "em": "309a0a5c3e211326ae75ca18196d301a9bdbd1a882a4d2569511033da23f0abd"
+          }
+        }],
+        "access_token": "YOUR_TOKEN"
+      }'
+    ```
+  </Tab>
+  <Tab title="Instagram">
+    ```bash
+    curl -X GET "https://graph.facebook.com/v21.0/me/accounts?fields=instagram_business_account&access_token=YOUR_TOKEN"
+    ```
+  </Tab>
+  <Tab title="WhatsApp">
+    ```bash
+    curl -X POST "https://graph.facebook.com/v21.0/{phone_number_id}/messages" \
+      -H "Authorization: Bearer YOUR_TOKEN" \
+      -H "Content-Type: application/json" \
+      -d '{
+        "messaging_product": "whatsapp",
+        "to": "1234567890",
+        "type": "template",
+        "template": {"name": "hello_world", "language": {"code": "en_US"}}
+      }'
+    ```
+  </Tab>
+  <Tab title="Threads">
+    ```bash
+    curl -X GET "https://graph.threads.net/v1.0/me?fields=id,username&access_token=YOUR_TOKEN"
+    ```
+  </Tab>
+</Tabs>
+
+## Next Steps
+
+- Explore each API's endpoints in the tabs above
+- Set up webhooks for real-time updates
+- Review rate limits and best practices

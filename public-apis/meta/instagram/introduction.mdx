@@ -1,0 +1,73 @@
+---
+title: Instagram API
+description: Manage Instagram Business and Creator accounts
+---
+
+The Instagram API allows Instagram Professional accounts (Business and Creator) to manage their presence on the platform programmatically.
+
+## Overview
+
+<Note>
+  **Source**: [postman.com/meta/instagram](https://www.postman.com/meta/instagram) (Official Postman Collection)
+</Note>
+
+## Two Authentication Methods
+
+<CardGroup cols={2}>
+  <Card title="Facebook Login" icon="facebook">
+    For Business accounts linked to Facebook Pages. Uses `graph.facebook.com`.
+  </Card>
+  <Card title="Instagram Login" icon="instagram">
+    Direct Instagram auth for Business/Creator accounts. Uses `graph.instagram.com`.
+  </Card>
+</CardGroup>
+
+## API Categories
+
+### Facebook Login APIs
+- **Token Management** - Get access tokens for Pages
+- **Reels Publishing** - Upload and publish Reels
+
+### Instagram Login APIs
+- **Send API** - Instagram Direct messaging
+- **Welcome Message Flows** - Automated welcome messages
+- **Messenger Profile** - Persistent menus
+- **Conversations** - Access conversations
+- **Webhooks** - Real-time updates
+- **Insights** - Analytics and metrics
+- **Comment Moderation** - Manage comments
+
+## Quick Examples
+
+### Get Instagram Business Account
+
+```bash
+curl "https://graph.facebook.com/v21.0/me/accounts?fields=instagram_business_account&access_token=TOKEN"
+```
+
+### Publish a Reel
+
+```bash
+# Create container
+curl -X POST "https://graph.facebook.com/v21.0/{ig_user_id}/media" \
+  -d "media_type=REELS" \
+  -d "video_url=https://example.com/video.mp4" \
+  -d "caption=My Reel" \
+  -d "access_token=TOKEN"
+
+# Publish
+curl -X POST "https://graph.facebook.com/v21.0/{ig_user_id}/media_publish" \
+  -d "creation_id={container_id}" \
+  -d "access_token=TOKEN"
+```
+
+### Get Insights
+
+```bash
+curl "https://graph.instagram.com/v21.0/{ig_user_id}/insights?metric=impressions,reach&period=day&access_token=TOKEN"
+```
+
+## Resources
+
+- [Instagram Platform Documentation](https://developers.facebook.com/docs/instagram-platform)
+- [Graph API Explorer](https://developers.facebook.com/tools/explorer/)
