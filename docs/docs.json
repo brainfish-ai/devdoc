@@ -175,11 +175,11 @@
   "redirects": [
     {
       "source": "/introduction",
-      "destination": "/#guides/page/index"
+      "destination": "/guides/page/index"
     },
     {
       "source": "/quickstart",
-      "destination": "/#guides/page/index"
+      "destination": "/guides/page/index"
     }
   ]
 }
