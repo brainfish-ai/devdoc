@@ -338,7 +338,7 @@ body {
 
 .docs-sidebar-item-active {
   color: var(--docs-primary) !important;
-  background: var(--docs-bg-tertiary);
+  /* Background handled by sliding indicator */
 }
 
 /* File tree prefix styling - disabled */
